@@ -14,7 +14,24 @@
     <ClCompile Include=".\Structure\Paragraph.cpp" />
     <ClCompile Include="Structure\Run.cpp" />
     <ClCompile Include=".\Layout\Box.cpp" />
-    <ClCompile Include=".\Layout\Inline.cpp" />
+    <ClCompile Include="Layout\LayoutNode.cpp" />
+    <ClCompile Include="Structure\DocumentNode.cpp" />
+    <ClCompile Include="Structure\Document.cpp" />
+    <ClCompile Include="Controls\DocumentHost.cpp" />
+    <ClCompile Include="Controls\DocumentHostBase.cpp" />
+    <ClCompile Include=".\Controls\OverflowDocumentHost.cpp" />
+    <ClCompile Include="Layout\LayoutTree.cpp" />
+    <ClCompile Include=".\Rendering\RenderingPlan.cpp" />
+    <ClCompile Include="Structure\DocumentVisitor.cpp" />
+    <ClCompile Include="Rendering\RenderSurface.cpp" />
+    <ClCompile Include="Rendering\DirectWriteRenderer.cpp" />
+    <ClCompile Include=".\Layout\LayoutVisitor.cpp" />
+    <ClCompile Include="Rendering\RenderingLayoutVisitor.cpp" />
+    <ClCompile Include=".\Layout\Span.cpp" />
+    <ClCompile Include="Rendering\DWRenderSurface.cpp" />
+    <ClCompile Include="Rendering\DWRenderRange.cpp" />
+    <ClCompile Include=".\Layout\DirectWriteLayoutEngine.cpp" />
+    <ClCompile Include="Layout\DWLayoutMetrics.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -26,6 +43,27 @@
     <ClInclude Include=".\Structure\Paragraph.h" />
     <ClInclude Include="Structure\Run.h" />
     <ClInclude Include=".\Layout\Box.h" />
-    <ClInclude Include=".\Layout\Inline.h" />
+    <ClInclude Include="Layout\LayoutNode.h" />
+    <ClInclude Include="Structure\DocumentNode.h" />
+    <ClInclude Include="Structure\Document.h" />
+    <ClInclude Include="Controls\DocumentHost.h" />
+    <ClInclude Include="Controls\DocumentHostBase.h" />
+    <ClInclude Include="Controls\IDocumentSource.h" />
+    <ClInclude Include="Controls\OverflowDocumentHost.h" />
+    <ClInclude Include=".\Rendering\IDocumentRenderer.h" />
+    <ClInclude Include=".\Rendering\RenderingPlan.h" />
+    <ClInclude Include="Layout\ILayoutEngine.h" />
+    <ClInclude Include=".\Layout\LayoutTree.h" />
+    <ClInclude Include="Structure\DocumentVisitor.h" />
+    <ClInclude Include="Rendering\RenderSurface.h" />
+    <ClInclude Include="Rendering\DirectWriteRenderer.h" />
+    <ClInclude Include=".\Layout\LayoutVisitor.h" />
+    <ClInclude Include="Rendering\RenderingLayoutVisitor.h" />
+    <ClInclude Include=".\Layout\Span.h" />
+    <ClInclude Include="Rendering\DWRenderSurface.h" />
+    <ClInclude Include="Rendering\DWRenderRange.h" />
+    <ClInclude Include=".\Layout\DirectWriteLayoutEngine.h" />
+    <ClInclude Include="Layout\ILayoutMetrics.h" />
+    <ClInclude Include="Layout\DWLayoutMetrics.h" />
   </ItemGroup>
 </Project>

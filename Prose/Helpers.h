@@ -10,3 +10,10 @@ inline void ThrowIfFailed(HRESULT hr)
 		throw Platform::Exception::CreateException(hr);
 	}
 }
+
+template<class T> inline void SafeRelease(T **ppT) {
+	if(*ppT) {
+		(*ppT)->Release();
+		*ppT = NULL;
+	}
+}

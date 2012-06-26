@@ -1,20 +1,22 @@
 #pragma once
+#include "DocumentNode.h"
 #include "Run.h"
 
 namespace Prose {
 	namespace Structure {
-		using namespace Windows::Foundation::Collections;
-		public ref class Paragraph sealed
+		public ref class Paragraph sealed :
+			public DocumentNode
 		{
 		public:
 			Paragraph(void);
 
-			property IVector<Run^>^ Runs {
-				IVector<Run^>^ get() { return _runs; }
+			property Windows::Foundation::Collections::IVector<Run^>^ Runs {
+				Windows::Foundation::Collections::IVector<Run^>^ get() { return _runs; }
 			};
 
+			virtual void Accept(DocumentVisitor^ visitor) override;
 		private:
-			IVector<Run^>^ _runs;
+			Windows::Foundation::Collections::IVector<Run^>^ _runs;
 		};
 	}
 }

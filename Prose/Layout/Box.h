@@ -1,20 +1,29 @@
 #pragma once
-#include "Inline.h"
+#include "Span.h"
+#include "ILayoutMetrics.h"
 
 namespace Prose {
 	namespace Layout {
-		using namespace Windows::Foundation::Collections;
-		public ref class Box sealed
+		public ref class Box sealed :
+			public LayoutNode
 		{
 		public:
 			Box(void);
 
-			property IVector<Inline^>^ Inlines {
-				IVector<Inline^>^ get() { return _inlines; }
+			property Windows::UI::Xaml::Thickness Margin;
+			property Windows::Foundation::Collections::IVector<Span^>^ Spans {
+				Windows::Foundation::Collections::IVector<Span^>^ get() { return _spans; }
 			};
 
+			property ILayoutMetrics^ Metrics {
+				ILayoutMetrics^ get() { return _metrics; }
+				void set(ILayoutMetrics^ value) { _metrics = value; }
+			};
+
+			virtual void Accept(LayoutVisitor^ visitor) override;
 		private:
-			IVector<Inline^>^ _inlines;
+			ILayoutMetrics^ _metrics;
+			Windows::Foundation::Collections::IVector<Span^>^ _spans;
 		};
 	}
 }

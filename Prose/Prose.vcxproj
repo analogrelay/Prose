@@ -213,22 +213,51 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Controls\DocumentHost.h" />
+    <ClInclude Include="Controls\DocumentHostBase.h" />
+    <ClInclude Include="Controls\IDocumentSource.h" />
+    <ClInclude Include="Controls\OverflowDocumentHost.h" />
     <ClInclude Include="DWriteFactory.h" />
     <ClInclude Include="Enumerations.h" />
     <ClInclude Include=".\Fonts\FontFamily.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include=".\Layout\Box.h" />
-    <ClInclude Include=".\Layout\Inline.h" />
+    <ClInclude Include=".\Layout\Span.h" />
+    <ClInclude Include=".\Layout\DirectWriteLayoutEngine.h" />
+    <ClInclude Include=".\Layout\LayoutVisitor.h" />
+    <ClInclude Include="Layout\DWLayoutMetrics.h" />
+    <ClInclude Include="Layout\ILayoutEngine.h" />
+    <ClInclude Include="Layout\ILayoutMetrics.h" />
+    <ClInclude Include="Layout\LayoutNode.h" />
+    <ClInclude Include=".\Layout\LayoutTree.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include=".\Fonts\FontCollection.h" />
     <ClInclude Include=".\Structure\Paragraph.h" />
+    <ClInclude Include=".\Rendering\IDocumentRenderer.h" />
+    <ClInclude Include=".\Rendering\RenderingPlan.h" />
+    <ClInclude Include="Rendering\DirectWriteRenderer.h" />
+    <ClInclude Include="Rendering\DWRenderRange.h" />
+    <ClInclude Include="Rendering\DWRenderSurface.h" />
+    <ClInclude Include="Rendering\RenderingLayoutVisitor.h" />
+    <ClInclude Include="Rendering\RenderSurface.h" />
+    <ClInclude Include="Structure\Document.h" />
+    <ClInclude Include="Structure\DocumentNode.h" />
+    <ClInclude Include="Structure\DocumentVisitor.h" />
     <ClInclude Include="Structure\Run.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include=".\Fonts\FontFamily.cpp" />
+    <ClCompile Include=".\Controls\OverflowDocumentHost.cpp" />
+    <ClCompile Include="Controls\DocumentHost.cpp" />
+    <ClCompile Include="Controls\DocumentHostBase.cpp" />
     <ClCompile Include="DWriteFactory.cpp" />
     <ClCompile Include=".\Layout\Box.cpp" />
-    <ClCompile Include=".\Layout\Inline.cpp" />
+    <ClCompile Include=".\Layout\Span.cpp" />
+    <ClCompile Include=".\Layout\DirectWriteLayoutEngine.cpp" />
+    <ClCompile Include=".\Layout\LayoutVisitor.cpp" />
+    <ClCompile Include="Layout\DWLayoutMetrics.cpp" />
+    <ClCompile Include="Layout\LayoutNode.cpp" />
+    <ClCompile Include="Layout\LayoutTree.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -239,6 +268,15 @@
     </ClCompile>
     <ClCompile Include=".\Fonts\FontCollection.cpp" />
     <ClCompile Include=".\Structure\Paragraph.cpp" />
+    <ClCompile Include=".\Rendering\RenderingPlan.cpp" />
+    <ClCompile Include="Rendering\DirectWriteRenderer.cpp" />
+    <ClCompile Include="Rendering\DWRenderRange.cpp" />
+    <ClCompile Include="Rendering\DWRenderSurface.cpp" />
+    <ClCompile Include="Rendering\RenderingLayoutVisitor.cpp" />
+    <ClCompile Include="Rendering\RenderSurface.cpp" />
+    <ClCompile Include="Structure\Document.cpp" />
+    <ClCompile Include="Structure\DocumentNode.cpp" />
+    <ClCompile Include="Structure\DocumentVisitor.cpp" />
     <ClCompile Include="Structure\Run.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

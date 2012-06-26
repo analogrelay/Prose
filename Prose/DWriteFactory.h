@@ -1,8 +1,15 @@
 #pragma once
+
+using namespace Microsoft::WRL;
+
 class DWriteFactory {
 public:
-	static IDWriteFactory* GetFactory() {
+	static ComPtr<IDWriteFactory> GetFactory() {
 		return _theFactory.GetFactoryCore();
+	};
+
+	static ComPtr<IDWriteFontCollection> GetSystemFonts() {
+		return _theFactory.GetSystemFontsCore();
 	};
 
 private:
@@ -10,8 +17,10 @@ private:
 
 	DWriteFactory(void);
 
-	IDWriteFactory* GetFactoryCore();
+	ComPtr<IDWriteFactory> GetFactoryCore();
+	ComPtr<IDWriteFontCollection> GetSystemFontsCore();
 
-	IDWriteFactory* _factory;
+	ComPtr<IDWriteFontCollection> _systemFonts;
+	ComPtr<IDWriteFactory> _factory;
 };
 
