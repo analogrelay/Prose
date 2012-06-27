@@ -11,15 +11,19 @@ namespace Prose {
 				Windows::Foundation::Size get() { return _size; }
 			};
 
-		internal:
-			DWLayoutMetrics(Microsoft::WRL::ComPtr<IDWriteTextLayout> layout);
+			virtual property Windows::Foundation::Point Origin {
+				Windows::Foundation::Point get() { return _origin; }
+			}
 
-			property DWRITE_TEXT_METRICS TextMetrics;
+		internal:
+			DWLayoutMetrics(Microsoft::WRL::ComPtr<IDWriteTextLayout> layout, Windows::Foundation::Point origin, Windows::Foundation::Size size);
+
 			property Microsoft::WRL::ComPtr<IDWriteTextLayout> Layout {
 				Microsoft::WRL::ComPtr<IDWriteTextLayout> get() { return _layout; }
 			};
 		private:
 			Microsoft::WRL::ComPtr<IDWriteTextLayout> _layout;
+			Windows::Foundation::Point _origin;
 			Windows::Foundation::Size _size;
 		};
 	}

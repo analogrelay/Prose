@@ -1,7 +1,6 @@
 #pragma once
-
 #include "..\Layout\LayoutVisitor.h"
-#include "DWRenderSurface.h"
+#include "DirectWriteRenderingPlan.h"
 
 namespace Prose {
 	namespace Rendering {
@@ -11,12 +10,14 @@ namespace Prose {
 		public:
 			RenderingLayoutVisitor(void);
 
+			property DirectWriteRenderingPlan^ RenderingPlan {
+				DirectWriteRenderingPlan^ get() { return _plan; }
+			}
+
 			virtual void Visit(Layout::Box^ box) override;
 			virtual void Visit(Layout::Span^ span) override;
-
 		private:
-			DWRenderSurface^ _currentSurface;
-			RenderingPlan^ _plan;
+			DirectWriteRenderingPlan^ _plan;
 		};
 	}
 }

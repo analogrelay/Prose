@@ -52,7 +52,9 @@ namespace Prose {
 			virtual Windows::Foundation::Size ArrangeOverride(Windows::Foundation::Size availableSize) override;
 
 		private:
+			Windows::UI::Xaml::Controls::Image^ _renderHost;
 			Prose::Layout::LayoutTree^ _layout;
+			Prose::Rendering::RenderingPlan^ _renderingPlan;
 
 			void InvalidateDocument();
 			void InvalidateRender();

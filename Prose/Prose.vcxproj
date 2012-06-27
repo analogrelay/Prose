@@ -236,10 +236,9 @@
     <ClInclude Include=".\Rendering\IDocumentRenderer.h" />
     <ClInclude Include=".\Rendering\RenderingPlan.h" />
     <ClInclude Include="Rendering\DirectWriteRenderer.h" />
-    <ClInclude Include="Rendering\DWRenderRange.h" />
-    <ClInclude Include="Rendering\DWRenderSurface.h" />
+    <ClInclude Include="Rendering\DirectWriteRenderingPlan.h" />
+    <ClInclude Include="Rendering\DirectWriteSurface.h" />
     <ClInclude Include="Rendering\RenderingLayoutVisitor.h" />
-    <ClInclude Include="Rendering\RenderSurface.h" />
     <ClInclude Include="Structure\Document.h" />
     <ClInclude Include="Structure\DocumentNode.h" />
     <ClInclude Include="Structure\DocumentVisitor.h" />
@@ -270,10 +269,9 @@
     <ClCompile Include=".\Structure\Paragraph.cpp" />
     <ClCompile Include=".\Rendering\RenderingPlan.cpp" />
     <ClCompile Include="Rendering\DirectWriteRenderer.cpp" />
-    <ClCompile Include="Rendering\DWRenderRange.cpp" />
-    <ClCompile Include="Rendering\DWRenderSurface.cpp" />
+    <ClCompile Include="Rendering\DirectWriteRenderingPlan.cpp" />
+    <ClCompile Include="Rendering\DirectWriteSurface.cpp" />
     <ClCompile Include="Rendering\RenderingLayoutVisitor.cpp" />
-    <ClCompile Include="Rendering\RenderSurface.cpp" />
     <ClCompile Include="Structure\Document.cpp" />
     <ClCompile Include="Structure\DocumentNode.cpp" />
     <ClCompile Include="Structure\DocumentVisitor.cpp" />

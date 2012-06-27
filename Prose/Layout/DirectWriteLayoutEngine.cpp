@@ -7,12 +7,13 @@
 using namespace Prose::Structure;
 using namespace Prose::Layout;
 
+using namespace Windows::Foundation;
 using namespace Windows::UI::Xaml;
 
 LayoutTree^ DirectWriteLayoutEngine::CreateLayout(Document^ document, Windows::Foundation::Size layoutSize) {
 	auto visitor = ref new LayoutEngineVisitor(layoutSize);
 	document->Accept(visitor);
-	return visitor->FinalLayout;
+	return visitor->Layout;
 }
 
 void NoOpCollector(LayoutNode^ node) { }
@@ -24,10 +25,24 @@ layout_collector_t BoxCollector(Box^ box) {
 LayoutEngineVisitor::LayoutEngineVisitor(Windows::Foundation::Size layoutSize) : 
 	_collector(NoOpCollector), 
 	_layout(nullptr), 
-	_layoutSize(layoutSize) { 
+	_layoutSize(layoutSize),
+	_width(0),
+	_height(0) { 
+}
+
+Point CalculatePosition(Box^ box, double yOffset) {
+	// Apply margins
+	double x = 0 + box->Margin.Left;
+	double y = yOffset + box->Margin.Top;
+	return PointHelper::FromCoordinates((float)x, (float)y);
 }
 
 void LayoutEngineVisitor::CalculateLayout(Box^ box) {
+	// Calculate Position
+	Point offset = CalculatePosition(box, _height);
+
+	// TODO: Apply padding.
+
 	// Collect ALL THE TEXT!
 	std::wstringstream strm;
 	for(UINT32 i = 0; i < box->Spans->Size; i++) {
@@ -57,8 +72,19 @@ void LayoutEngineVisitor::CalculateLayout(Box^ box) {
 		_layoutSize.Height,
 		&layout));
 
-	// Assign Layout Metrics
-	box->Metrics = ref new DWLayoutMetrics(layout);
+	// Extract the measured size
+	DWRITE_TEXT_METRICS metrics;
+	ThrowIfFailed(layout->GetMetrics(&metrics));
+	Size measuredSize = SizeHelper::FromDimensions(metrics.width, metrics.height);
+
+	// Apply bottom margin to get new layout height
+	_height = _height + measuredSize.Height + box->Margin.Bottom;
+
+	// Apply right margin and get the max with layout width to get new layout width
+	_width = max(_width, measuredSize.Width + offset.X + box->Margin.Right);
+
+	// Apply these metrics to the box
+	box->Metrics = ref new DWLayoutMetrics(layout, offset, measuredSize);
 }
 
 void LayoutEngineVisitor::Visit(Paragraph^ paragraph) {

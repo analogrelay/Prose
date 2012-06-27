@@ -7,10 +7,5 @@ using namespace Microsoft::WRL;
 using namespace Windows::Foundation;
 using namespace Windows::UI::Xaml;
 
-DWLayoutMetrics::DWLayoutMetrics(ComPtr<IDWriteTextLayout> layout) : _layout(layout) {
-	DWRITE_TEXT_METRICS metrics;
-	layout->GetMetrics(&metrics);
-
-	TextMetrics = metrics;
-	_size = SizeHelper::FromDimensions(metrics.width, metrics.height);
+DWLayoutMetrics::DWLayoutMetrics(ComPtr<IDWriteTextLayout> layout, Point origin, Windows::Foundation::Size size) : _layout(layout), _origin(origin), _size(size) {
 }

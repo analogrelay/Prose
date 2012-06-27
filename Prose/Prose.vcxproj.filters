@@ -23,15 +23,14 @@
     <ClCompile Include="Layout\LayoutTree.cpp" />
     <ClCompile Include=".\Rendering\RenderingPlan.cpp" />
     <ClCompile Include="Structure\DocumentVisitor.cpp" />
-    <ClCompile Include="Rendering\RenderSurface.cpp" />
     <ClCompile Include="Rendering\DirectWriteRenderer.cpp" />
     <ClCompile Include=".\Layout\LayoutVisitor.cpp" />
     <ClCompile Include="Rendering\RenderingLayoutVisitor.cpp" />
     <ClCompile Include=".\Layout\Span.cpp" />
-    <ClCompile Include="Rendering\DWRenderSurface.cpp" />
-    <ClCompile Include="Rendering\DWRenderRange.cpp" />
     <ClCompile Include=".\Layout\DirectWriteLayoutEngine.cpp" />
     <ClCompile Include="Layout\DWLayoutMetrics.cpp" />
+    <ClCompile Include="Rendering\DirectWriteRenderingPlan.cpp" />
+    <ClCompile Include="Rendering\DirectWriteSurface.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -55,15 +54,14 @@
     <ClInclude Include="Layout\ILayoutEngine.h" />
     <ClInclude Include=".\Layout\LayoutTree.h" />
     <ClInclude Include="Structure\DocumentVisitor.h" />
-    <ClInclude Include="Rendering\RenderSurface.h" />
     <ClInclude Include="Rendering\DirectWriteRenderer.h" />
     <ClInclude Include=".\Layout\LayoutVisitor.h" />
     <ClInclude Include="Rendering\RenderingLayoutVisitor.h" />
     <ClInclude Include=".\Layout\Span.h" />
-    <ClInclude Include="Rendering\DWRenderSurface.h" />
-    <ClInclude Include="Rendering\DWRenderRange.h" />
     <ClInclude Include=".\Layout\DirectWriteLayoutEngine.h" />
     <ClInclude Include="Layout\ILayoutMetrics.h" />
     <ClInclude Include="Layout\DWLayoutMetrics.h" />
+    <ClInclude Include="Rendering\DirectWriteRenderingPlan.h" />
+    <ClInclude Include="Rendering\DirectWriteSurface.h" />
   </ItemGroup>
 </Project>

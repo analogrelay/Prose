@@ -17,7 +17,7 @@ namespace Prose {
 			public Prose::Structure::DocumentVisitor
 		{
 		public:
-			property LayoutTree^ FinalLayout {
+			property LayoutTree^ Layout {
 				LayoutTree^ get() { return _layout; }
 			}
 
@@ -26,6 +26,9 @@ namespace Prose {
 			virtual void Visit(Prose::Structure::Paragraph^ paragraph) override;
 			virtual void Visit(Prose::Structure::Run^ run) override;
 		private:
+			double _height;
+			double _width;
+
 			void CalculateLayout(Box^ box);
 
 			layout_collector_t _collector;

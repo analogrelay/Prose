@@ -3,7 +3,6 @@
 #include "RenderingPlan.h"
 #include "IDocumentRenderer.h"
 #include "..\Layout\LayoutTree.h"
-
 #include "..\Layout\LayoutVisitor.h"
 
 namespace Prose {

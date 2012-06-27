@@ -6,6 +6,7 @@
 using namespace Platform;
 using namespace Windows::Foundation;
 using namespace Windows::UI::Xaml;
+using namespace Windows::UI::Xaml::Controls;
 
 using namespace Prose::Controls;
 using namespace Prose::Structure;
@@ -24,56 +25,38 @@ DependencyProperty^ DocumentHost::_LayoutEngineProperty = DependencyProperty::Re
 DocumentHost::DocumentHost(void) {
 }
 
+Size DocumentHost::MeasureOverride(Size availableSize) {
+	if(!_renderHost) {
+		_renderHost = ref new Image();
+	} 
+	if(Children->Size != 1 || Children->GetAt(0) != _renderHost) {
+		Children->Clear();
+		Children->Append(_renderHost);
+	}
+
+	return availableSize;
+}
+
+Size DocumentHost::ArrangeOverride(Size finalSize) {
+	_renderHost->Arrange(
+		RectHelper::FromCoordinatesAndDimensions(
+			0, 0, 
+			finalSize.Width, finalSize.Height));
+	return finalSize;
+}
+
 void DocumentHost::InvalidateDocument() {
+	InvalidateMeasure();
+	UpdateLayout();
+	InvalidateRender();
 }
 
 void DocumentHost::InvalidateRender() {
-}
+	// Render the document
+	_renderingPlan = Renderer->PlanRendering(_layout);
 
-Size DocumentHost::MeasureOverride(Size availableSize) {
-	// Set up variables
-	float usedWidth = 0.0;
-	float usedHeight = 0.0;
-
-	for(UINT32 i = 0; i < Children->Size; i++) {
-		auto child = Children->GetAt(i);
-
-		//// First, give it all the height in the world!
-		//child->Measure(SizeHelper::FromDimensions(availableSize.Width, std::numeric_limits<float>::infinity()));
-		//auto desired = child->DesiredSize;
-
-		// Now, be more reasonable and give it the remaining height
-		child->Measure(SizeHelper::FromDimensions(availableSize.Width, availableSize.Height - usedHeight));
-		auto minimum = child->DesiredSize;
-
-		// Reserve space for it
-		usedHeight += minimum.Height;
-		usedWidth = max(minimum.Width, usedWidth);
-	}
-	return SizeHelper::FromDimensions(usedWidth, usedHeight);
-}
-
-Size DocumentHost::ArrangeOverride(Size availableSize) {
-	// Set up variables
-	float width = 0.0;
-	float yOffset = 0.0;
-
-	for(UINT32 i = 0; i < Children->Size; i++) {
-		auto child = Children->GetAt(i);
-
-		// Build the final rectangle
-		auto finalRect = RectHelper::FromLocationAndSize(
-			PointHelper::FromCoordinates(0, yOffset),
-			SizeHelper::FromDimensions(child->DesiredSize.Width, child->DesiredSize.Height));
-
-		// Move the current y-offset and width record
-		yOffset += finalRect.Height;
-		width = max(finalRect.Width, width);
-
-		// Arrange the child
-		child->Arrange(finalRect);
-	}
-	return SizeHelper::FromDimensions(width, yOffset);
+	// Render the plan
+	_renderingPlan->RenderTo(_renderHost);
 }
 
 void DocumentHost::RendererChanged(DependencyObject^ sender, DependencyPropertyChangedEventArgs^ args) {
