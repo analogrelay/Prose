@@ -13,14 +13,14 @@ RenderingLayoutVisitor::RenderingLayoutVisitor(void) : _plan(ref new DirectWrite
 
 void RenderingLayoutVisitor::Visit(Box^ box) {
 	// Create a surface to hold this box
-	/*DirectWriteSurface^ surface = ref new DirectWriteSurface(
+	DirectWriteSurface^ surface = ref new DirectWriteSurface(
 		RectHelper::FromLocationAndSize(
 			box->Metrics->Origin, 
 			box->Metrics->Size),
-		((DWLayoutMetrics^)box->Metrics)->Layout));*/
+		(safe_cast<DWLayoutMetrics^>(box->Metrics))->Layout);
 
 	// Add it to the plan and we're done (for now... maybe more later ;))
-	/*_plan->Surfaces->Append(surface);*/
+	_plan->Surfaces->Append(surface);
 }
 
 void RenderingLayoutVisitor::Visit(Span^ span) {

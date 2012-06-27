@@ -35,8 +35,6 @@ namespace Prose.Test.App
         {
             try
             {
-                var fonts = Prose.Fonts.FontCollection.SystemFonts;
-                names.Text = String.Join(";", fonts.Select(f => String.Join(",", f.FamilyNames)));
             }
             catch (Exception ex)
             {

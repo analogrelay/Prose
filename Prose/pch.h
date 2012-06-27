@@ -9,7 +9,11 @@
 #include <wrl.h>
 #include <collection.h>
 
-// DirectWrite
+// DirectX
+#include <d3d11.h>
+#include <d3d11_1.h>
+#include <d2d1.h>
+#include <d2d1_1.h>
 #include <dwrite.h>
 
 // CRT
@@ -18,7 +22,7 @@
 // Prose Common
 #include "Helpers.h"
 #include "Enumerations.h"
-#include "DWriteFactory.h"
+#include "DX.h"
 
 #include "Layout\ILayoutEngine.h"
 #include "Rendering\IDocumentRenderer.h"

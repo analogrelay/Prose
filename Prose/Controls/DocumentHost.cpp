@@ -7,6 +7,7 @@ using namespace Platform;
 using namespace Windows::Foundation;
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
+using namespace Windows::UI::Xaml::Media::Imaging;
 
 using namespace Prose::Controls;
 using namespace Prose::Structure;
@@ -38,6 +39,10 @@ Size DocumentHost::MeasureOverride(Size availableSize) {
 }
 
 Size DocumentHost::ArrangeOverride(Size finalSize) {
+	_renderSurface = ref new SurfaceImageSource(
+		(int)(std::floor(finalSize.Width)),
+		(int)(std::floor(finalSize.Height)));
+
 	_renderHost->Arrange(
 		RectHelper::FromCoordinatesAndDimensions(
 			0, 0, 
@@ -52,6 +57,11 @@ void DocumentHost::InvalidateDocument() {
 }
 
 void DocumentHost::InvalidateRender() {
+	if(!_renderSurface) {
+		InvalidateArrange();
+		UpdateLayout();
+	}
+
 	// Render the document
 	_renderingPlan = Renderer->PlanRendering(_layout);
 

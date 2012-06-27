@@ -133,7 +133,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>Dwrite.lib;runtimeobject.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d2d1.lib;Dwrite.lib;runtimeobject.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -217,9 +217,8 @@
     <ClInclude Include="Controls\DocumentHostBase.h" />
     <ClInclude Include="Controls\IDocumentSource.h" />
     <ClInclude Include="Controls\OverflowDocumentHost.h" />
-    <ClInclude Include="DWriteFactory.h" />
+    <ClInclude Include=".\DX.h" />
     <ClInclude Include="Enumerations.h" />
-    <ClInclude Include=".\Fonts\FontFamily.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include=".\Layout\Box.h" />
     <ClInclude Include=".\Layout\Span.h" />
@@ -231,7 +230,6 @@
     <ClInclude Include="Layout\LayoutNode.h" />
     <ClInclude Include=".\Layout\LayoutTree.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include=".\Fonts\FontCollection.h" />
     <ClInclude Include=".\Structure\Paragraph.h" />
     <ClInclude Include=".\Rendering\IDocumentRenderer.h" />
     <ClInclude Include=".\Rendering\RenderingPlan.h" />
@@ -245,11 +243,10 @@
     <ClInclude Include="Structure\Run.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include=".\Fonts\FontFamily.cpp" />
     <ClCompile Include=".\Controls\OverflowDocumentHost.cpp" />
     <ClCompile Include="Controls\DocumentHost.cpp" />
     <ClCompile Include="Controls\DocumentHostBase.cpp" />
-    <ClCompile Include="DWriteFactory.cpp" />
+    <ClCompile Include=".\DX.cpp" />
     <ClCompile Include=".\Layout\Box.cpp" />
     <ClCompile Include=".\Layout\Span.cpp" />
     <ClCompile Include=".\Layout\DirectWriteLayoutEngine.cpp" />
@@ -265,7 +262,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include=".\Fonts\FontCollection.cpp" />
     <ClCompile Include=".\Structure\Paragraph.cpp" />
     <ClCompile Include=".\Rendering\RenderingPlan.cpp" />
     <ClCompile Include="Rendering\DirectWriteRenderer.cpp" />

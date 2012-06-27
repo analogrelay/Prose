@@ -10,6 +10,8 @@ using namespace Prose::Layout;
 using namespace Windows::Foundation;
 using namespace Windows::UI::Xaml;
 
+using namespace Microsoft::WRL;
+
 LayoutTree^ DirectWriteLayoutEngine::CreateLayout(Document^ document, Windows::Foundation::Size layoutSize) {
 	auto visitor = ref new LayoutEngineVisitor(layoutSize);
 	document->Accept(visitor);
@@ -52,9 +54,9 @@ void LayoutEngineVisitor::CalculateLayout(Box^ box) {
 
 	// Build a Text Format
 	ComPtr<IDWriteTextFormat> format;
-	ThrowIfFailed(DWriteFactory::GetFactory()->CreateTextFormat(
+	ThrowIfFailed(DX::GetDWFactory()->CreateTextFormat(
 		L"Georgia",
-		DWriteFactory::GetSystemFonts().Get(),
+		DX::GetSystemFonts().Get(),
 		DWRITE_FONT_WEIGHT_NORMAL,
 		DWRITE_FONT_STYLE_NORMAL,
 		DWRITE_FONT_STRETCH_NORMAL,
@@ -64,7 +66,7 @@ void LayoutEngineVisitor::CalculateLayout(Box^ box) {
 
 	// Build a Text Layout
 	ComPtr<IDWriteTextLayout> layout;
-	ThrowIfFailed(DWriteFactory::GetFactory()->CreateTextLayout(
+	ThrowIfFailed(DX::GetDWFactory()->CreateTextLayout(
 		str.c_str(),
 		str.length(),
 		format.Get(),

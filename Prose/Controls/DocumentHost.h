@@ -52,6 +52,7 @@ namespace Prose {
 			virtual Windows::Foundation::Size ArrangeOverride(Windows::Foundation::Size availableSize) override;
 
 		private:
+			Windows::UI::Xaml::Media::Imaging::SurfaceImageSource^ _renderSurface;
 			Windows::UI::Xaml::Controls::Image^ _renderHost;
 			Prose::Layout::LayoutTree^ _layout;
 			Prose::Rendering::RenderingPlan^ _renderingPlan;

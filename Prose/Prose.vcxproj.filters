@@ -8,9 +8,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include=".\Fonts\FontCollection.cpp" />
-    <ClCompile Include=".\Fonts\FontFamily.cpp" />
-    <ClCompile Include="DWriteFactory.cpp" />
     <ClCompile Include=".\Structure\Paragraph.cpp" />
     <ClCompile Include="Structure\Run.cpp" />
     <ClCompile Include=".\Layout\Box.cpp" />
@@ -31,14 +28,12 @@
     <ClCompile Include="Layout\DWLayoutMetrics.cpp" />
     <ClCompile Include="Rendering\DirectWriteRenderingPlan.cpp" />
     <ClCompile Include="Rendering\DirectWriteSurface.cpp" />
+    <ClCompile Include=".\DX.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="Enumerations.h" />
-    <ClInclude Include=".\Fonts\FontCollection.h" />
-    <ClInclude Include=".\Fonts\FontFamily.h" />
     <ClInclude Include="Helpers.h" />
-    <ClInclude Include="DWriteFactory.h" />
     <ClInclude Include=".\Structure\Paragraph.h" />
     <ClInclude Include="Structure\Run.h" />
     <ClInclude Include=".\Layout\Box.h" />
@@ -63,5 +58,6 @@
     <ClInclude Include="Layout\DWLayoutMetrics.h" />
     <ClInclude Include="Rendering\DirectWriteRenderingPlan.h" />
     <ClInclude Include="Rendering\DirectWriteSurface.h" />
+    <ClInclude Include=".\DX.h" />
   </ItemGroup>
 </Project>
