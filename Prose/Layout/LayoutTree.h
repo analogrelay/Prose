@@ -10,6 +10,8 @@ namespace Prose {
 				Windows::Foundation::Collections::IVector<Box^>^ get() { return _boxes; }
 			}
 
+			Windows::Foundation::Size Measure(void);
+
 			LayoutTree(void);
 
 			virtual void Accept(LayoutVisitor^ visitor);

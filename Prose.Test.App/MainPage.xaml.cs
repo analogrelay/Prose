@@ -33,12 +33,6 @@ namespace Prose.Test.App
         /// property is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            try
-            {
-            }
-            catch (Exception ex)
-            {
-            }
         }
     }
 }

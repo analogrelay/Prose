@@ -18,15 +18,8 @@ LayoutTree^ DirectWriteLayoutEngine::CreateLayout(Document^ document, Windows::F
 	return visitor->Layout;
 }
 
-void NoOpCollector(LayoutNode^ node) { }
-layout_collector_t BoxCollector(Box^ box) {
-	return [box](LayoutNode^ node) {
-		box->Spans->Append(static_cast<Span^>(node));
-	};
-}
 LayoutEngineVisitor::LayoutEngineVisitor(Windows::Foundation::Size layoutSize) : 
-	_collector(NoOpCollector), 
-	_layout(nullptr), 
+	_layout(ref new LayoutTree()), 
 	_layoutSize(layoutSize),
 	_width(0),
 	_height(0) { 
@@ -48,7 +41,9 @@ void LayoutEngineVisitor::CalculateLayout(Box^ box) {
 	// Collect ALL THE TEXT!
 	std::wstringstream strm;
 	for(UINT32 i = 0; i < box->Spans->Size; i++) {
-		strm << box->Spans->GetAt(i)->Text->Data();
+		auto span = box->Spans->GetAt(i);
+		std::wstring spanText = span->Text->Data();
+		strm << spanText;
 	}
 	std::wstring str = strm.str();
 
@@ -60,7 +55,7 @@ void LayoutEngineVisitor::CalculateLayout(Box^ box) {
 		DWRITE_FONT_WEIGHT_NORMAL,
 		DWRITE_FONT_STYLE_NORMAL,
 		DWRITE_FONT_STRETCH_NORMAL,
-		12.0,
+		58.0,
 		L"en-US",
 		&format));
 
@@ -91,28 +86,22 @@ void LayoutEngineVisitor::CalculateLayout(Box^ box) {
 
 void LayoutEngineVisitor::Visit(Paragraph^ paragraph) {
 	// Create a box for this paragraph
-	Box^ box = ref new Box();
+	_currentBox = ref new Box();
 
 	// Give it the default style
-	box->Margin = ThicknessHelper::FromUniformLength(10);
+	_currentBox->Margin = ThicknessHelper::FromUniformLength(10);
 
 	// TODO: Apply user styles!
-
-	// Set up the collector
-	auto old = _collector;
-	_collector = BoxCollector(box);
 
 	// Visit children
 	DocumentVisitor::Visit(paragraph);
 
-	// Reset the collector
-	_collector = old;
-
 	// Now calculate layout for this box
-	CalculateLayout(box);
+	CalculateLayout(_currentBox);
 
 	// Collect the newly constructed node
-	_collector(box);
+	_layout->Boxes->Append(_currentBox);
+	_currentBox = nullptr;
 }
 
 void LayoutEngineVisitor::Visit(Run^ run) {
@@ -120,5 +109,5 @@ void LayoutEngineVisitor::Visit(Run^ run) {
 	Span^ span = ref new Span(run->Text);
 
 	// And just collect it
-	_collector(span);
+	_currentBox->Spans->Append(span);
 }

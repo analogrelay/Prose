@@ -10,10 +10,10 @@ DX DX::_theFactory;
 DX::DX(void) : _dwFactory(nullptr), _d2dFactory(nullptr), _systemFonts(nullptr) { };
 
 void DX::ToNativeRect(Rect rect, RECT* pRect) {
-	pRect->bottom = rect.Bottom;
-	pRect->left = rect.Left;
-	pRect->right = rect.Right;
-	pRect->top = rect.Top;
+	pRect->bottom = (LONG)std::floor(rect.Bottom);
+	pRect->left = (LONG)std::floor(rect.Left);
+	pRect->right = (LONG)std::floor(rect.Right);
+	pRect->top = (LONG)std::floor(rect.Top);
 }
 
 ComPtr<ID2D1Factory1> DX::GetD2DFactoryCore() {

@@ -56,9 +56,10 @@ namespace Prose {
 			Windows::UI::Xaml::Controls::Image^ _renderHost;
 			Prose::Layout::LayoutTree^ _layout;
 			Prose::Rendering::RenderingPlan^ _renderingPlan;
+			Windows::Foundation::Size _layoutSize;
 
 			void InvalidateDocument();
-			void InvalidateRender();
+			void InvalidateRender(Windows::Foundation::Size finalSize);
 
 			static Windows::UI::Xaml::DependencyProperty^ _DocumentProperty;
 			static Windows::UI::Xaml::DependencyProperty^ _RendererProperty;

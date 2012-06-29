@@ -31,7 +31,7 @@ namespace Prose {
 
 			void CalculateLayout(Box^ box);
 
-			layout_collector_t _collector;
+			Box^ _currentBox;
 			LayoutTree^ _layout;
 			Windows::Foundation::Size _layoutSize;
 		};

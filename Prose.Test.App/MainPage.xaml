@@ -6,9 +6,24 @@
     xmlns:local="using:Prose.Test.App"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    
+    xmlns:prose="using:Prose.Controls"
     mc:Ignorable="d">
 
-    <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock Name="names" />
+    <Grid Margin="20" Background="Blue">
+        <prose:DocumentHost>
+            <Document xmlns="using:Prose.Structure">
+                <Paragraph>
+                    <Run xml:space="preserve">Hello World </Run>
+                    <Run>from</Run>
+                </Paragraph>
+                <Paragraph>
+                    <Run>Prose!</Run>
+                </Paragraph>
+                <Paragraph>
+                    <Run>Nostrud accusamus brooklyn, eiusmod ea sed gluten-free ethnic quinoa post-ironic lomo. Accusamus artisan nihil, laborum wolf 8-bit squid assumenda godard viral vinyl consectetur odd future gluten-free. Labore fixie do photo booth lomo. Pitchfork cupidatat qui, duis viral odio assumenda. Forage non nihil typewriter id delectus. Ea esse portland eu ethical four loko voluptate, adipisicing in odd future mcsweeney's. +1 narwhal forage, vero in wes anderson selvage four loko letterpress jean shorts farm-to-table banh mi voluptate occaecat.</Run>
+                </Paragraph>
+            </Document>
+        </prose:DocumentHost>
     </Grid>
 </Page>

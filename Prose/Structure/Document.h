@@ -3,6 +3,7 @@
 
 namespace Prose {
 	namespace Structure {
+		[Windows::UI::Xaml::Markup::ContentProperty(Name = "Paragraphs")]
 		public ref class Document sealed :
 			public DocumentNode
 		{
