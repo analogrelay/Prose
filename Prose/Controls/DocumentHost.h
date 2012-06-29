@@ -2,15 +2,14 @@
 #include "..\Layout\LayoutTree.h"
 #include "..\Rendering\IDocumentRenderer.h"
 #include "..\Structure\Document.h"
-#include "IDocumentSource.h"
+
 #include "DocumentHostBase.h"
 
 namespace Prose {
 	namespace Controls {
 		[Windows::UI::Xaml::Markup::ContentProperty(Name = "Document")]
 		public ref class DocumentHost sealed :
-			public DocumentHostBase,
-			public IDocumentSource
+			public DocumentHostBase
 		{
 		public:
 			static property Windows::UI::Xaml::DependencyProperty^ DocumentProperty {
@@ -40,28 +39,14 @@ namespace Prose {
 				void set(Prose::Layout::ILayoutEngine^ value) { SetValue(LayoutEngineProperty, value); }
 			};
 
-			virtual property OverflowDocumentHost^ OverflowTarget {
-				OverflowDocumentHost^ get() override { return (OverflowDocumentHost^)GetValue(OverflowTargetProperty); }
-				void set(OverflowDocumentHost^ value) override { SetValue(OverflowTargetProperty, value); }
-			};
-
 			DocumentHost(void);
 
-		protected:
-			virtual Windows::Foundation::Size MeasureOverride(Windows::Foundation::Size availableSize) override;
-			virtual Windows::Foundation::Size ArrangeOverride(Windows::Foundation::Size availableSize) override;
+		public protected:
+			virtual property DocumentHost^ RootHost {
+				DocumentHost^ get() override { return this; }
+			}
 
 		private:
-			Windows::UI::Xaml::Media::Imaging::SurfaceImageSource^ _renderSurface;
-			Windows::UI::Xaml::Controls::Image^ _renderHost;
-			Prose::Layout::LayoutTree^ _layout;
-			Prose::Rendering::RenderingPlan^ _renderingPlan;
-			Windows::Foundation::Size _layoutSize;
-
-			void SendOverflow(Windows::Foundation::Collections::IVectorView<Prose::Structure::Paragraph^>^ overflow);
-			void InvalidateDocument();
-			void InvalidateRender(Windows::Foundation::Size finalSize);
-
 			static Windows::UI::Xaml::DependencyProperty^ _DocumentProperty;
 			static Windows::UI::Xaml::DependencyProperty^ _RendererProperty;
 			static Windows::UI::Xaml::DependencyProperty^ _LayoutEngineProperty;

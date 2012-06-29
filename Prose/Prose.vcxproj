@@ -246,7 +246,7 @@
   <ItemGroup>
     <ClCompile Include=".\Controls\OverflowDocumentHost.cpp" />
     <ClCompile Include="Controls\DocumentHost.cpp" />
-    <ClCompile Include="Controls\DocumentHostBase.cpp" />
+    <ClCompile Include=".\Controls\DocumentHostBase.cpp" />
     <ClCompile Include=".\DX.cpp" />
     <ClCompile Include=".\Layout\LayoutBox.cpp" />
     <ClCompile Include=".\Layout\Span.cpp" />

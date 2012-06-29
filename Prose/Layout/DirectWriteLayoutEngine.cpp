@@ -23,7 +23,7 @@ LayoutEngineVisitor::LayoutEngineVisitor(Windows::Foundation::Size layoutSize) :
 	_overflow(ref new Vector<Paragraph^>()),
 	_layoutSize(layoutSize),
 	_width(0),
-	_height(0) { 
+	_height(0) {
 }
 
 LayoutResult^ LayoutEngineVisitor::CreateResult() {
@@ -104,13 +104,8 @@ void LayoutEngineVisitor::CalculateLayout(LayoutBox^ box, Paragraph^ paragraph) 
 		delete [] lineMetrics;
 
 		// Now carve up the string
-		strm.clear();
-		strm << str.substr(0, textOffset);
-		std::wstring keepString = strm.str();
-
-		strm.clear();
-		strm << str.substr(textOffset + 1);
-		std::wstring overflowString = strm.str();
+		std::wstring keepString = str.substr(0, textOffset);
+		std::wstring overflowString = str.substr(textOffset);
 
 		// Reformat the kept string
 		ThrowIfFailed(DX::GetDWFactory()->CreateTextLayout(

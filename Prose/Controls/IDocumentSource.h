@@ -9,10 +9,6 @@ namespace Prose {
 			virtual property Prose::Structure::Document^ Document { 
 				Prose::Structure::Document^ get();
 			};
-
-			virtual property Prose::Controls::OverflowDocumentHost^ OverflowTarget { 
-				Prose::Controls::OverflowDocumentHost^ get();
-			};
 		};
 	}
 }

@@ -1,8 +1,18 @@
 #include "pch.h"
 #include "OverflowDocumentHost.h"
 
-using namespace Prose::Controls;
+using namespace Windows::Foundation::Collections;
 
-void OverflowDocumentHost::RecieveOverflow(Windows::Foundation::Collections::IVectorView<Prose::Structure::Paragraph^>^ overflow) {
-	throw ref new Platform::Exception(E_FAIL);
+using namespace Prose::Controls;
+using namespace Prose::Structure;
+
+void OverflowDocumentHost::RecieveOverflow(DocumentHost^ rootHost, IVectorView<Paragraph^>^ overflow) {
+	_rootHost = rootHost;
+	_overflowDocument = ref new Document();
+	
+	for(UINT32 i = 0; i < overflow->Size; i++) {
+		_overflowDocument->Paragraphs->Append(overflow->GetAt(i));
+	}
+
+	InvalidateMeasure();
 }

@@ -6,11 +6,12 @@
     xmlns:local="using:Prose.Test.App"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    
     xmlns:prose="using:Prose.Controls"
     mc:Ignorable="d">
 
     <Grid Margin="20" Background="Blue">
+        <prose:OverflowDocumentHost x:Name="Overflow2" HorizontalAlignment="Center" Width="400"></prose:OverflowDocumentHost>
+        <prose:OverflowDocumentHost x:Name="Overflow1" HorizontalAlignment="Right" Width="400" OverflowTarget="{Binding ElementName=Overflow2}"></prose:OverflowDocumentHost>
         <prose:DocumentHost Width="400" HorizontalAlignment="Left" OverflowTarget="{Binding ElementName=Overflow1}">
             <Document xmlns="using:Prose.Structure">
                 <Paragraph>
@@ -25,6 +26,5 @@
                 </Paragraph>
             </Document>
         </prose:DocumentHost>
-        <prose:OverflowDocumentHost x:Name="Overflow1" HorizontalAlignment="Right" Width="400"></prose:OverflowDocumentHost>
     </Grid>
 </Page>
