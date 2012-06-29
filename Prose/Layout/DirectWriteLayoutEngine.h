@@ -1,5 +1,6 @@
 #pragma once
 #include "ILayoutEngine.h"
+#include "..\Structure\Paragraph.h"
 #include "..\Structure\DocumentVisitor.h"
 
 namespace Prose {
@@ -8,7 +9,7 @@ namespace Prose {
 			public ILayoutEngine
 		{
 		public:
-			virtual LayoutTree^ CreateLayout(Prose::Structure::Document^ document, Windows::Foundation::Size layoutSize);
+			virtual LayoutResult^ CreateLayout(Prose::Structure::Document^ document, Windows::Foundation::Size layoutSize);
 		};
 
 		typedef std::function<void(LayoutNode^)> layout_collector_t;
@@ -17,22 +18,22 @@ namespace Prose {
 			public Prose::Structure::DocumentVisitor
 		{
 		public:
-			property LayoutTree^ Layout {
-				LayoutTree^ get() { return _layout; }
-			}
-
 			LayoutEngineVisitor(Windows::Foundation::Size layoutSize);
 	
+			LayoutResult^ CreateResult(void);
+
 			virtual void Visit(Prose::Structure::Paragraph^ paragraph) override;
 			virtual void Visit(Prose::Structure::Run^ run) override;
 		private:
-			double _height;
-			double _width;
+			float _height;
+			float _width;
 
-			void CalculateLayout(Box^ box);
+			void CalculateLayout(LayoutBox^ box, Prose::Structure::Paragraph^ paragraph);
 
-			Box^ _currentBox;
+			bool _overflowing;
+			LayoutBox^ _currentBox;
 			LayoutTree^ _layout;
+			Windows::Foundation::Collections::IVector<Prose::Structure::Paragraph^>^ _overflow;
 			Windows::Foundation::Size _layoutSize;
 		};
 	}

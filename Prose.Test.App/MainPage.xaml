@@ -11,7 +11,7 @@
     mc:Ignorable="d">
 
     <Grid Margin="20" Background="Blue">
-        <prose:DocumentHost>
+        <prose:DocumentHost Width="400" HorizontalAlignment="Left" OverflowTarget="{Binding ElementName=Overflow1}">
             <Document xmlns="using:Prose.Structure">
                 <Paragraph>
                     <Run xml:space="preserve">Hello World </Run>
@@ -25,5 +25,6 @@
                 </Paragraph>
             </Document>
         </prose:DocumentHost>
+        <prose:OverflowDocumentHost x:Name="Overflow1" HorizontalAlignment="Right" Width="400"></prose:OverflowDocumentHost>
     </Grid>
 </Page>

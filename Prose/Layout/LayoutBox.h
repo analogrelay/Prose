@@ -4,11 +4,11 @@
 
 namespace Prose {
 	namespace Layout {
-		public ref class Box sealed :
+		public ref class LayoutBox sealed :
 			public LayoutNode
 		{
 		public:
-			Box(void);
+			LayoutBox(void);
 
 			property Windows::UI::Xaml::Thickness Margin;
 			property Windows::Foundation::Collections::IVector<Span^>^ Spans {

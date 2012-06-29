@@ -5,10 +5,10 @@ using namespace Prose::Layout;
 using namespace Windows::Foundation::Collections;
 
 void LayoutVisitor::Visit(LayoutTree^ tree) {
-	VisitChildren<Box>(tree->Boxes);
+	VisitChildren<LayoutBox>(tree->Boxes);
 }
 
-void LayoutVisitor::Visit(Box^ box) {
+void LayoutVisitor::Visit(LayoutBox^ box) {
 	VisitChildren<Span>(box->Spans);
 }
 

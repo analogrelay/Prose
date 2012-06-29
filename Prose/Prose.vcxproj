@@ -220,7 +220,7 @@
     <ClInclude Include=".\DX.h" />
     <ClInclude Include="Enumerations.h" />
     <ClInclude Include="Helpers.h" />
-    <ClInclude Include=".\Layout\Box.h" />
+    <ClInclude Include=".\Layout\LayoutBox.h" />
     <ClInclude Include=".\Layout\Span.h" />
     <ClInclude Include=".\Layout\DirectWriteLayoutEngine.h" />
     <ClInclude Include=".\Layout\LayoutVisitor.h" />
@@ -229,6 +229,7 @@
     <ClInclude Include="Layout\ILayoutMetrics.h" />
     <ClInclude Include="Layout\LayoutNode.h" />
     <ClInclude Include=".\Layout\LayoutTree.h" />
+    <ClInclude Include="Layout\LayoutResult.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include=".\Structure\Paragraph.h" />
     <ClInclude Include=".\Rendering\IDocumentRenderer.h" />
@@ -247,7 +248,7 @@
     <ClCompile Include="Controls\DocumentHost.cpp" />
     <ClCompile Include="Controls\DocumentHostBase.cpp" />
     <ClCompile Include=".\DX.cpp" />
-    <ClCompile Include=".\Layout\Box.cpp" />
+    <ClCompile Include=".\Layout\LayoutBox.cpp" />
     <ClCompile Include=".\Layout\Span.cpp" />
     <ClCompile Include=".\Layout\DirectWriteLayoutEngine.cpp" />
     <ClCompile Include=".\Layout\LayoutVisitor.cpp" />

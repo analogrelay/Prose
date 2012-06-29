@@ -58,6 +58,7 @@ namespace Prose {
 			Prose::Rendering::RenderingPlan^ _renderingPlan;
 			Windows::Foundation::Size _layoutSize;
 
+			void SendOverflow(Windows::Foundation::Collections::IVectorView<Prose::Structure::Paragraph^>^ overflow);
 			void InvalidateDocument();
 			void InvalidateRender(Windows::Foundation::Size finalSize);
 

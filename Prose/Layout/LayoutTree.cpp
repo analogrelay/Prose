@@ -6,7 +6,7 @@ using namespace Platform::Collections;
 using namespace Prose::Layout;
 using namespace Windows::UI::Xaml;
 
-LayoutTree::LayoutTree(void) : _boxes(ref new Vector<Box^>()) {}
+LayoutTree::LayoutTree(void) : _boxes(ref new Vector<LayoutBox^>()) {}
 
 void LayoutTree::Accept(LayoutVisitor^ visitor) { visitor->Visit(this); }
 

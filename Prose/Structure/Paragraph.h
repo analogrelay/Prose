@@ -16,6 +16,8 @@ namespace Prose {
 			};
 
 			virtual void Accept(DocumentVisitor^ visitor) override;
+
+			Paragraph^ Clone(void);
 		private:
 			Windows::Foundation::Collections::IVector<Run^>^ _runs;
 		};

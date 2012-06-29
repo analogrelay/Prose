@@ -7,6 +7,10 @@ namespace Prose {
 			public ILayoutMetrics
 		{
 		public:
+			virtual property UINT32 LineCount {
+				UINT32 get() { return _metrics.lineCount; }
+			}
+
 			virtual property Windows::Foundation::Size Size {
 				Windows::Foundation::Size get() { return _size; }
 			};
@@ -16,7 +20,7 @@ namespace Prose {
 			}
 
 		internal:
-			DWLayoutMetrics(Microsoft::WRL::ComPtr<IDWriteTextLayout> layout, Windows::Foundation::Point origin, Windows::Foundation::Size size);
+			DWLayoutMetrics(Microsoft::WRL::ComPtr<IDWriteTextLayout> layout, DWRITE_TEXT_METRICS metrics, Windows::Foundation::Point origin, Windows::Foundation::Size size);
 
 			property Microsoft::WRL::ComPtr<IDWriteTextLayout> Layout {
 				Microsoft::WRL::ComPtr<IDWriteTextLayout> get() { return _layout; }
@@ -25,6 +29,7 @@ namespace Prose {
 			Microsoft::WRL::ComPtr<IDWriteTextLayout> _layout;
 			Windows::Foundation::Point _origin;
 			Windows::Foundation::Size _size;
+			DWRITE_TEXT_METRICS _metrics;
 		};
 	}
 }

@@ -1,13 +1,13 @@
 #pragma once
-#include "Box.h"
+#include "LayoutBox.h"
 
 namespace Prose {
 	namespace Layout {
 		public ref class LayoutTree sealed
 		{
 		public:
-			property Windows::Foundation::Collections::IVector<Box^>^ Boxes {
-				Windows::Foundation::Collections::IVector<Box^>^ get() { return _boxes; }
+			property Windows::Foundation::Collections::IVector<LayoutBox^>^ Boxes {
+				Windows::Foundation::Collections::IVector<LayoutBox^>^ get() { return _boxes; }
 			}
 
 			Windows::Foundation::Size Measure(void);
@@ -16,7 +16,7 @@ namespace Prose {
 
 			virtual void Accept(LayoutVisitor^ visitor);
 		private:
-			Windows::Foundation::Collections::IVector<Box^>^ _boxes;
+			Windows::Foundation::Collections::IVector<LayoutBox^>^ _boxes;
 		};
 	}
 }

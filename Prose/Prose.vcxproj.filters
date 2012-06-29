@@ -10,7 +10,6 @@
     <ClCompile Include="pch.cpp" />
     <ClCompile Include=".\Structure\Paragraph.cpp" />
     <ClCompile Include="Structure\Run.cpp" />
-    <ClCompile Include=".\Layout\Box.cpp" />
     <ClCompile Include="Layout\LayoutNode.cpp" />
     <ClCompile Include="Structure\DocumentNode.cpp" />
     <ClCompile Include="Structure\Document.cpp" />
@@ -29,6 +28,7 @@
     <ClCompile Include="Rendering\DirectWriteRenderingPlan.cpp" />
     <ClCompile Include="Rendering\DirectWriteSurface.cpp" />
     <ClCompile Include=".\DX.cpp" />
+    <ClCompile Include=".\Layout\LayoutBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -36,7 +36,6 @@
     <ClInclude Include="Helpers.h" />
     <ClInclude Include=".\Structure\Paragraph.h" />
     <ClInclude Include="Structure\Run.h" />
-    <ClInclude Include=".\Layout\Box.h" />
     <ClInclude Include="Layout\LayoutNode.h" />
     <ClInclude Include="Structure\DocumentNode.h" />
     <ClInclude Include="Structure\Document.h" />
@@ -59,5 +58,7 @@
     <ClInclude Include="Rendering\DirectWriteRenderingPlan.h" />
     <ClInclude Include="Rendering\DirectWriteSurface.h" />
     <ClInclude Include=".\DX.h" />
+    <ClInclude Include=".\Layout\LayoutBox.h" />
+    <ClInclude Include="Layout\LayoutResult.h" />
   </ItemGroup>
 </Project>

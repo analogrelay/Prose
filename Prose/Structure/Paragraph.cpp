@@ -10,3 +10,7 @@ Paragraph::Paragraph(void) : _runs(ref new Vector<Run^>()) { }
 void Paragraph::Accept(DocumentVisitor^ visitor) {
 	visitor->Visit(this);
 }
+
+Paragraph^ Paragraph::Clone() {
+	return ref new Paragraph();
+}

@@ -11,7 +11,7 @@ using namespace Windows::UI::Xaml;
 
 RenderingLayoutVisitor::RenderingLayoutVisitor(void) : _plan(ref new DirectWriteRenderingPlan()) { }
 
-void RenderingLayoutVisitor::Visit(Box^ box) {
+void RenderingLayoutVisitor::Visit(LayoutBox^ box) {
 	// Create a surface to hold this box
 	DirectWriteSurface^ surface = ref new DirectWriteSurface(
 		RectHelper::FromLocationAndSize(

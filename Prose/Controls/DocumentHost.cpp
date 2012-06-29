@@ -7,7 +7,10 @@
 #include "..\Layout\DirectWriteLayoutEngine.h"
 
 using namespace Platform;
+using namespace Platform::Collections;
+
 using namespace Windows::Foundation;
+using namespace Windows::Foundation::Collections;
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Media::Imaging;
@@ -42,11 +45,36 @@ Size DocumentHost::MeasureOverride(Size availableSize) {
 	}
 
 	// Layout the document
-	_layout = LayoutEngine->CreateLayout(this->Document, availableSize);
+	LayoutResult^ result = LayoutEngine->CreateLayout(this->Document, availableSize);
+
+	if(result->Overflow->Size > 0) {
+		// We has an overflow!
+		SendOverflow(result->Overflow);
+	}
+	_layout = result->Layout;
+
+	// Calculate overflow
+	float usedHeight = 0.0;
+	auto overflow = ref new Vector<LayoutBox^>();
+	bool overflowing = false;
+	for(UINT32 i = 0; i < _layout->Boxes->Size; i++) {
+		auto box = _layout->Boxes->GetAt(i);
+		if(overflowing) {
+			overflow->Append(box);
+		} else {
+			// Will this node overflow?
+			if(box->Metrics->Size.Height + usedHeight > availableSize.Height) {
+				// Split the box
+				
+			} else {
+				usedHeight += box->Metrics->Size.Height;
+			}
+		}
+	}
 
 	_renderSurface = ref new SurfaceImageSource(
-		(int)(std::floor(availableSize.Width)),
-		(int)(std::floor(availableSize.Height)),
+		(int)(std::ceil(availableSize.Width)),
+		(int)(std::ceil(availableSize.Height)),
 		/* isOpaque */ false);
 	InvalidateRender(availableSize);
 
@@ -61,6 +89,12 @@ Size DocumentHost::ArrangeOverride(Size finalSize) {
 			0, 0, 
 			finalSize.Width, finalSize.Height));
 	return finalSize;
+}
+
+void DocumentHost::SendOverflow(IVectorView<Paragraph^>^ overflow) {
+	if(OverflowTarget) {
+		OverflowTarget->RecieveOverflow(overflow);
+	}
 }
 
 void DocumentHost::InvalidateDocument() {
