@@ -8,7 +8,10 @@ using namespace Platform::Collections;
 
 using namespace Windows::Foundation;
 using namespace Windows::Foundation::Collections;
+
+using namespace Windows::UI::Core;
 using namespace Windows::UI::Xaml;
+using namespace Windows::UI::Xaml::Input;
 using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Media::Imaging;
 
@@ -22,6 +25,11 @@ DependencyProperty^ DocumentHostBase::_OverflowTargetProperty = DependencyProper
 	OverflowDocumentHost::typeid, 
 	DocumentHostBase::typeid,
 	ref new PropertyMetadata(nullptr, ref new PropertyChangedCallback(DocumentHostBase::TargetChanged)));
+
+DocumentHostBase::DocumentHostBase() {
+	PointerEntered += ref new PointerEventHandler(this, &DocumentHostBase::Panel_PointerEntered);
+	PointerExited += ref new PointerEventHandler(this, &DocumentHostBase::Panel_PointerExited);
+}
 
 void DocumentHostBase::TargetChanged(DependencyObject^ sender, DependencyPropertyChangedEventArgs^ args) {
 	DocumentHostBase^ host = (DocumentHostBase^)sender;
@@ -121,3 +129,12 @@ void DocumentHostBase::InvalidateRender(Size size) {
 			size.Height));
 }
 
+void DocumentHostBase::Panel_PointerEntered(Object^ sender, PointerRoutedEventArgs^ args) {
+	_oldCursor = Window::Current->CoreWindow->PointerCursor;
+	Window::Current->CoreWindow->PointerCursor = ref new CoreCursor(
+		CoreCursorType::IBeam, 1);
+}
+
+void DocumentHostBase::Panel_PointerExited(Object^ sender, PointerRoutedEventArgs^ args) {
+	Window::Current->CoreWindow->PointerCursor = _oldCursor;
+}
