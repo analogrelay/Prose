@@ -36,17 +36,8 @@ void DirectWriteRenderer::Render(IRenderingPlan^ plan, Windows::UI::Xaml::Media:
 
 bool Overlaps(Windows::Foundation::Rect left, RECT right) {
 	return
-		// Are any corners of left inside right?
-		(left.Left <= right.right && left.Left >= right.left) ||
-		(left.Right <= right.right && left.Right >= right.left) ||
-		(left.Top <= right.bottom && left.Top >= right.top) ||
-		(left.Bottom <= right.bottom && left.Bottom >= right.bottom) ||
-
-		// Are any corners of right inside left?
-		(right.left <= left.Left && right.left >= left.Right) ||
-		(right.right <= left.Left && right.right >= left.Right) ||
-		(right.top <= left.Bottom && right.top >= left.Top) ||
-		(right.bottom <= left.Bottom && right.bottom >= left.Bottom);
+		left.Left < right.right && left.Right > right.left &&
+		left.Top < right.bottom && left.Bottom > right.top;
 }
 
 void DirectWriteRenderer::UpdatesNeeded(DirectWriteRenderingPlan^ plan) {
@@ -56,55 +47,59 @@ void DirectWriteRenderer::UpdatesNeeded(DirectWriteRenderingPlan^ plan) {
 	ThrowIfFailed(_targetSurface->GetUpdateRects(drawingBounds.get(), drawingBoundsCount));
 	
 	for(ULONG i = 0; i < drawingBoundsCount; i++) {
-		// Identify the nodes of the plan that are contained here
+		// Start the drawing session
+		ComPtr<IDXGISurface> surface;
+		POINT origin;
+		ThrowIfFailed(_targetSurface->BeginDraw(drawingBounds[i], &surface, &origin));
+
+		// Create the render target
+		ComPtr<ID2D1RenderTarget> renderTarget;
+		D2D1_RENDER_TARGET_PROPERTIES properties = D2D1::RenderTargetProperties(
+			D2D1_RENDER_TARGET_TYPE_DEFAULT,
+			D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED));
+		ThrowIfFailed(DX::GetD2DFactory()->CreateDxgiSurfaceRenderTarget(
+			surface.Get(),
+			&properties,
+			&renderTarget));
+	
+		// TODO: This SOOOOOO needs to be specified by the consumer of this interface (i.e. the control!)
+		ComPtr<ID2D1SolidColorBrush> whiteBrush;
+		ThrowIfFailed(renderTarget->CreateSolidColorBrush(
+			D2D1::ColorF(D2D1::ColorF::White),
+			&whiteBrush));
+
+		renderTarget->BeginDraw();
+		renderTarget->Clear();
+
+		// Set up the translation
+		auto transform = D2D1::Matrix3x2F::Translation(
+			(FLOAT)origin.x - (FLOAT)drawingBounds[i].left,
+			(FLOAT)origin.y - (FLOAT)drawingBounds[i].top);
+		renderTarget->SetTransform(transform);
+
+		// Identify the nodes of the plan that are contained here and render them
 		for(UINT32 j = 0; j < plan->Surfaces->Size; j++) {
 			auto surface = plan->Surfaces->GetAt(j);
 			if(Overlaps(surface->Region, drawingBounds[i])) {
-				RenderSurface(surface);
+				RenderSurface(surface, renderTarget, whiteBrush);
 			}
 		}
+
+		renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
+		
+		ThrowIfFailed(renderTarget->EndDraw());
+
+		// End the drawing session
+		ThrowIfFailed(_targetSurface->EndDraw());
 	}
 }
 
-void DirectWriteRenderer::RenderSurface(DirectWriteSurface^ source) {
-	RECT target;
-	DX::ToNativeRect(source->Region, &target);
-
-	RECT bounds;
-	ThrowIfFailed(_targetSurface->GetVisibleBounds(&bounds));
-
-	// Start the drawing session
-	ComPtr<IDXGISurface> surface;
-	POINT origin;
-	ThrowIfFailed(_targetSurface->BeginDraw(bounds, &surface, &origin));
-
-	// Create the render target
-	ComPtr<ID2D1RenderTarget> renderTarget;
-	D2D1_RENDER_TARGET_PROPERTIES properties = D2D1::RenderTargetProperties(
-		D2D1_RENDER_TARGET_TYPE_DEFAULT,
-		D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED));
-	ThrowIfFailed(DX::GetD2DFactory()->CreateDxgiSurfaceRenderTarget(
-		surface.Get(),
-		&properties,
-		&renderTarget));
-
-	// TODO: This SOOOOOO needs to be specified by the consumer of this interface (i.e. the control!)
-	ComPtr<ID2D1SolidColorBrush> whiteBrush;
-	ThrowIfFailed(renderTarget->CreateSolidColorBrush(
-		D2D1::ColorF(D2D1::ColorF::White),
-		&whiteBrush));
-
-	renderTarget->BeginDraw();
-	
+void DirectWriteRenderer::RenderSurface(DirectWriteSurface^ surface, ComPtr<ID2D1RenderTarget> renderTarget, ComPtr<ID2D1SolidColorBrush> brush) {
 	renderTarget->DrawTextLayout(
-		D2D1::Point2F(source->Region.Left, source->Region.Top),
-		source->Layout.Get(),
-		whiteBrush.Get(),
+		D2D1::Point2F(surface->Region.Left, surface->Region.Top),
+		surface->Layout.Get(),
+		brush.Get(),
 		D2D1_DRAW_TEXT_OPTIONS_NONE);
-	ThrowIfFailed(renderTarget->EndDraw());
-
-	// End the drawing session
-	ThrowIfFailed(_targetSurface->EndDraw());
 }
 
 IRenderingPlan^ DirectWriteRenderer::PlanRendering(LayoutTree^ tree) {

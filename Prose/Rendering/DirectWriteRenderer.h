@@ -27,7 +27,7 @@ namespace Prose {
 
 		private:
 			void InitializeDirect2D(void);
-			void RenderSurface(DirectWriteSurface^ surface);
+			void RenderSurface(DirectWriteSurface^ surface, Microsoft::WRL::ComPtr<ID2D1RenderTarget> renderTarget, Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush);
 
 			Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource^ _knownTargetSurface;
 			Microsoft::WRL::ComPtr<IVirtualSurfaceImageSourceNative> _targetSurface;

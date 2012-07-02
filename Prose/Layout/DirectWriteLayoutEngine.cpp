@@ -30,16 +30,11 @@ LayoutResult^ LayoutEngineVisitor::CreateResult() {
 	return ref new LayoutResult(_layout, _overflow->GetView());
 }
 
-Point CalculatePosition(LayoutBox^ box, double yOffset) {
-	// Apply margins
-	double x = 0 + box->Margin.Left;
-	double y = yOffset + box->Margin.Top;
-	return PointHelper::FromCoordinates((float)x, (float)y);
-}
-
 bool LayoutEngineVisitor::CalculateLayout(LayoutBox^ box, Paragraph^ paragraph) {
-	// Calculate Position
-	Point offset = CalculatePosition(box, _height);
+	// Apply margins
+	double x = box->Margin.Left;
+	double y = _height + box->Margin.Top;
+	Point offset = PointHelper::FromCoordinates((float)x, (float)y);
 
 	// TODO: Apply padding.
 
@@ -135,13 +130,13 @@ bool LayoutEngineVisitor::CalculateLayout(LayoutBox^ box, Paragraph^ paragraph) 
 		_overflowing = true;
 	}
 
-	Size measuredSize = SizeHelper::FromDimensions(metrics.width + (float)box->Margin.Right, metrics.height + (float)box->Margin.Bottom);
+	Size measuredSize = SizeHelper::FromDimensions(metrics.width + horiz, metrics.height + vertical);
 
 	// Apply top margin to get new layout height
-	_height += (measuredSize.Height + box->Margin.Top);
+	_height += (measuredSize.Height);
 
 	// Apply left margin and get the max with layout width to get new layout width
-	_width = max(_width, measuredSize.Width + box->Margin.Left);
+	_width = max(_width, measuredSize.Width);
 
 	// Apply these metrics to the box
 	box->Metrics = ref new DWLayoutMetrics(layout, metrics, offset, measuredSize);
