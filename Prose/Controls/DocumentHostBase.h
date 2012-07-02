@@ -25,28 +25,28 @@ namespace Prose {
 				void set(bool value) { _hasOverflowContent = value; };
 			};
 		protected:
-			virtual Windows::Foundation::Size MeasureOverride(Windows::Foundation::Size availableSize) override;
-			virtual Windows::Foundation::Size ArrangeOverride(Windows::Foundation::Size availableSize) override;
+			virtual Windows::Foundation::Size MeasureOverride(Windows::Foundation::Size) override;
+			virtual Windows::Foundation::Size ArrangeOverride(Windows::Foundation::Size) override;
 
 		private protected:
 			DocumentHostBase(void);
 
 			property DocumentHost^ RootHost {
-				virtual DocumentHost^ get() { throw ref new NotImplementedException("RootHost must be implemented"); }
+				virtual DocumentHost^ get() { throw ref new Platform::NotImplementedException("RootHost must be implemented"); }
 			};
 
 			virtual Prose::Structure::Document^ GetDocument(void);
 
-			void InvalidateDocument();
-			void InvalidateRender(Windows::Foundation::Size finalSize);
+			void InvalidateDocument(void);
+			void InvalidateRender(void);
 
-			virtual void SendOverflow();
+			virtual void SendOverflow(void);
 
 		private:
-			Windows::UI::Xaml::Media::Imaging::SurfaceImageSource^ _renderSurface;
+			Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource^ _renderSurface;
 			Windows::UI::Xaml::Controls::Image^ _renderHost;
 			Prose::Layout::LayoutTree^ _layout;
-			Prose::Rendering::RenderingPlan^ _renderingPlan;
+			Prose::Rendering::IRenderingPlan^ _renderingPlan;
 			Windows::Foundation::Size _layoutSize;
 			Windows::Foundation::Collections::IVectorView<Prose::Structure::Paragraph^>^ _overflow;
 			bool _hasOverflowContent;

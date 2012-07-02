@@ -26,6 +26,7 @@
 
 #include "Layout\ILayoutEngine.h"
 #include "Rendering\IDocumentRenderer.h"
+#include "Controls\DocumentViewer.h"
 
 using namespace Platform;
 using namespace Platform::Collections;

@@ -13,11 +13,13 @@ RenderingLayoutVisitor::RenderingLayoutVisitor(void) : _plan(ref new DirectWrite
 
 void RenderingLayoutVisitor::Visit(LayoutBox^ box) {
 	// Create a surface to hold this box
+	auto metrics = (safe_cast<DWLayoutMetrics^>(box->Metrics));
 	DirectWriteSurface^ surface = ref new DirectWriteSurface(
 		RectHelper::FromLocationAndSize(
-			box->Metrics->Origin, 
-			box->Metrics->Size),
-		(safe_cast<DWLayoutMetrics^>(box->Metrics))->Layout);
+			metrics->Origin, 
+			metrics->Size),
+		metrics->Layout,
+		metrics->DWMetrics);
 
 	// Add it to the plan and we're done (for now... maybe more later ;))
 	_plan->Surfaces->Append(surface);

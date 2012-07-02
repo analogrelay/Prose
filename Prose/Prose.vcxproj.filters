@@ -16,7 +16,6 @@
     <ClCompile Include="Controls\DocumentHost.cpp" />
     <ClCompile Include=".\Controls\OverflowDocumentHost.cpp" />
     <ClCompile Include="Layout\LayoutTree.cpp" />
-    <ClCompile Include=".\Rendering\RenderingPlan.cpp" />
     <ClCompile Include="Structure\DocumentVisitor.cpp" />
     <ClCompile Include="Rendering\DirectWriteRenderer.cpp" />
     <ClCompile Include=".\Layout\LayoutVisitor.cpp" />
@@ -29,6 +28,7 @@
     <ClCompile Include=".\DX.cpp" />
     <ClCompile Include=".\Layout\LayoutBox.cpp" />
     <ClCompile Include=".\Controls\DocumentHostBase.cpp" />
+    <ClCompile Include=".\Controls\DocumentViewer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -44,7 +44,6 @@
     <ClInclude Include="Controls\IDocumentSource.h" />
     <ClInclude Include="Controls\OverflowDocumentHost.h" />
     <ClInclude Include=".\Rendering\IDocumentRenderer.h" />
-    <ClInclude Include=".\Rendering\RenderingPlan.h" />
     <ClInclude Include="Layout\ILayoutEngine.h" />
     <ClInclude Include=".\Layout\LayoutTree.h" />
     <ClInclude Include="Structure\DocumentVisitor.h" />
@@ -60,5 +59,7 @@
     <ClInclude Include=".\DX.h" />
     <ClInclude Include=".\Layout\LayoutBox.h" />
     <ClInclude Include="Layout\LayoutResult.h" />
+    <ClInclude Include=".\Controls\DocumentViewer.h" />
+    <ClInclude Include=".\Rendering\IRenderingPlan.h" />
   </ItemGroup>
 </Project>

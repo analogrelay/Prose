@@ -135,7 +135,6 @@
       <SubSystem>Console</SubSystem>
       <AdditionalDependencies>d3d11.lib;d2d1.lib;Dwrite.lib;runtimeobject.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <ImageHasSafeExceptionHandlers>true</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -219,6 +218,7 @@
     <ClInclude Include="Controls\IDocumentSource.h" />
     <ClInclude Include="Controls\OverflowDocumentHost.h" />
     <ClInclude Include=".\DX.h" />
+    <ClInclude Include=".\Controls\DocumentViewer.h" />
     <ClInclude Include="Enumerations.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include=".\Layout\LayoutBox.h" />
@@ -234,7 +234,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include=".\Structure\Paragraph.h" />
     <ClInclude Include=".\Rendering\IDocumentRenderer.h" />
-    <ClInclude Include=".\Rendering\RenderingPlan.h" />
+    <ClInclude Include=".\Rendering\IRenderingPlan.h" />
     <ClInclude Include="Rendering\DirectWriteRenderer.h" />
     <ClInclude Include="Rendering\DirectWriteRenderingPlan.h" />
     <ClInclude Include="Rendering\DirectWriteSurface.h" />
@@ -253,6 +253,7 @@
     <ClCompile Include=".\Layout\Span.cpp" />
     <ClCompile Include=".\Layout\DirectWriteLayoutEngine.cpp" />
     <ClCompile Include=".\Layout\LayoutVisitor.cpp" />
+    <ClCompile Include=".\Controls\DocumentViewer.cpp" />
     <ClCompile Include="Layout\DWLayoutMetrics.cpp" />
     <ClCompile Include="Layout\LayoutNode.cpp" />
     <ClCompile Include="Layout\LayoutTree.cpp" />
@@ -265,7 +266,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include=".\Structure\Paragraph.cpp" />
-    <ClCompile Include=".\Rendering\RenderingPlan.cpp" />
     <ClCompile Include="Rendering\DirectWriteRenderer.cpp" />
     <ClCompile Include="Rendering\DirectWriteRenderingPlan.cpp" />
     <ClCompile Include="Rendering\DirectWriteSurface.cpp" />

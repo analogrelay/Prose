@@ -21,9 +21,28 @@ namespace Prose {
 				_layout(layout),
 				_overflow(overflow) {}
 
+			property Windows::Foundation::Size LayoutSize {
+				Windows::Foundation::Size get() {
+					if(!_layoutSizeCalulated) {
+						float width = 0.0;
+						float height = 0.0;
+						for(UINT32 i = 0; i < _layout->Boxes->Size; i++) {
+							auto box = _layout->Boxes->GetAt(i);
+							width = max(width, box->Metrics->Size.Width);
+							height += box->Metrics->Size.Height;
+						}
+						_layoutSize = Windows::UI::Xaml::SizeHelper::FromDimensions(width, height);
+						_layoutSizeCalulated = true;
+					}
+					return _layoutSize;
+				}
+			}
+
 		private:
 			LayoutTree^ _layout;
 			Windows::Foundation::Collections::IVectorView<Prose::Structure::Paragraph^>^ _overflow;
+			Windows::Foundation::Size _layoutSize;
+			bool _layoutSizeCalulated;
 		};
 	}
 }

@@ -28,7 +28,7 @@ namespace Prose {
 			float _height;
 			float _width;
 
-			void CalculateLayout(LayoutBox^ box, Prose::Structure::Paragraph^ paragraph);
+			bool CalculateLayout(LayoutBox^ box, Prose::Structure::Paragraph^ paragraph);
 
 			bool _overflowing;
 			LayoutBox^ _currentBox;

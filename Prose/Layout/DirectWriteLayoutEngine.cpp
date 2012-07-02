@@ -37,7 +37,7 @@ Point CalculatePosition(LayoutBox^ box, double yOffset) {
 	return PointHelper::FromCoordinates((float)x, (float)y);
 }
 
-void LayoutEngineVisitor::CalculateLayout(LayoutBox^ box, Paragraph^ paragraph) {
+bool LayoutEngineVisitor::CalculateLayout(LayoutBox^ box, Paragraph^ paragraph) {
 	// Calculate Position
 	Point offset = CalculatePosition(box, _height);
 
@@ -71,6 +71,12 @@ void LayoutEngineVisitor::CalculateLayout(LayoutBox^ box, Paragraph^ paragraph) 
 	float height = 
 		(_layoutSize.Height - _height) -
 		vertical;
+
+	if(width < 0 || height < 0) {
+		_overflow->Append(paragraph);
+		_overflowing = true;
+		return false;
+	}
 
 	// Build a Text Layout
 	ComPtr<IDWriteTextLayout> layout;
@@ -117,6 +123,9 @@ void LayoutEngineVisitor::CalculateLayout(LayoutBox^ box, Paragraph^ paragraph) 
 			&layout));
 		ThrowIfFailed(layout->GetMetrics(&metrics));
 
+		paragraph->Runs->Clear();
+		paragraph->Runs->Append(ref new Run(ref new Platform::String(keepString.c_str())));
+
 		// Duplicate this box and put the rest of the string there
 		auto newPara = paragraph->Clone();
 		newPara->Runs->Append(ref new Run(ref new Platform::String(overflowString.c_str())));
@@ -126,16 +135,17 @@ void LayoutEngineVisitor::CalculateLayout(LayoutBox^ box, Paragraph^ paragraph) 
 		_overflowing = true;
 	}
 
-	Size measuredSize = SizeHelper::FromDimensions(metrics.width, metrics.height);
+	Size measuredSize = SizeHelper::FromDimensions(metrics.width + (float)box->Margin.Right, metrics.height + (float)box->Margin.Bottom);
 
-	// Apply bottom margin to get new layout height
-	_height += (measuredSize.Height + vertical);
+	// Apply top margin to get new layout height
+	_height += (measuredSize.Height + box->Margin.Top);
 
-	// Apply right margin and get the max with layout width to get new layout width
-	_width = max(_width, measuredSize.Width + horiz);
+	// Apply left margin and get the max with layout width to get new layout width
+	_width = max(_width, measuredSize.Width + box->Margin.Left);
 
 	// Apply these metrics to the box
 	box->Metrics = ref new DWLayoutMetrics(layout, metrics, offset, measuredSize);
+	return true;
 }
 
 void LayoutEngineVisitor::Visit(Paragraph^ paragraph) {
@@ -152,14 +162,16 @@ void LayoutEngineVisitor::Visit(Paragraph^ paragraph) {
 
 	// Check overflow
 	if(_overflowing) {
+		// Skip!
+		_overflow->Append(paragraph);
+	} else {
+		// Now calculate layout for this box
+		if(CalculateLayout(_currentBox, paragraph)) {
+			// Collect the newly constructed node
+			_layout->Boxes->Append(_currentBox);
+			_currentBox = nullptr;
+		}
 	}
-
-	// Now calculate layout for this box
-	CalculateLayout(_currentBox, paragraph);
-
-	// Collect the newly constructed node
-	_layout->Boxes->Append(_currentBox);
-	_currentBox = nullptr;
 }
 
 void LayoutEngineVisitor::Visit(Run^ run) {

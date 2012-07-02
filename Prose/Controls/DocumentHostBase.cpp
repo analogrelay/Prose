@@ -22,7 +22,7 @@ using namespace Prose::Layout;
 
 DependencyProperty^ DocumentHostBase::_OverflowTargetProperty = DependencyProperty::Register(
 	L"OverflowTarget",
-	OverflowDocumentHost::typeid, 
+	OverflowDocumentHost::typeid,
 	DocumentHostBase::typeid,
 	ref new PropertyMetadata(nullptr, ref new PropertyChangedCallback(DocumentHostBase::TargetChanged)));
 
@@ -62,38 +62,19 @@ Size DocumentHostBase::MeasureOverride(Size availableSize) {
 	}
 	_layout = result->Layout;
 
-	// Calculate overflow
-	float usedHeight = 0.0;
-	auto overflow = ref new Vector<LayoutBox^>();
-	bool overflowing = false;
-	for(UINT32 i = 0; i < _layout->Boxes->Size; i++) {
-		auto box = _layout->Boxes->GetAt(i);
-		if(overflowing) {
-			overflow->Append(box);
-		} else {
-			// Will this node overflow?
-			if(box->Metrics->Size.Height + usedHeight > availableSize.Height) {
-				// Split the box
-				
-			} else {
-				usedHeight += box->Metrics->Size.Height;
-			}
-		}
-	}
-
-	_renderSurface = ref new SurfaceImageSource(
-		(int)(std::ceil(availableSize.Width)),
-		(int)(std::ceil(availableSize.Height)),
-		/* isOpaque */ false);
-	InvalidateRender(availableSize);
-
-	_renderHost->Source = _renderSurface;
-
-	return availableSize;
+	_layoutSize = result->LayoutSize;
+	return _layoutSize;
 }
 
 Size DocumentHostBase::ArrangeOverride(Size finalSize) {
 	if(!RootHost) { return finalSize; }
+
+	if(!_renderSurface) {
+		_renderSurface = ref new VirtualSurfaceImageSource(0, 0, /* isOpaque */ false);
+		_renderHost->Source = _renderSurface;
+	}
+
+	InvalidateRender();
 
 	_renderHost->Arrange(
 		RectHelper::FromCoordinatesAndDimensions(
@@ -114,9 +95,11 @@ void DocumentHostBase::InvalidateDocument() {
 	UpdateLayout();
 }
 
-void DocumentHostBase::InvalidateRender(Size size) {
+void DocumentHostBase::InvalidateRender() {
 	// Render the document
 	_renderingPlan = RootHost->Renderer->PlanRendering(_layout);
+
+	auto renderSize = _renderingPlan->RenderSize;
 
 	// Render the plan
 	RootHost->Renderer->Render(
@@ -125,8 +108,8 @@ void DocumentHostBase::InvalidateRender(Size size) {
 		RectHelper::FromCoordinatesAndDimensions(
 			0,
 			0,
-			size.Width,
-			size.Height));
+			renderSize.Width,
+			renderSize.Height));
 }
 
 void DocumentHostBase::Panel_PointerEntered(Object^ sender, PointerRoutedEventArgs^ args) {

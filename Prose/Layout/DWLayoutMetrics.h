@@ -25,6 +25,10 @@ namespace Prose {
 			property Microsoft::WRL::ComPtr<IDWriteTextLayout> Layout {
 				Microsoft::WRL::ComPtr<IDWriteTextLayout> get() { return _layout; }
 			};
+
+			property DWRITE_TEXT_METRICS DWMetrics {
+				DWRITE_TEXT_METRICS get() { return _metrics; }
+			}
 		private:
 			Microsoft::WRL::ComPtr<IDWriteTextLayout> _layout;
 			Windows::Foundation::Point _origin;

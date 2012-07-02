@@ -1,12 +1,12 @@
 #pragma once
-#include "RenderingPlan.h"
+#include "IRenderingPlan.h"
 #include "..\Layout\LayoutTree.h"
 
 namespace Prose {
 	namespace Rendering {
 		public interface class IDocumentRenderer {
-			RenderingPlan^ PlanRendering(Prose::Layout::LayoutTree^ layout);
-			void Render(RenderingPlan^ plan, Windows::UI::Xaml::Media::Imaging::SurfaceImageSource^ targetSurface, Windows::Foundation::Rect region);
+			IRenderingPlan^ PlanRendering(Prose::Layout::LayoutTree^ layout);
+			void Render(IRenderingPlan^ plan, Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource^ targetSurface, Windows::Foundation::Rect region);
 		};
 	}
 }
