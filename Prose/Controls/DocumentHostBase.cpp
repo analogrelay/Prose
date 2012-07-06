@@ -53,7 +53,10 @@ Size DocumentHostBase::MeasureOverride(Size availableSize) {
 
 	// Layout the document
 	LayoutResult^ result = RootHost->LayoutEngine->CreateLayout(GetDocument(), availableSize);
-
+	
+	_layoutSize = result->LayoutSize;
+	
+	dbgf(L"Layout Complete - (%f x %f). Overflow Nodes: %u", _layoutSize.Width, _layoutSize.Height, result->Overflow->Size);
 	if(result->Overflow->Size > 0) {
 		// We has an overflow!
 		HasOverflowContent = true;
@@ -62,7 +65,6 @@ Size DocumentHostBase::MeasureOverride(Size availableSize) {
 	}
 	_layout = result->Layout;
 
-	_layoutSize = result->LayoutSize;
 	return _layoutSize;
 }
 
@@ -98,7 +100,7 @@ void DocumentHostBase::InvalidateDocument() {
 void DocumentHostBase::InvalidateRender() {
 	// Render the document
 	_renderingPlan = RootHost->Renderer->PlanRendering(_layout);
-
+	
 	auto renderSize = _renderingPlan->RenderSize;
 
 	// Render the plan

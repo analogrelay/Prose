@@ -20,6 +20,7 @@
 
 // CRT
 #include <stdio.h>
+#include <stdarg.h>
 
 // Prose Common
 #include "Helpers.h"

@@ -136,10 +136,11 @@ Size DocumentViewer::ArrangeOverride(Size finalSize) {
 	float maxWidth = 0.0;
 	for(UINT32 i = 0; i < Children->Size; i++) {
 		auto child = Children->GetAt(i);
+		auto size = child->DesiredSize;
 		child->Arrange(
-			RectHelper::FromCoordinatesAndDimensions(maxWidth, 0, child->DesiredSize.Width, child->DesiredSize.Height));
-		maxWidth += child->DesiredSize.Width;
-		maxHeight = max(maxHeight, child->DesiredSize.Height);
+			RectHelper::FromCoordinatesAndDimensions(maxWidth, 0, size.Width, size.Height));
+		maxWidth += size.Width;
+		maxHeight = max(maxHeight, size.Height);
 	}
 	return SizeHelper::FromDimensions(maxWidth, maxHeight);
 }
