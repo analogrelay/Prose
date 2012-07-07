@@ -4,6 +4,8 @@
 
 #include <sstream>
 
+using namespace Platform::Collections;
+
 using namespace Prose::Structure;
 using namespace Prose::Layout;
 

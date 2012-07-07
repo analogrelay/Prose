@@ -34,5 +34,15 @@ namespace Prose.Test.App
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
         }
+
+        private void Decrease_Click(object sender, RoutedEventArgs e)
+        {
+            Viewer.ColumnWidth -= 50;
+        }
+
+        private void Increase_Click(object sender, RoutedEventArgs e)
+        {
+            Viewer.ColumnWidth += 50;
+        }
     }
 }

@@ -19,6 +19,7 @@
 #include <dwrite.h>
 
 // CRT
+#include <string>
 #include <stdio.h>
 #include <stdarg.h>
 
@@ -31,5 +32,11 @@
 #include "Rendering\IDocumentRenderer.h"
 #include "Controls\DocumentViewer.h"
 
-using namespace Platform;
-using namespace Platform::Collections;
+// Debug thingies
+#ifdef _DEBUG
+
+//#define TRACE_RENDER
+//#define TRACE_LAYOUT
+//#define SHOW_DOCUMENTHOST_BORDERS
+
+#endif

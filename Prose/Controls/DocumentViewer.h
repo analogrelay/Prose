@@ -60,6 +60,7 @@ namespace Prose {
 		private:
 			void InitializeHost(void);
 			void CalculateOverflow(void);
+			void RelayoutDocument(void);
 			OverflowDocumentHost^ CreateOverflow(void);
 
 			std::vector<OverflowDocumentHost^> _overflows;

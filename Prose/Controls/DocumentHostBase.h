@@ -51,6 +51,11 @@ namespace Prose {
 			Windows::Foundation::Collections::IVectorView<Prose::Structure::Paragraph^>^ _overflow;
 			bool _hasOverflowContent;
 			Windows::UI::Core::CoreCursor^ _oldCursor;
+
+#ifdef _DEBUG
+			Windows::UI::Xaml::Controls::Border^ _debugBorder;
+#endif
+
 			
 			void Panel_PointerEntered(Platform::Object^ sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs^ args);
 			void Panel_PointerExited(Platform::Object^ sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs^ args);

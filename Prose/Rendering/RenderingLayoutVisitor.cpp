@@ -19,7 +19,8 @@ void RenderingLayoutVisitor::Visit(LayoutBox^ box) {
 			metrics->Origin, 
 			metrics->Size),
 		metrics->Layout,
-		metrics->DWMetrics);
+		metrics->DWMetrics,
+		box);
 
 	// Add it to the plan and we're done (for now... maybe more later ;))
 	_plan->Surfaces->Append(surface);

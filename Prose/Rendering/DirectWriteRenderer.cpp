@@ -13,25 +13,24 @@ DirectWriteRenderer::DirectWriteRenderer(void) {
 void DirectWriteRenderer::Render(IRenderingPlan^ plan, Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource^ targetSurface, Windows::Foundation::Rect region) {
 	DirectWriteRenderingPlan^ dwPlan = safe_cast<DirectWriteRenderingPlan^>(plan);
 
-	if(_knownTargetSurface == nullptr || !Object::ReferenceEquals(targetSurface, _knownTargetSurface)) {
-		IInspectable* insp = reinterpret_cast<IInspectable*>(targetSurface);
-		ThrowIfFailed(insp->QueryInterface(__uuidof(IVirtualSurfaceImageSourceNative), &_targetSurface));
+	/*if(_knownTargetSurface == nullptr || !Object::ReferenceEquals(targetSurface, _knownTargetSurface)) {*/
+	ComPtr<IVirtualSurfaceImageSourceNative> surface;
+	IInspectable* insp = reinterpret_cast<IInspectable*>(targetSurface);
+	ThrowIfFailed(insp->QueryInterface(__uuidof(IVirtualSurfaceImageSourceNative), &surface));
 
-		// Set up Direct2D Context
-		InitializeDirect2D();
+	// Set up Direct2D Context
+	InitializeDirect2D();
 
-		// Set the device on the surface
-		_targetSurface->SetDevice(_dxgiDevice.Get());
-	}
+	// Set the device on the surface
+	surface->SetDevice(_dxgiDevice.Get());
+	/*}*/
 	
-	ThrowIfFailed(_targetSurface->Resize((int)(std::ceil(region.Width)), (int)(std::ceil(region.Height))));
+	ThrowIfFailed(surface->Resize((int)(std::ceil(region.Width)), (int)(std::ceil(region.Height))));
 	
-	if(!_thunk) {
-		_thunk = ComPtr<VirtualSurfaceCallbackThunk>(new VirtualSurfaceCallbackThunk());
-		_thunk->Initialize(this, dwPlan);
-	}
+	ComPtr<VirtualSurfaceCallbackThunk> thunk(new VirtualSurfaceCallbackThunk());
+	thunk->Initialize(this, dwPlan, surface);
 
-	_targetSurface->RegisterForUpdatesNeeded(_thunk.Get());
+	surface->RegisterForUpdatesNeeded(thunk.Get());
 }
 
 bool Overlaps(Windows::Foundation::Rect left, RECT right) {
@@ -40,17 +39,17 @@ bool Overlaps(Windows::Foundation::Rect left, RECT right) {
 		left.Top < right.bottom && left.Bottom > right.top;
 }
 
-void DirectWriteRenderer::UpdatesNeeded(DirectWriteRenderingPlan^ plan) {
+void DirectWriteRenderer::UpdatesNeeded(ComPtr<IVirtualSurfaceImageSourceNative> surface, DirectWriteRenderingPlan^ plan) {
 	ULONG drawingBoundsCount = 0;
-	ThrowIfFailed(_targetSurface->GetUpdateRectCount(&drawingBoundsCount));
+	ThrowIfFailed(surface->GetUpdateRectCount(&drawingBoundsCount));
 	std::unique_ptr<RECT[]> drawingBounds(new RECT[drawingBoundsCount]);
-	ThrowIfFailed(_targetSurface->GetUpdateRects(drawingBounds.get(), drawingBoundsCount));
+	ThrowIfFailed(surface->GetUpdateRects(drawingBounds.get(), drawingBoundsCount));
 	
 	for(ULONG i = 0; i < drawingBoundsCount; i++) {
 		// Start the drawing session
-		ComPtr<IDXGISurface> surface;
+		ComPtr<IDXGISurface> dxgiSurface;
 		POINT origin;
-		ThrowIfFailed(_targetSurface->BeginDraw(drawingBounds[i], &surface, &origin));
+		ThrowIfFailed(surface->BeginDraw(drawingBounds[i], &dxgiSurface, &origin));
 
 		// Create the render target
 		ComPtr<ID2D1RenderTarget> renderTarget;
@@ -58,7 +57,7 @@ void DirectWriteRenderer::UpdatesNeeded(DirectWriteRenderingPlan^ plan) {
 			D2D1_RENDER_TARGET_TYPE_DEFAULT,
 			D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED));
 		ThrowIfFailed(DX::GetD2DFactory()->CreateDxgiSurfaceRenderTarget(
-			surface.Get(),
+			dxgiSurface.Get(),
 			&properties,
 			&renderTarget));
 	
@@ -79,9 +78,9 @@ void DirectWriteRenderer::UpdatesNeeded(DirectWriteRenderingPlan^ plan) {
 
 		// Identify the nodes of the plan that are contained here and render them
 		for(UINT32 j = 0; j < plan->Surfaces->Size; j++) {
-			auto surface = plan->Surfaces->GetAt(j);
-			if(Overlaps(surface->Region, drawingBounds[i])) {
-				RenderSurface(surface, renderTarget, whiteBrush);
+			auto renderSurface = plan->Surfaces->GetAt(j);
+			if(Overlaps(renderSurface->Region, drawingBounds[i])) {
+				RenderSurface(renderSurface, renderTarget, whiteBrush);
 			}
 		}
 
@@ -90,13 +89,34 @@ void DirectWriteRenderer::UpdatesNeeded(DirectWriteRenderingPlan^ plan) {
 		ThrowIfFailed(renderTarget->EndDraw());
 
 		// End the drawing session
-		ThrowIfFailed(_targetSurface->EndDraw());
+		ThrowIfFailed(surface->EndDraw());
 	}
 }
 
 void DirectWriteRenderer::RenderSurface(DirectWriteSurface^ surface, ComPtr<ID2D1RenderTarget> renderTarget, ComPtr<ID2D1SolidColorBrush> brush) {
+	D2D1_POINT_2F origin = D2D1::Point2F(surface->Region.Left, surface->Region.Top);
+
+#ifdef TRACE_RENDER
+	D2D1_MATRIX_3X2_F matrix;
+	renderTarget->GetTransform(&matrix);
+	D2D1::Matrix3x2F* mat = D2D1::Matrix3x2F::ReinterpretBaseType(&matrix);
+	D2D1_POINT_2F xformed = mat->TransformPoint(origin);
+
+	Platform::String^ str = "<unknown>";
+	if(surface->Box->Spans->Size > 0) {
+		str = surface->Box->Spans->GetAt(0)->Text;
+	}
+	if(str->Length() > 15) {
+		std::wstring wstr(str->Data());
+		wstr = wstr.substr(0, 15) + std::wstring(L"...");
+		str = ref new Platform::String(wstr.c_str());
+	}
+
+	dbgf(L"Rendering Surface [%s] to (x=%f,y=%f)", str->Data(), xformed.x, xformed.y);
+#endif
+	
 	renderTarget->DrawTextLayout(
-		D2D1::Point2F(surface->Region.Left, surface->Region.Top),
+		origin,
 		surface->Layout.Get(),
 		brush.Get(),
 		D2D1_DRAW_TEXT_OPTIONS_NONE);

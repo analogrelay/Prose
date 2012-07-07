@@ -10,8 +10,16 @@
     mc:Ignorable="d">
 
     <Grid Margin="20" Background="Blue">
-        <!--<ScrollViewer VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Disabled" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto">-->
-            <prose:DocumentViewer ColumnWidth="400">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <Button Click="Decrease_Click">Decrease</Button>
+            <Button Click="Increase_Click">Increase</Button>
+        </StackPanel>
+        <ScrollViewer Grid.Row="1" VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Disabled" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto">
+            <prose:DocumentViewer Name="Viewer" ColumnWidth="400">
                 <Document xmlns="using:Prose.Structure">
                     <Paragraph>
                         <Run xml:space="preserve">Hello World </Run>
@@ -34,6 +42,6 @@
                     </Paragraph>
                 </Document>            
             </prose:DocumentViewer>
-        <!--</ScrollViewer>-->
+        </ScrollViewer>
     </Grid>
 </Page>

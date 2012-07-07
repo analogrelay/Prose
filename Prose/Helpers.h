@@ -24,7 +24,7 @@ inline void dbgf(const wchar_t* format, ...) {
 	va_list list;
 	va_start(list, format);
 
-	UINT32 len = _vscwprintf(format, list); // add space for "\r\n\0"
+	UINT32 len = _vscwprintf(format, list) + 1; // add space for "\r\n\0"
 	wchar_t* buf = new wchar_t[len];
 	vswprintf(buf, len, format, list);
 

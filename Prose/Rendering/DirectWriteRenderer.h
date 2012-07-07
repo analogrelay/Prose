@@ -23,16 +23,16 @@ namespace Prose {
 
 			virtual void Render(IRenderingPlan^ plan, Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource^ targetSurface, Windows::Foundation::Rect region);
 		internal:
-			void UpdatesNeeded(DirectWriteRenderingPlan^ plan);
+			void UpdatesNeeded(Microsoft::WRL::ComPtr<IVirtualSurfaceImageSourceNative> surface, DirectWriteRenderingPlan^ plan);
 
 		private:
 			void InitializeDirect2D(void);
 			void RenderSurface(DirectWriteSurface^ surface, Microsoft::WRL::ComPtr<ID2D1RenderTarget> renderTarget, Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush);
 
-			Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource^ _knownTargetSurface;
+			/*Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource^ _knownTargetSurface;
 			Microsoft::WRL::ComPtr<IVirtualSurfaceImageSourceNative> _targetSurface;
+			Microsoft::WRL::ComPtr<VirtualSurfaceCallbackThunk> _thunk;*/
 
-			Microsoft::WRL::ComPtr<VirtualSurfaceCallbackThunk> _thunk;
 			Microsoft::WRL::ComPtr<IDXGIDevice> _dxgiDevice;
 			Microsoft::WRL::ComPtr<ID2D1Device> _d2dDevice;
 			Microsoft::WRL::ComPtr<ID2D1DeviceContext> _d2dDeviceContext;
@@ -42,14 +42,16 @@ namespace Prose {
 			public IVirtualSurfaceUpdatesCallbackNative
 		{
 		public:
-			void STDMETHODCALLTYPE Initialize(DirectWriteRenderer^ renderer, DirectWriteRenderingPlan^ plan) {
+			void STDMETHODCALLTYPE Initialize(DirectWriteRenderer^ renderer, DirectWriteRenderingPlan^ plan, Microsoft::WRL::ComPtr<IVirtualSurfaceImageSourceNative> surface)
+			{
 				_renderer = renderer;
 				_plan = plan;
+				_surface = surface;
 			}
 
 			virtual HRESULT STDMETHODCALLTYPE UpdatesNeeded(void) {
 				try {
-					_renderer->UpdatesNeeded(_plan);
+					_renderer->UpdatesNeeded(_surface, _plan);
 				} catch(Platform::Exception^ ex) {
 					return ex->HResult;
 				}
@@ -82,6 +84,7 @@ namespace Prose {
 		private:
 			DirectWriteRenderer^ _renderer;
 			DirectWriteRenderingPlan^ _plan;
+			Microsoft::WRL::ComPtr<IVirtualSurfaceImageSourceNative> _surface;
 
 			volatile UINT32 _refCount;
 		};

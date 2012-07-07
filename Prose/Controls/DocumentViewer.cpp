@@ -44,7 +44,14 @@ DocumentViewer::DocumentViewer() : _overflows()
 
 void DocumentViewer::DocumentChanged(DependencyObject^ sender, DependencyPropertyChangedEventArgs^ args) {
 	auto viewer = (DocumentViewer^)sender;
-	viewer->InvalidateMeasure();
+	viewer->RelayoutDocument();
+}
+
+void DocumentViewer::RelayoutDocument() {
+	Children->Clear();
+	_root = nullptr;
+	_overflows.clear();
+	InvalidateMeasure();
 }
 
 void DocumentViewer::InitializeHost() {
