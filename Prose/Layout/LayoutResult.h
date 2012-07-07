@@ -26,8 +26,7 @@ namespace Prose {
 					if(!_layoutSizeCalulated) {
 						float width = 0.0;
 						float height = 0.0;
-						for(UINT32 i = 0; i < _layout->Boxes->Size; i++) {
-							auto box = _layout->Boxes->GetAt(i);
+						for each(auto box in _layout->Boxes) {
 							width = max(width, box->Metrics->Size.Width);
 							height += box->Metrics->Size.Height;
 						}

@@ -22,11 +22,15 @@ template<class T> inline void SafeRelease(T **ppT) {
 #if _DEBUG
 inline void dbgf(const wchar_t* format, ...) {
 	va_list list;
-	va_start(list, format);
 
+	va_start(list, format);
 	UINT32 len = _vscwprintf(format, list) + 1; // add space for "\r\n\0"
+	va_end(list);
+	
+	va_start(list, format);
 	wchar_t* buf = new wchar_t[len];
-	vswprintf(buf, len, format, list);
+	vswprintf_s(buf, len, format, list);
+	va_end(list);
 
 	OutputDebugStringW(buf);
 	delete [] buf;

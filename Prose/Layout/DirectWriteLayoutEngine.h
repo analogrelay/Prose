@@ -30,6 +30,7 @@ namespace Prose {
 
 			bool CalculateLayout(LayoutBox^ box, Prose::Structure::Paragraph^ paragraph);
 
+			bool _acceptedAtLeastOne;
 			bool _overflowing;
 			LayoutBox^ _currentBox;
 			LayoutTree^ _layout;

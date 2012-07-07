@@ -31,10 +31,12 @@
 #include "Layout\ILayoutEngine.h"
 #include "Rendering\IDocumentRenderer.h"
 #include "Controls\DocumentViewer.h"
+#include "ObjectTracking.h"
 
 // Debug thingies
 #ifdef _DEBUG
 
+#define OBJECT_TRACKING
 //#define TRACE_RENDER
 //#define TRACE_LAYOUT
 //#define SHOW_DOCUMENTHOST_BORDERS

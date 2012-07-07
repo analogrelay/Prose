@@ -17,7 +17,7 @@ void LayoutVisitor::Visit(Span^ span) {
 
 template<typename T>
 void LayoutVisitor::VisitChildren(IIterable<T^>^ nodes) {
-	for(T^ node : nodes) {
+	for each(T^ node in nodes) {
 		node->Accept(this);
 	}
 }

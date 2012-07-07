@@ -25,7 +25,8 @@ LayoutEngineVisitor::LayoutEngineVisitor(Windows::Foundation::Size layoutSize) :
 	_overflow(ref new Vector<Paragraph^>()),
 	_layoutSize(layoutSize),
 	_width(0),
-	_height(0) {
+	_height(0),
+	_acceptedAtLeastOne(false) {
 }
 
 LayoutResult^ LayoutEngineVisitor::CreateResult() {
@@ -42,8 +43,7 @@ bool LayoutEngineVisitor::CalculateLayout(LayoutBox^ box, Paragraph^ paragraph) 
 
 	// Collect ALL THE TEXT!
 	std::wstringstream strm;
-	for(UINT32 i = 0; i < box->Spans->Size; i++) {
-		auto span = box->Spans->GetAt(i);
+	for each(auto span in box->Spans) {
 		std::wstring spanText = span->Text->Data();
 		strm << spanText;
 	}
@@ -70,9 +70,14 @@ bool LayoutEngineVisitor::CalculateLayout(LayoutBox^ box, Paragraph^ paragraph) 
 		vertical;
 
 	if(width < 0 || height < 0) {
-		_overflow->Append(paragraph);
-		_overflowing = true;
-		return false;
+		if(_acceptedAtLeastOne) {
+			_overflow->Append(paragraph);
+			_overflowing = true;
+			return false;
+		} else {
+			width = max(0, width);
+			height = max(0, height);
+		}
 	}
 
 	// Build a Text Layout
@@ -89,7 +94,7 @@ bool LayoutEngineVisitor::CalculateLayout(LayoutBox^ box, Paragraph^ paragraph) 
 	DWRITE_TEXT_METRICS metrics;
 	ThrowIfFailed(layout->GetMetrics(&metrics));
 
-	if(metrics.height > height) {
+	if(_acceptedAtLeastOne && metrics.height > height) {
 		// Too much text! For now, just mark the end of this box and drop the rest of the text.
 		DWRITE_LINE_METRICS* lineMetrics = new DWRITE_LINE_METRICS[metrics.lineCount];
 		UINT32 lineCount;
@@ -120,9 +125,6 @@ bool LayoutEngineVisitor::CalculateLayout(LayoutBox^ box, Paragraph^ paragraph) 
 			&layout));
 		ThrowIfFailed(layout->GetMetrics(&metrics));
 
-		paragraph->Runs->Clear();
-		paragraph->Runs->Append(ref new Run(ref new Platform::String(keepString.c_str())));
-
 		// Duplicate this box and put the rest of the string there
 		auto newPara = paragraph->Clone();
 		newPara->Runs->Append(ref new Run(ref new Platform::String(overflowString.c_str())));
@@ -131,6 +133,7 @@ bool LayoutEngineVisitor::CalculateLayout(LayoutBox^ box, Paragraph^ paragraph) 
 		_overflow->Append(newPara);
 		_overflowing = true;
 	}
+	_acceptedAtLeastOne = true;
 
 	Size measuredSize = SizeHelper::FromDimensions(metrics.width + horiz, metrics.height + vertical);
 

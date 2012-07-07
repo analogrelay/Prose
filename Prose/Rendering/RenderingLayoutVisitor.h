@@ -8,7 +8,7 @@ namespace Prose {
 			public Layout::LayoutVisitor
 		{
 		public:
-			RenderingLayoutVisitor(void);
+			RenderingLayoutVisitor(DirectWriteRenderer^ renderer);
 
 			property DirectWriteRenderingPlan^ RenderingPlan {
 				DirectWriteRenderingPlan^ get() { return _plan; }

@@ -9,7 +9,7 @@ using namespace Prose::Rendering;
 using namespace Windows::Foundation;
 using namespace Windows::UI::Xaml;
 
-RenderingLayoutVisitor::RenderingLayoutVisitor(void) : _plan(ref new DirectWriteRenderingPlan()) { }
+RenderingLayoutVisitor::RenderingLayoutVisitor(DirectWriteRenderer^ renderer) : _plan(ref new DirectWriteRenderingPlan(renderer)) { }
 
 void RenderingLayoutVisitor::Visit(LayoutBox^ box) {
 	// Create a surface to hold this box

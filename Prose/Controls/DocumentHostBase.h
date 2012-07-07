@@ -11,13 +11,9 @@ namespace Prose {
 			public Windows::UI::Xaml::Controls::Panel
 		{
 		public:
-			static property Windows::UI::Xaml::DependencyProperty^ OverflowTargetProperty {
-				Windows::UI::Xaml::DependencyProperty^ get() { return _OverflowTargetProperty; };
-			};
-
 			virtual property OverflowDocumentHost^ OverflowTarget {
-				OverflowDocumentHost^ get() { return (OverflowDocumentHost^)GetValue(OverflowTargetProperty); };
-				void set(OverflowDocumentHost^ value) { SetValue(OverflowTargetProperty, value); };
+				OverflowDocumentHost^ get();
+				void set(OverflowDocumentHost^ value);
 			};
 
 			property bool HasOverflowContent {
@@ -43,6 +39,8 @@ namespace Prose {
 			virtual void SendOverflow(void);
 
 		private:
+			Microsoft::WRL::WeakRef _targetRef;
+
 			Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource^ _renderSurface;
 			Windows::UI::Xaml::Controls::Image^ _renderHost;
 			Prose::Layout::LayoutTree^ _layout;
@@ -55,13 +53,10 @@ namespace Prose {
 #ifdef _DEBUG
 			Windows::UI::Xaml::Controls::Border^ _debugBorder;
 #endif
-
-			
 			void Panel_PointerEntered(Platform::Object^ sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs^ args);
 			void Panel_PointerExited(Platform::Object^ sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs^ args);
 
-			static Windows::UI::Xaml::DependencyProperty^ _OverflowTargetProperty;
-			static void TargetChanged(Windows::UI::Xaml::DependencyObject^, Windows::UI::Xaml::DependencyPropertyChangedEventArgs^);
+			void TargetChanged(void);
 		};
 	}
 }

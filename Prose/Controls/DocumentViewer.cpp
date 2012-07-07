@@ -49,8 +49,9 @@ void DocumentViewer::DocumentChanged(DependencyObject^ sender, DependencyPropert
 
 void DocumentViewer::RelayoutDocument() {
 	Children->Clear();
-	_root = nullptr;
+	dbgf(L"%s", L"----------------- REDRAW -----------------");
 	_overflows.clear();
+	_root = nullptr;
 	InvalidateMeasure();
 }
 
@@ -117,8 +118,9 @@ Size DocumentViewer::MeasureOverride(Size availableSize) {
 
 		// Measure the new overflow and determine if there is still extra content
 		overflow->Measure(SizeHelper::FromDimensions(availableSize.Width - usedWidth, availableSize.Height));
-		usedWidth += overflow->DesiredSize.Width;
-		usedHeight = max(overflow->DesiredSize.Height, usedHeight);
+		auto size = overflow->DesiredSize;
+		usedWidth += size.Width;
+		usedHeight = max(size.Height, usedHeight);
 		hasOverflow = overflow->HasOverflowContent;
 		counter++;
 	}

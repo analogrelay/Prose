@@ -1,6 +1,7 @@
 #include <limits>
 
 #include "pch.h"
+#include "..\ObjectTracking.h"
 #include "DocumentHost.h"
 
 #include "..\Rendering\DirectWriteRenderer.h"
@@ -24,6 +25,8 @@ DependencyProperty^ DocumentHost::_LayoutEngineProperty = DependencyProperty::Re
 		nullptr, ref new PropertyChangedCallback(DocumentHost::LayoutChanged)));
 
 DocumentHost::DocumentHost(void) {
+	TrackCreation(L"DocumentHost");
+
 	Renderer = ref new DirectWriteRenderer();
 	LayoutEngine = ref new DirectWriteLayoutEngine();
 }

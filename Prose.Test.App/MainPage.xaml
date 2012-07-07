@@ -17,9 +17,10 @@
         <StackPanel Orientation="Horizontal">
             <Button Click="Decrease_Click">Decrease</Button>
             <Button Click="Increase_Click">Increase</Button>
+            <TextBlock Name="SizeBlock">Column Width: 400</TextBlock>
         </StackPanel>
         <ScrollViewer Grid.Row="1" VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Disabled" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto">
-            <prose:DocumentViewer Name="Viewer" ColumnWidth="400">
+            <prose:DocumentViewer x:Name="Viewer" ColumnWidth="400" HorizontalAlignment="Left">
                 <Document xmlns="using:Prose.Structure">
                     <Paragraph>
                         <Run xml:space="preserve">Hello World </Run>

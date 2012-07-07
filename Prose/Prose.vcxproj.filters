@@ -29,6 +29,7 @@
     <ClCompile Include=".\Layout\LayoutBox.cpp" />
     <ClCompile Include=".\Controls\DocumentHostBase.cpp" />
     <ClCompile Include=".\Controls\DocumentViewer.cpp" />
+    <ClCompile Include="ObjectTracking.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -61,5 +62,6 @@
     <ClInclude Include="Layout\LayoutResult.h" />
     <ClInclude Include=".\Controls\DocumentViewer.h" />
     <ClInclude Include=".\Rendering\IRenderingPlan.h" />
+    <ClInclude Include="ObjectTracking.h" />
   </ItemGroup>
 </Project>

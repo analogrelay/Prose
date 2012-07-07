@@ -1,4 +1,5 @@
 #pragma once
+#include "..\ObjectTracking.h"
 #include "..\Layout\LayoutTree.h"
 #include "..\Rendering\IDocumentRenderer.h"
 #include "..\Structure\Document.h"
@@ -40,6 +41,7 @@ namespace Prose {
 			};
 
 			DocumentHost(void);
+			~DocumentHost(void) { TrackDestruction(L"DocumentHost"); }
 
 		public protected:
 			virtual property DocumentHost^ RootHost {
@@ -47,6 +49,8 @@ namespace Prose {
 			}
 
 		private:
+			TrackingId;
+
 			static Windows::UI::Xaml::DependencyProperty^ _DocumentProperty;
 			static Windows::UI::Xaml::DependencyProperty^ _RendererProperty;
 			static Windows::UI::Xaml::DependencyProperty^ _LayoutEngineProperty;

@@ -37,12 +37,17 @@ namespace Prose.Test.App
 
         private void Decrease_Click(object sender, RoutedEventArgs e)
         {
-            Viewer.ColumnWidth -= 50;
+            if (Viewer.ColumnWidth >= 50)
+            {
+                Viewer.ColumnWidth -= 50;
+            }
+            SizeBlock.Text = String.Format("Column Width: {0}", Viewer.ColumnWidth);
         }
 
         private void Increase_Click(object sender, RoutedEventArgs e)
         {
             Viewer.ColumnWidth += 50;
+            SizeBlock.Text = String.Format("Column Width: {0}", Viewer.ColumnWidth);
         }
     }
 }

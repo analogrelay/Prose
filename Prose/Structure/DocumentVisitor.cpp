@@ -18,7 +18,7 @@ void DocumentVisitor::Visit(Run^ run) {
 
 template<typename T>
 void DocumentVisitor::VisitChildren(IIterable<T^>^ nodes) {
-	for(T^ node : nodes) {
+	for each(T^ node in nodes) {
 		node->Accept(this);
 	}
 }
