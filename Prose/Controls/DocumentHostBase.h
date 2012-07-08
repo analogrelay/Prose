@@ -1,5 +1,7 @@
 #pragma once
 
+#include "..\Rendering\IRenderingPlan.h"
+#include "..\Layout\LayoutTree.h"
 #include "..\Structure\Document.h"
 
 namespace Prose {

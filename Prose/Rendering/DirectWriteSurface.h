@@ -26,10 +26,17 @@ namespace Prose {
 				Prose::Layout::LayoutBox^ get() { return _box; }
 			}
 
-			DirectWriteSurface(Windows::Foundation::Rect renderArea, Windows::Foundation::Rect layoutBounds, Microsoft::WRL::ComPtr<IDWriteTextLayout> layout, DWRITE_TEXT_METRICS metrics, Prose::Layout::LayoutBox^ box) : 
-				_renderArea(renderArea), _layoutBounds(layoutBounds), _layout(layout), _metrics(metrics), _box(box) { };
+			property Windows::UI::Xaml::Media::Brush^ Foreground {
+				Windows::UI::Xaml::Media::Brush^ get() { return _foreground; }
+			}
+
+			void ApplyDeviceDependentEffects(Microsoft::WRL::ComPtr<ID2D1RenderTarget> renderTarget);
+
+			DirectWriteSurface(Windows::Foundation::Rect renderArea, Windows::Foundation::Rect layoutBounds, Microsoft::WRL::ComPtr<IDWriteTextLayout> layout, DWRITE_TEXT_METRICS metrics, Prose::Layout::LayoutBox^ box, Windows::UI::Xaml::Media::Brush^ foreground) : 
+				_renderArea(renderArea), _layoutBounds(layoutBounds), _layout(layout), _metrics(metrics), _box(box), _foreground(foreground) { };
 
 		private:
+			Windows::UI::Xaml::Media::Brush^ _foreground;
 			Prose::Layout::LayoutBox^ _box;
 			DWRITE_TEXT_METRICS _metrics;
 			Microsoft::WRL::ComPtr<IDWriteTextLayout> _layout;

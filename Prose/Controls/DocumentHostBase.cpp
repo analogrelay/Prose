@@ -6,6 +6,7 @@
 
 #include "DocumentHost.h"
 #include "OverflowDocumentHost.h"
+#include "..\Layout\LayoutResult.h"
 
 using namespace Platform;
 using namespace Platform::Collections;

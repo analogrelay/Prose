@@ -1,25 +1,30 @@
 #pragma once
 #include "DocumentNode.h"
-#include "Run.h"
+#include "Inline.h"
+#include "TextPointer.h"
 
 namespace Prose {
 	namespace Structure {
-		[Windows::UI::Xaml::Markup::ContentProperty(Name = "Runs")]
+		ref class DocumentVisitor;
+
+		[Windows::UI::Xaml::Markup::ContentProperty(Name = "Inlines")]
 		public ref class Paragraph sealed :
 			public DocumentNode
 		{
 		public:
 			Paragraph(void);
 
-			property Windows::Foundation::Collections::IVector<Run^>^ Runs {
-				Windows::Foundation::Collections::IVector<Run^>^ get() { return _runs; }
+			property Windows::Foundation::Collections::IVector<Inline^>^ Inlines {
+				Windows::Foundation::Collections::IVector<Inline^>^ get() { return _inlines; }
 			};
 
 			virtual void Accept(DocumentVisitor^ visitor) override;
 
 			Paragraph^ Clone(void);
+
+			TextPointer^ OffsetToPointer(UINT32 offset);
 		private:
-			Windows::Foundation::Collections::IVector<Run^>^ _runs;
+			Windows::Foundation::Collections::IVector<Inline^>^ _inlines;
 		};
 	}
 }

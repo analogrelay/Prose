@@ -19,12 +19,9 @@ void RenderingLayoutVisitor::Visit(LayoutBox^ box) {
 		metrics->LayoutBounds,
 		metrics->Layout,
 		metrics->DWMetrics,
-		box);
+		box, 
+		metrics->Foreground);
 
 	// Add it to the plan and we're done (for now... maybe more later ;))
 	_plan->Surfaces->Append(surface);
-}
-
-void RenderingLayoutVisitor::Visit(Span^ span) {
-	
 }

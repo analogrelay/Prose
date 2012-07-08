@@ -135,6 +135,9 @@
       <SubSystem>Console</SubSystem>
       <AdditionalDependencies>d3d11.lib;d2d1.lib;Dwrite.lib;runtimeobject.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <MapFileName>
+      </MapFileName>
+      <MapExports>false</MapExports>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -213,21 +216,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Common.h" />
     <ClInclude Include="Controls\DocumentHost.h" />
     <ClInclude Include="Controls\DocumentHostBase.h" />
     <ClInclude Include="Controls\IDocumentSource.h" />
     <ClInclude Include="Controls\OverflowDocumentHost.h" />
     <ClInclude Include=".\DX.h" />
     <ClInclude Include=".\Controls\DocumentViewer.h" />
-    <ClInclude Include="Enumerations.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include=".\Layout\LayoutBox.h" />
-    <ClInclude Include=".\Layout\Span.h" />
     <ClInclude Include=".\Layout\DirectWriteLayoutEngine.h" />
     <ClInclude Include=".\Layout\LayoutVisitor.h" />
     <ClInclude Include="Layout\DWLayoutMetrics.h" />
     <ClInclude Include="Layout\ILayoutEngine.h" />
     <ClInclude Include="Layout\ILayoutMetrics.h" />
+    <ClInclude Include="Layout\LayoutEngineVisitor.h" />
     <ClInclude Include="Layout\LayoutNode.h" />
     <ClInclude Include=".\Layout\LayoutTree.h" />
     <ClInclude Include="Layout\LayoutResult.h" />
@@ -243,7 +246,10 @@
     <ClInclude Include="Structure\Document.h" />
     <ClInclude Include="Structure\DocumentNode.h" />
     <ClInclude Include="Structure\DocumentVisitor.h" />
+    <ClInclude Include="Structure\Inline.h" />
+    <ClInclude Include="Structure\InlinePair.h" />
     <ClInclude Include="Structure\Run.h" />
+    <ClInclude Include="Structure\TextPointer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include=".\Controls\OverflowDocumentHost.cpp" />
@@ -251,10 +257,10 @@
     <ClCompile Include=".\Controls\DocumentHostBase.cpp" />
     <ClCompile Include=".\DX.cpp" />
     <ClCompile Include=".\Layout\LayoutBox.cpp" />
-    <ClCompile Include=".\Layout\Span.cpp" />
     <ClCompile Include=".\Layout\DirectWriteLayoutEngine.cpp" />
     <ClCompile Include=".\Layout\LayoutVisitor.cpp" />
     <ClCompile Include=".\Controls\DocumentViewer.cpp" />
+    <ClCompile Include="Layout\LayoutEngineVisitor.cpp" />
     <ClCompile Include="Layout\LayoutNode.cpp" />
     <ClCompile Include="Layout\LayoutTree.cpp" />
     <ClCompile Include="ObjectTracking.cpp" />
@@ -274,6 +280,7 @@
     <ClCompile Include="Structure\Document.cpp" />
     <ClCompile Include="Structure\DocumentNode.cpp" />
     <ClCompile Include="Structure\DocumentVisitor.cpp" />
+    <ClCompile Include="Structure\Inline.cpp" />
     <ClCompile Include="Structure\Run.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

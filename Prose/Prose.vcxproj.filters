@@ -20,7 +20,6 @@
     <ClCompile Include="Rendering\DirectWriteRenderer.cpp" />
     <ClCompile Include=".\Layout\LayoutVisitor.cpp" />
     <ClCompile Include="Rendering\RenderingLayoutVisitor.cpp" />
-    <ClCompile Include=".\Layout\Span.cpp" />
     <ClCompile Include=".\Layout\DirectWriteLayoutEngine.cpp" />
     <ClCompile Include="Rendering\DirectWriteRenderingPlan.cpp" />
     <ClCompile Include="Rendering\DirectWriteSurface.cpp" />
@@ -29,10 +28,11 @@
     <ClCompile Include=".\Controls\DocumentHostBase.cpp" />
     <ClCompile Include=".\Controls\DocumentViewer.cpp" />
     <ClCompile Include="ObjectTracking.cpp" />
+    <ClCompile Include="Structure\Inline.cpp" />
+    <ClCompile Include="Layout\LayoutEngineVisitor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Enumerations.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include=".\Structure\Paragraph.h" />
     <ClInclude Include="Structure\Run.h" />
@@ -50,7 +50,6 @@
     <ClInclude Include="Rendering\DirectWriteRenderer.h" />
     <ClInclude Include=".\Layout\LayoutVisitor.h" />
     <ClInclude Include="Rendering\RenderingLayoutVisitor.h" />
-    <ClInclude Include=".\Layout\Span.h" />
     <ClInclude Include=".\Layout\DirectWriteLayoutEngine.h" />
     <ClInclude Include="Layout\ILayoutMetrics.h" />
     <ClInclude Include="Layout\DWLayoutMetrics.h" />
@@ -62,5 +61,10 @@
     <ClInclude Include=".\Controls\DocumentViewer.h" />
     <ClInclude Include=".\Rendering\IRenderingPlan.h" />
     <ClInclude Include="ObjectTracking.h" />
+    <ClInclude Include="Structure\Inline.h" />
+    <ClInclude Include="Layout\LayoutEngineVisitor.h" />
+    <ClInclude Include="Structure\TextPointer.h" />
+    <ClInclude Include="Structure\InlinePair.h" />
+    <ClInclude Include="Common.h" />
   </ItemGroup>
 </Project>

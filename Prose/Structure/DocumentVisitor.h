@@ -11,9 +11,6 @@ namespace Prose {
 			virtual void Visit(Document^ document);
 			virtual void Visit(Paragraph^ paragraph);
 			virtual void Visit(Run^ run);
-
-		private:
-			template<typename T> void VisitChildren(Windows::Foundation::Collections::IIterable<T^>^ nodes);
 		};
 	}
 }

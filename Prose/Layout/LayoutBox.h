@@ -1,5 +1,5 @@
 #pragma once
-#include "Span.h"
+#include "LayoutNode.h"
 #include "ILayoutMetrics.h"
 
 namespace Prose {
@@ -11,10 +11,7 @@ namespace Prose {
 			LayoutBox(void);
 
 			property Windows::UI::Xaml::Thickness Margin;
-			property Windows::Foundation::Collections::IVector<Span^>^ Spans {
-				Windows::Foundation::Collections::IVector<Span^>^ get() { return _spans; }
-			};
-
+			
 			property ILayoutMetrics^ Metrics {
 				ILayoutMetrics^ get() { return _metrics; }
 				void set(ILayoutMetrics^ value) { _metrics = value; }
@@ -23,7 +20,6 @@ namespace Prose {
 			virtual void Accept(LayoutVisitor^ visitor) override;
 		private:
 			ILayoutMetrics^ _metrics;
-			Windows::Foundation::Collections::IVector<Span^>^ _spans;
 		};
 	}
 }

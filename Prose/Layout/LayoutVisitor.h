@@ -1,4 +1,5 @@
 #pragma once
+#include "LayoutTree.h"
 #include "LayoutBox.h"
 
 namespace Prose {
@@ -7,7 +8,6 @@ namespace Prose {
 		{
 		public:
 			virtual void Visit(LayoutBox^ box);
-			virtual void Visit(Span^ span);
 			virtual void Visit(LayoutTree^ tree);
 
 		private:

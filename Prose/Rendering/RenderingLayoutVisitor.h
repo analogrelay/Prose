@@ -15,7 +15,6 @@ namespace Prose {
 			}
 
 			virtual void Visit(Layout::LayoutBox^ box) override;
-			virtual void Visit(Layout::Span^ span) override;
 		private:
 			DirectWriteRenderingPlan^ _plan;
 		};

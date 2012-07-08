@@ -9,10 +9,6 @@ void LayoutVisitor::Visit(LayoutTree^ tree) {
 }
 
 void LayoutVisitor::Visit(LayoutBox^ box) {
-	VisitChildren<Span>(box->Spans);
-}
-
-void LayoutVisitor::Visit(Span^ span) {
 }
 
 template<typename T>

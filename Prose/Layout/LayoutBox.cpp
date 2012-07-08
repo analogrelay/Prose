@@ -7,6 +7,6 @@ using namespace Prose::Layout;
 using namespace Prose::Structure;
 using namespace Platform::Collections;
 
-LayoutBox::LayoutBox(void) : _spans(ref new Vector<Span^>()), _metrics(nullptr) { }
+LayoutBox::LayoutBox(void) : _metrics(nullptr) { }
 
 void LayoutBox::Accept(LayoutVisitor^ visitor) { visitor->Visit(this); }

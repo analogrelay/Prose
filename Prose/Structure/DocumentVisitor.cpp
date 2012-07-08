@@ -6,19 +6,16 @@ using namespace Prose::Structure;
 using namespace Windows::Foundation::Collections;
 
 void DocumentVisitor::Visit(Document^ document) {
-	VisitChildren<Paragraph>(document->Paragraphs);
+	for each(Paragraph^ node in document->Paragraphs) {
+		node->Accept(this);
+	}
 }
 
 void DocumentVisitor::Visit(Paragraph^ paragraph) {
-	VisitChildren<Run>(paragraph->Runs);
+	for each(Inline^ node in paragraph->Inlines) {
+		node->Accept(this);
+	}
 }
 
 void DocumentVisitor::Visit(Run^ run) {
-}
-
-template<typename T>
-void DocumentVisitor::VisitChildren(IIterable<T^>^ nodes) {
-	for each(T^ node in nodes) {
-		node->Accept(this);
-	}
 }

@@ -25,12 +25,9 @@
 
 // Prose Common
 #include "Helpers.h"
-#include "Enumerations.h"
 #include "DX.h"
+#include "Common.h"
 
-#include "Layout\ILayoutEngine.h"
-#include "Rendering\IDocumentRenderer.h"
-#include "Controls\DocumentViewer.h"
 #include "ObjectTracking.h"
 
 // Debug thingies
@@ -41,6 +38,6 @@
 //#define TRACE_LAYOUT
 //#define SHOW_DOCUMENTVIEWER_BORDERS
 #define SHOW_DOCUMENTHOST_BORDERS
-//#define SHOW_SURFACE_BORDERS
+#define SHOW_SURFACE_BORDERS
 
 #endif
