@@ -1,5 +1,6 @@
 #pragma once
 
+#ifdef OBJECT_TRACKING
 class ObjectTracking
 {
 public:
@@ -13,3 +14,10 @@ private:
 #define TrackingIdName __tracking__id__
 #define TrackCreation(descriptor) TrackingIdName = ObjectTracking::CreateObject((descriptor))
 #define TrackDestruction(descriptor) ObjectTracking::DestroyObject(TrackingIdName, (descriptor))
+
+#else
+#define TrackingId
+#define TrackingIdName
+#define TrackCreation(descriptor)
+#define TrackDestruction(descriptor)
+#endif

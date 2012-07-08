@@ -38,9 +38,14 @@ OverflowDocumentHost^ DocumentHostBase::OverflowTarget::get() {
 }
 
 void DocumentHostBase::OverflowTarget::set(OverflowDocumentHost^ value) {
-	IInspectable* rawVal = reinterpret_cast<IInspectable*>(value);
-	if(reinterpret_cast<IUnknown*>(_targetRef.Get()) != reinterpret_cast<IUnknown*>(rawVal)) {
-		AsWeak(rawVal, &_targetRef);
+	if(value) {
+		IInspectable* rawVal = reinterpret_cast<IInspectable*>(value);
+		if(reinterpret_cast<IUnknown*>(_targetRef.Get()) != reinterpret_cast<IUnknown*>(rawVal)) {
+			AsWeak(rawVal, &_targetRef);
+			TargetChanged();
+		}
+	} else {
+		_targetRef = WeakRef(nullptr);
 	}
 }
 
@@ -62,6 +67,7 @@ Size DocumentHostBase::MeasureOverride(Size availableSize) {
 	if(!_debugBorder) {
 		_debugBorder = ref new Border();
 		Windows::UI::Color c = Windows::UI::Colors::HotPink;
+		c.A = 128;
 		_debugBorder->BorderBrush = ref new Windows::UI::Xaml::Media::SolidColorBrush(c);
 		_debugBorder->BorderThickness = ThicknessHelper::FromUniformLength(5);
 		Children->Append(_debugBorder);
@@ -114,10 +120,10 @@ Size DocumentHostBase::MeasureOverride(Size availableSize) {
 		// Can't fit anything in this box :(.
 		dbgf(L"Unable to fit any content in this host. All content will be overflowed");
 	}
-	
-	if(result->Overflow->Size > 0) {
+
+	HasOverflowContent = result->Overflow->Size > 0;
+	if(HasOverflowContent) {
 		// We has an overflow!
-		HasOverflowContent = true;
 		_overflow = result->Overflow;
 		SendOverflow();
 	}
@@ -176,7 +182,7 @@ void DocumentHostBase::InvalidateRender() {
 	auto plan = (safe_cast<Prose::Rendering::DirectWriteRenderingPlan^>(_renderingPlan));
 	for(UINT32 i = 0; i < plan->Surfaces->Size; i++) {
 		auto surface = plan->Surfaces->GetAt(i);
-		dbgf(L"\tSurface (x=%f,y=%f, %f x %f)", surface->Region.Left, surface->Region.Top, surface->Region.Width, surface->Region.Height);
+		dbgf(L"\tSurface (x=%f,y=%f, %f x %f)", surface->RenderArea.Left, surface->RenderArea.Top, surface->RenderArea.Width, surface->RenderArea.Height);
 	}
 #endif
 
@@ -184,10 +190,10 @@ void DocumentHostBase::InvalidateRender() {
 	_renderingPlan->Attach(
 		_renderSurface, 
 		RectHelper::FromCoordinatesAndDimensions(
-			0,
-			0,
-			renderSize.Width,
-			renderSize.Height));
+		0,
+		0,
+		renderSize.Width,
+		renderSize.Height));
 }
 
 void DocumentHostBase::Panel_PointerEntered(Object^ sender, PointerRoutedEventArgs^ args) {

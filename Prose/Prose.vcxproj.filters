@@ -22,7 +22,6 @@
     <ClCompile Include="Rendering\RenderingLayoutVisitor.cpp" />
     <ClCompile Include=".\Layout\Span.cpp" />
     <ClCompile Include=".\Layout\DirectWriteLayoutEngine.cpp" />
-    <ClCompile Include="Layout\DWLayoutMetrics.cpp" />
     <ClCompile Include="Rendering\DirectWriteRenderingPlan.cpp" />
     <ClCompile Include="Rendering\DirectWriteSurface.cpp" />
     <ClCompile Include=".\DX.cpp" />

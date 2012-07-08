@@ -27,8 +27,8 @@ namespace Prose {
 						float width = 0.0;
 						float height = 0.0;
 						for each(auto box in _layout->Boxes) {
-							width = max(width, box->Metrics->Size.Width);
-							height += box->Metrics->Size.Height;
+							width = max(width, box->Metrics->LayoutBounds.Width);
+							height += box->Metrics->LayoutBounds.Height;
 						}
 						_layoutSize = Windows::UI::Xaml::SizeHelper::FromDimensions(width, height);
 						_layoutSizeCalulated = true;

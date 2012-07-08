@@ -9,7 +9,7 @@
     xmlns:prose="using:Prose.Controls"
     mc:Ignorable="d">
 
-    <Grid Margin="20" Background="Blue">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -19,8 +19,8 @@
             <Button Click="Increase_Click">Increase</Button>
             <TextBlock Name="SizeBlock">Column Width: 400</TextBlock>
         </StackPanel>
-        <ScrollViewer Grid.Row="1" VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Disabled" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto">
-            <prose:DocumentViewer x:Name="Viewer" ColumnWidth="400" HorizontalAlignment="Left">
+        <ScrollViewer Padding="20" BorderBrush="GreenYellow" BorderThickness="5" Grid.Row="1" VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Disabled" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto">
+            <prose:DocumentViewer Grid.Row="2" x:Name="Viewer" ColumnWidth="400" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <Document xmlns="using:Prose.Structure">
                     <Paragraph>
                         <Run xml:space="preserve">Hello World </Run>

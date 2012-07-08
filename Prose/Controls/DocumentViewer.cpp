@@ -24,19 +24,19 @@ using namespace Windows::UI::Xaml::Media;
 
 DependencyProperty^ DocumentViewer::_DocumentProperty = DependencyProperty::Register(
 	L"Document", Document::typeid, DocumentViewer::typeid, ref new PropertyMetadata(
-		nullptr, ref new PropertyChangedCallback(DocumentViewer::DocumentChanged)));
+	nullptr, ref new PropertyChangedCallback(DocumentViewer::DocumentChanged)));
 
 DependencyProperty^ DocumentViewer::_OverflowTemplateProperty = DependencyProperty::Register(
 	L"OverflowTemplate", DataTemplate::typeid, DocumentViewer::typeid, ref new PropertyMetadata(
-		nullptr, ref new PropertyChangedCallback(DocumentViewer::DocumentChanged)));
+	nullptr, ref new PropertyChangedCallback(DocumentViewer::DocumentChanged)));
 
 DependencyProperty^ DocumentViewer::_HostTemplateProperty = DependencyProperty::Register(
 	L"HostTemplate", DataTemplate::typeid, DocumentViewer::typeid, ref new PropertyMetadata(
-		nullptr, ref new PropertyChangedCallback(DocumentViewer::DocumentChanged)));
+	nullptr, ref new PropertyChangedCallback(DocumentViewer::DocumentChanged)));
 
 DependencyProperty^ DocumentViewer::_ColumnWidthProperty = DependencyProperty::Register(
 	L"ColumnWidth", double::typeid, DocumentViewer::typeid, ref new PropertyMetadata(
-		nullptr, ref new PropertyChangedCallback(DocumentViewer::DocumentChanged)));
+	nullptr, ref new PropertyChangedCallback(DocumentViewer::DocumentChanged)));
 
 DocumentViewer::DocumentViewer() : _overflows()
 {
@@ -48,10 +48,9 @@ void DocumentViewer::DocumentChanged(DependencyObject^ sender, DependencyPropert
 }
 
 void DocumentViewer::RelayoutDocument() {
-	Children->Clear();
-	dbgf(L"%s", L"----------------- REDRAW -----------------");
-	_overflows.clear();
-	_root = nullptr;
+	if(_root) {
+		_root->Width = ColumnWidth;
+	}
 	InvalidateMeasure();
 }
 
@@ -101,8 +100,11 @@ Size DocumentViewer::MeasureOverride(Size availableSize) {
 	while(hasOverflow && usedWidth < availableSize.Width) {
 		// Try to reuse overflows
 		OverflowDocumentHost^ overflow = nullptr;
-		if(counter > _overflows.size()) {
+		if(counter < _overflows.size()) {
 			overflow = _overflows.at(counter);
+			if(overflow->Width != ColumnWidth) {
+				overflow->Width = ColumnWidth;
+			}
 		}
 		else {
 			// Need to create one
@@ -132,8 +134,10 @@ Size DocumentViewer::MeasureOverride(Size availableSize) {
 			_overflows.at(counter - 1)->OverflowTarget = nullptr;
 		}
 		_overflows.resize(counter);
-		while(Children->Size > counter) {
-			Children->RemoveAt(counter + 1);
+
+		UINT32 removePoint = (counter + 1); // Always remove the (counter+1)th item.
+		for(UINT32 i = Children->Size; i > removePoint; i--) {
+			Children->RemoveAt(removePoint);
 		}
 	}
 
@@ -151,5 +155,6 @@ Size DocumentViewer::ArrangeOverride(Size finalSize) {
 		maxWidth += size.Width;
 		maxHeight = max(maxHeight, size.Height);
 	}
+
 	return SizeHelper::FromDimensions(maxWidth, maxHeight);
 }

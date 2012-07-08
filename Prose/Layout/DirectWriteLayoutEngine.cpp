@@ -37,7 +37,7 @@ bool LayoutEngineVisitor::CalculateLayout(LayoutBox^ box, Paragraph^ paragraph) 
 	// Apply margins
 	double x = box->Margin.Left;
 	double y = _height + box->Margin.Top;
-	Point offset = PointHelper::FromCoordinates((float)x, (float)y);
+	Point origin = PointHelper::FromCoordinates((float)x, (float)y);
 
 	// TODO: Apply padding.
 
@@ -94,7 +94,7 @@ bool LayoutEngineVisitor::CalculateLayout(LayoutBox^ box, Paragraph^ paragraph) 
 	DWRITE_TEXT_METRICS metrics;
 	ThrowIfFailed(layout->GetMetrics(&metrics));
 
-	if(_acceptedAtLeastOne && metrics.height > height) {
+	if(metrics.height > height) {
 		// Too much text! For now, just mark the end of this box and drop the rest of the text.
 		DWRITE_LINE_METRICS* lineMetrics = new DWRITE_LINE_METRICS[metrics.lineCount];
 		UINT32 lineCount;
@@ -115,36 +115,47 @@ bool LayoutEngineVisitor::CalculateLayout(LayoutBox^ box, Paragraph^ paragraph) 
 		std::wstring keepString = str.substr(0, textOffset);
 		std::wstring overflowString = str.substr(textOffset);
 
-		// Reformat the kept string
-		ThrowIfFailed(DX::GetDWFactory()->CreateTextLayout(
-			keepString.c_str(),
-			keepString.length(),
-			format.Get(),
-			width,
-			height,
-			&layout));
-		ThrowIfFailed(layout->GetMetrics(&metrics));
-
 		// Duplicate this box and put the rest of the string there
 		auto newPara = paragraph->Clone();
 		newPara->Runs->Append(ref new Run(ref new Platform::String(overflowString.c_str())));
-		
+
 		// Put the new box in the overflow set and start overflowing
 		_overflow->Append(newPara);
 		_overflowing = true;
+
+		if(keepString.length() == 0) {
+			// Just drop this box
+			return false;
+		}
+		else {
+			// Reformat the kept string and continue
+			ThrowIfFailed(DX::GetDWFactory()->CreateTextLayout(
+				keepString.c_str(),
+				keepString.length(),
+				format.Get(),
+				width,
+				height,
+				&layout));
+			ThrowIfFailed(layout->GetMetrics(&metrics));
+		}
 	}
 	_acceptedAtLeastOne = true;
 
-	Size measuredSize = SizeHelper::FromDimensions(metrics.width + horiz, metrics.height + vertical);
+	Size measuredSize = SizeHelper::FromDimensions(metrics.widthIncludingTrailingWhitespace, metrics.height);
 
 	// Apply top margin to get new layout height
-	_height += (measuredSize.Height);
+	_height += (measuredSize.Height + vertical);
 
 	// Apply left margin and get the max with layout width to get new layout width
-	_width = max(_width, measuredSize.Width);
+	_width = max(_width, measuredSize.Width + horiz);
+
+	// Determine box sizes
+	Rect renderArea = RectHelper::FromLocationAndSize(origin, measuredSize);
+	Rect layoutBounds = RectHelper::FromCoordinatesAndDimensions(
+		0, _width, measuredSize.Width + horiz, measuredSize.Height + vertical);
 
 	// Apply these metrics to the box
-	box->Metrics = ref new DWLayoutMetrics(layout, metrics, offset, measuredSize);
+	box->Metrics = ref new DWLayoutMetrics(layout, metrics, renderArea, layoutBounds);
 	return true;
 }
 

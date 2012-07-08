@@ -255,7 +255,6 @@
     <ClCompile Include=".\Layout\DirectWriteLayoutEngine.cpp" />
     <ClCompile Include=".\Layout\LayoutVisitor.cpp" />
     <ClCompile Include=".\Controls\DocumentViewer.cpp" />
-    <ClCompile Include="Layout\DWLayoutMetrics.cpp" />
     <ClCompile Include="Layout\LayoutNode.cpp" />
     <ClCompile Include="Layout\LayoutTree.cpp" />
     <ClCompile Include="ObjectTracking.cpp" />

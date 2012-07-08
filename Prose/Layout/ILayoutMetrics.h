@@ -7,12 +7,12 @@ namespace Prose {
 				UINT32 get() = 0;
 			}
 
-			virtual property Windows::Foundation::Point Origin {
-				Windows::Foundation::Point get() = 0;
+			virtual property Windows::Foundation::Rect RenderArea {
+				Windows::Foundation::Rect get() = 0;
 			}
 
-			virtual property Windows::Foundation::Size Size {
-				Windows::Foundation::Size get() = 0;
+			virtual property Windows::Foundation::Rect LayoutBounds {
+				Windows::Foundation::Rect get() = 0;
 			}
 		};
 	}

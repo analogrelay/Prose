@@ -6,8 +6,12 @@ namespace Prose {
 	namespace Rendering {
 		private ref class DirectWriteSurface {
 		internal:
-			property Windows::Foundation::Rect Region {
-				Windows::Foundation::Rect get() { return _region; }
+			property Windows::Foundation::Rect RenderArea {
+				Windows::Foundation::Rect get() { return _renderArea; }
+			};
+
+			property Windows::Foundation::Rect LayoutBounds {
+				Windows::Foundation::Rect get() { return _layoutBounds; }
 			};
 
 			property DWRITE_TEXT_METRICS Metrics {
@@ -22,13 +26,15 @@ namespace Prose {
 				Prose::Layout::LayoutBox^ get() { return _box; }
 			}
 
-			DirectWriteSurface(Windows::Foundation::Rect region, Microsoft::WRL::ComPtr<IDWriteTextLayout> layout, DWRITE_TEXT_METRICS metrics, Prose::Layout::LayoutBox^ box) : _region(region), _layout(layout), _metrics(metrics), _box(box) { };
+			DirectWriteSurface(Windows::Foundation::Rect renderArea, Windows::Foundation::Rect layoutBounds, Microsoft::WRL::ComPtr<IDWriteTextLayout> layout, DWRITE_TEXT_METRICS metrics, Prose::Layout::LayoutBox^ box) : 
+				_renderArea(renderArea), _layoutBounds(layoutBounds), _layout(layout), _metrics(metrics), _box(box) { };
 
 		private:
 			Prose::Layout::LayoutBox^ _box;
 			DWRITE_TEXT_METRICS _metrics;
 			Microsoft::WRL::ComPtr<IDWriteTextLayout> _layout;
-			Windows::Foundation::Rect _region;
+			Windows::Foundation::Rect _renderArea;
+			Windows::Foundation::Rect _layoutBounds;
 		};
 	}
 }

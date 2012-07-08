@@ -36,9 +36,11 @@
 // Debug thingies
 #ifdef _DEBUG
 
-#define OBJECT_TRACKING
+//#define OBJECT_TRACKING
 //#define TRACE_RENDER
 //#define TRACE_LAYOUT
-//#define SHOW_DOCUMENTHOST_BORDERS
+//#define SHOW_DOCUMENTVIEWER_BORDERS
+#define SHOW_DOCUMENTHOST_BORDERS
+//#define SHOW_SURFACE_BORDERS
 
 #endif

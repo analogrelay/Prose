@@ -14,8 +14,8 @@ Windows::Foundation::Size LayoutTree::Measure() {
 	float height = 0;
 	float width = 0;
 	for each(auto box in Boxes) {
-		height += box->Metrics->Size.Height;
-		width = max(box->Metrics->Size.Width, width);
+		height += box->Metrics->LayoutBounds.Height;
+		width = max(box->Metrics->LayoutBounds.Width, width);
 	}
 	return SizeHelper::FromDimensions(width, height);
 }

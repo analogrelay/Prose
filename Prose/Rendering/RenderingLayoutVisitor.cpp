@@ -15,9 +15,8 @@ void RenderingLayoutVisitor::Visit(LayoutBox^ box) {
 	// Create a surface to hold this box
 	auto metrics = (safe_cast<DWLayoutMetrics^>(box->Metrics));
 	DirectWriteSurface^ surface = ref new DirectWriteSurface(
-		RectHelper::FromLocationAndSize(
-			metrics->Origin, 
-			metrics->Size),
+		metrics->RenderArea,
+		metrics->LayoutBounds,
 		metrics->Layout,
 		metrics->DWMetrics,
 		box);

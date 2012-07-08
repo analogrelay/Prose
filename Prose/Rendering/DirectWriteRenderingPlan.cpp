@@ -33,8 +33,8 @@ Size DirectWriteRenderingPlan::RenderSize::get() {
 		float width = 0.0;
 		float height = 0.0;
 		for each(auto surface in Surfaces) {
-			width = max(width, surface->Region.Width);
-			height += surface->Region.Height;
+			width = max(width, surface->LayoutBounds.Width);
+			height += surface->LayoutBounds.Height;
 		}
 		_renderSize = SizeHelper::FromDimensions(width, height);
 	}
@@ -42,7 +42,7 @@ Size DirectWriteRenderingPlan::RenderSize::get() {
 }
 
 void DirectWriteRenderingPlan::RenderSurface(DirectWriteSurface^ surface, ComPtr<ID2D1RenderTarget> renderTarget, ComPtr<ID2D1SolidColorBrush> brush) {
-	D2D1_POINT_2F origin = D2D1::Point2F(surface->Region.Left, surface->Region.Top);
+	D2D1_POINT_2F origin = D2D1::Point2F(surface->RenderArea.Left, surface->RenderArea.Top);
 
 #ifdef TRACE_RENDER
 	D2D1_MATRIX_3X2_F matrix;
@@ -68,6 +68,17 @@ void DirectWriteRenderingPlan::RenderSurface(DirectWriteSurface^ surface, ComPtr
 		surface->Layout.Get(),
 		brush.Get(),
 		D2D1_DRAW_TEXT_OPTIONS_NONE);
+
+#ifdef SHOW_SURFACE_BORDERS
+	ComPtr<ID2D1SolidColorBrush> yellowBrush;
+	ThrowIfFailed(renderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Yellow, 0.75F), &yellowBrush));
+	
+	D2D1_RECT_F rect = D2D1::RectF(origin.x, origin.y, origin.x + surface->Metrics.width, origin.y + surface->Metrics.height);
+	renderTarget->DrawRectangle(
+		&rect,
+		yellowBrush.Get(),
+		5.0F);
+#endif
 }
 
 void DirectWriteRenderingPlan::UpdatesNeeded() {
@@ -113,7 +124,7 @@ void DirectWriteRenderingPlan::UpdatesNeeded() {
 
 		// Identify the nodes of the plan that are contained here and render them
 		for each(auto renderSurface in Surfaces) {
-			if(Overlaps(renderSurface->Region, drawingBounds[i])) {
+			if(Overlaps(renderSurface->RenderArea, drawingBounds[i])) {
 				RenderSurface(renderSurface, renderTarget, whiteBrush);
 			}
 		}

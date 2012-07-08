@@ -11,16 +11,17 @@ namespace Prose {
 				UINT32 get() { return _metrics.lineCount; }
 			}
 
-			virtual property Windows::Foundation::Size Size {
-				Windows::Foundation::Size get() { return _size; }
-			};
+			virtual property Windows::Foundation::Rect RenderArea {
+				Windows::Foundation::Rect get() { return _renderArea; }
+			}
 
-			virtual property Windows::Foundation::Point Origin {
-				Windows::Foundation::Point get() { return _origin; }
+			virtual property Windows::Foundation::Rect LayoutBounds {
+				Windows::Foundation::Rect get() { return _layoutBounds; }
 			}
 
 		internal:
-			DWLayoutMetrics(Microsoft::WRL::ComPtr<IDWriteTextLayout> layout, DWRITE_TEXT_METRICS metrics, Windows::Foundation::Point origin, Windows::Foundation::Size size);
+			DWLayoutMetrics(Microsoft::WRL::ComPtr<IDWriteTextLayout> layout, DWRITE_TEXT_METRICS metrics, Windows::Foundation::Rect renderArea, Windows::Foundation::Rect layoutBounds) :
+				_layout(layout), _metrics(metrics), _renderArea(renderArea), _layoutBounds(layoutBounds) {};
 
 			property Microsoft::WRL::ComPtr<IDWriteTextLayout> Layout {
 				Microsoft::WRL::ComPtr<IDWriteTextLayout> get() { return _layout; }
@@ -31,8 +32,8 @@ namespace Prose {
 			}
 		private:
 			Microsoft::WRL::ComPtr<IDWriteTextLayout> _layout;
-			Windows::Foundation::Point _origin;
-			Windows::Foundation::Size _size;
+			Windows::Foundation::Rect _renderArea;
+			Windows::Foundation::Rect _layoutBounds;
 			DWRITE_TEXT_METRICS _metrics;
 		};
 	}
