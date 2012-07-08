@@ -137,17 +137,16 @@ Size DocumentHostBase::MeasureOverride(Size availableSize) {
 Size DocumentHostBase::ArrangeOverride(Size finalSize) {
 	if(!RootHost) { return finalSize; }
 
-	Rect finalRect = RectHelper::FromCoordinatesAndDimensions(
-		0, 0, 
-		finalSize.Width, finalSize.Height);
-
 #ifdef SHOW_DOCUMENTHOST_BORDERS
-	_debugBorder->Arrange(finalRect);
+	_debugBorder->Arrange(RectHelper::FromCoordinatesAndDimensions(
+		0, 0, 
+		finalSize.Width, finalSize.Height));
 #endif
 
-	_renderHost->Arrange(finalRect);
-
-	return finalSize;
+	_renderHost->Arrange(RectHelper::FromCoordinatesAndDimensions(
+		0, 0, 
+		_layoutSize.Width, _layoutSize.Height));
+	return _layoutSize;
 }
 
 void DocumentHostBase::SendOverflow() {

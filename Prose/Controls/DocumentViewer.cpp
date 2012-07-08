@@ -54,12 +54,18 @@ void DocumentViewer::RelayoutDocument() {
 	InvalidateMeasure();
 }
 
+void ConfigureDocumentHost(DocumentHostBase^ host, double columnWidth) {
+	host->Width = columnWidth;
+	host->HorizontalAlignment = Windows::UI::Xaml::HorizontalAlignment::Left;
+	host->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Top;
+}
+
 void DocumentViewer::InitializeHost() {
 	if(HostTemplate) {
 		_root = (DocumentHost^)HostTemplate->LoadContent();
 	} else {
 		_root = ref new DocumentHost();
-		_root->Width = ColumnWidth;
+		ConfigureDocumentHost(_root, ColumnWidth);
 	}
 
 	Children->Clear();
@@ -71,7 +77,7 @@ OverflowDocumentHost^ DocumentViewer::CreateOverflow() {
 		return (OverflowDocumentHost^)OverflowTemplate->LoadContent();
 	} else {
 		auto overflow = ref new OverflowDocumentHost();
-		overflow->Width = ColumnWidth;
+		ConfigureDocumentHost(overflow, ColumnWidth);
 		return overflow;
 	}
 }
