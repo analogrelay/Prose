@@ -1,6 +1,7 @@
 #pragma once
 
 #include "..\Layout\LayoutBox.h"
+#include "..\Layout\LayoutInline.h"
 
 namespace Prose {
 	namespace Rendering {

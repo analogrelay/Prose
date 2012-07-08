@@ -27,6 +27,8 @@ namespace Prose {
 				UINT32 get() { return _textLength; }
 			}
 
+			virtual Prose::INullable<UINT32>^ HitTest(Windows::Foundation::Point point);
+
 		internal:
 			DWLayoutMetrics(Microsoft::WRL::ComPtr<IDWriteTextLayout> layout, 
 							DWRITE_TEXT_METRICS metrics, 

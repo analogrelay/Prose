@@ -7,6 +7,10 @@
 
 namespace Prose {
 	namespace Structure {
+		ref class Document;
+		ref class Paragraph;
+		ref class Run;
+
 		public ref class DocumentVisitor abstract
 		{
 		public:

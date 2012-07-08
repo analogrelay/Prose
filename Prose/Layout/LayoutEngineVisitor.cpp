@@ -217,7 +217,7 @@ void LayoutEngineVisitor::Visit(Paragraph^ paragraph) {
 
 	// Set up the layout builder
 	LayoutBuilder* oldbuilder = _builder;
-	auto box = ref new LayoutBox(ThicknessHelper::FromUniformLength(10));
+	auto box = ref new LayoutBox(paragraph, ThicknessHelper::FromUniformLength(10));
 	_builder = new LayoutBuilder(this, box, paragraph);
 
 	// Visit children

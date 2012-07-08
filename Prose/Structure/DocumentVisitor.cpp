@@ -1,5 +1,9 @@
 #include "pch.h"
 #include "DocumentVisitor.h"
+#include "Document.h"
+#include "Paragraph.h"
+#include "Run.h"
+
 
 using namespace Prose::Structure;
 

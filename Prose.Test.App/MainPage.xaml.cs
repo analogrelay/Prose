@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Prose.Events;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -24,6 +25,8 @@ namespace Prose.Test.App
         public MainPage()
         {
             this.InitializeComponent();
+
+            
         }
 
         /// <summary>
@@ -48,6 +51,11 @@ namespace Prose.Test.App
         {
             Viewer.ColumnWidth += 50;
             SizeBlock.Text = String.Format("Column Width: {0}", Viewer.ColumnWidth);
+        }
+
+        private void ProseText_PointerEntered(object sender, PointerTextEventArgs args)
+        {
+            
         }
     }
 }

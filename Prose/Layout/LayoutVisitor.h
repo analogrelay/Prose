@@ -9,7 +9,7 @@ namespace Prose {
 		public:
 			virtual void Visit(LayoutBox^ box);
 			virtual void Visit(LayoutTree^ tree);
-
+			virtual void Visit(LayoutInline^ span);
 		private:
 			template<typename T> void VisitChildren(Windows::Foundation::Collections::IIterable<T^>^ nodes);
 		};

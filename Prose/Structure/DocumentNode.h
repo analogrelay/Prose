@@ -1,5 +1,7 @@
 #pragma once
 
+#include "..\Events\PointerTextEvents.h"
+
 namespace Prose {
 	namespace Structure {
 		ref class DocumentVisitor;
@@ -8,8 +10,13 @@ namespace Prose {
 			public Windows::UI::Xaml::DependencyObject
 		{
 		public:
-			virtual void Accept(DocumentVisitor^ visitor) { dbgf(L"Accept was called but is not implemented for this sub-class"); };
+			virtual event Prose::Events::PointerTextEventHandler^ PointerEntered;
 			virtual event Windows::UI::Xaml::Data::PropertyChangedEventHandler^ PropertyChanged;
+
+			virtual void Accept(DocumentVisitor^ visitor) { dbgf(L"Accept was called but is not implemented for this sub-class"); };
+
+			/// <summary>Not intended to be called by user-code</summary>
+			virtual void FirePointerEntered(Prose::Events::PointerTextEventArgs^ args);
 
 		protected:
 			virtual void OnPropertyChanged(Platform::String^ propertyName) {

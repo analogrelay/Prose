@@ -6,15 +6,15 @@ namespace Prose {
 	namespace Layout {
 		public interface class ILayoutMetrics {
 			virtual property UINT32 LineCount {
-				UINT32 get() = 0;
+				UINT32 get();
 			}
 
 			virtual property Windows::Foundation::Rect RenderArea {
-				Windows::Foundation::Rect get() = 0;
+				Windows::Foundation::Rect get();
 			}
 
 			virtual property Windows::Foundation::Rect LayoutBounds {
-				Windows::Foundation::Rect get() = 0;
+				Windows::Foundation::Rect get();
 			}
 
 			virtual property Windows::Foundation::Collections::IVector<FormattedRange^>^ FormattedRanges {
@@ -24,6 +24,8 @@ namespace Prose {
 			virtual property UINT32 TextLength {
 				UINT32 get() = 0;
 			}
+
+			virtual Prose::INullable<UINT32>^ HitTest(Windows::Foundation::Point point);
 		};
 	}
 }

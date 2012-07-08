@@ -7,6 +7,7 @@
 #include "DocumentHost.h"
 #include "OverflowDocumentHost.h"
 #include "..\Layout\LayoutResult.h"
+#include "..\Events\PointerTextEvents.h"
 
 using namespace Platform;
 using namespace Platform::Collections;
@@ -26,6 +27,7 @@ using namespace Prose::Controls;
 using namespace Prose::Structure;
 using namespace Prose::Rendering;
 using namespace Prose::Layout;
+using namespace Prose::Events;
 
 DocumentHostBase::DocumentHostBase() {
 	PointerEntered += ref new PointerEventHandler(this, &DocumentHostBase::Panel_PointerEntered);
@@ -200,6 +202,18 @@ void DocumentHostBase::Panel_PointerEntered(Object^ sender, PointerRoutedEventAr
 	_oldCursor = Window::Current->CoreWindow->PointerCursor;
 	Window::Current->CoreWindow->PointerCursor = ref new CoreCursor(
 		CoreCursorType::IBeam, 1);
+
+	// Hit test on the layout
+	if(_layout) {
+		auto point = args->GetCurrentPoint(this);
+		LayoutPointer^ hit = _layout->HitTest(point->Position);
+		if(hit != nullptr) {
+			PointerLayoutEventArgs^ layoutargs = ref new PointerLayoutEventArgs(
+				hit,
+				args);
+			hit->Node->FirePointerEntered(layoutargs);
+		}
+	}
 }
 
 void DocumentHostBase::Panel_PointerExited(Object^ sender, PointerRoutedEventArgs^ args) {

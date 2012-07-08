@@ -35,6 +35,9 @@
     <ClCompile Include="TextFormat.cpp" />
     <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="Structure\Span.cpp" />
+    <ClCompile Include="Layout\DWLayoutMetrics.cpp" />
+    <ClCompile Include=".\Events\PointerTextEvents.cpp" />
+    <ClCompile Include=".\Layout\LayoutInline.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -74,5 +77,8 @@
     <ClInclude Include="TextRange.h" />
     <ClInclude Include="TextFormat.h" />
     <ClInclude Include="Structure\Span.h" />
+    <ClInclude Include=".\Events\PointerTextEvents.h" />
+    <ClInclude Include=".\Layout\LayoutPointer.h" />
+    <ClInclude Include=".\Layout\LayoutInline.h" />
   </ItemGroup>
 </Project>

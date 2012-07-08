@@ -2,6 +2,8 @@
 #include "DocumentNode.h"
 #include "Inline.h"
 #include "TextPointer.h"
+#include "Run.h"
+#include "DocumentVisitor.h"
 
 namespace Prose {
 	namespace Structure {

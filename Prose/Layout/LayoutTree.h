@@ -1,5 +1,6 @@
 #pragma once
 #include "LayoutBox.h"
+#include "LayoutPointer.h"
 
 namespace Prose {
 	namespace Layout {
@@ -15,6 +16,8 @@ namespace Prose {
 			LayoutTree(void);
 
 			virtual void Accept(LayoutVisitor^ visitor);
+
+			LayoutPointer^ HitTest(Windows::Foundation::Point point);
 		private:
 			Windows::Foundation::Collections::IVector<LayoutBox^>^ _boxes;
 		};

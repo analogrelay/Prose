@@ -1,6 +1,7 @@
 #pragma once
-
 #include "Inline.h"
+#include "DocumentNode.h"
+#include "DocumentVisitor.h"
 
 namespace Prose {
 	namespace Structure {

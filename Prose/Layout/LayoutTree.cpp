@@ -4,6 +4,8 @@
 
 using namespace Platform::Collections;
 using namespace Prose::Layout;
+
+using namespace Windows::Foundation;
 using namespace Windows::UI::Xaml;
 
 LayoutTree::LayoutTree(void) : _boxes(ref new Vector<LayoutBox^>()) {}
@@ -18,4 +20,16 @@ Windows::Foundation::Size LayoutTree::Measure() {
 		width = max(box->Metrics->LayoutBounds.Width, width);
 	}
 	return SizeHelper::FromDimensions(width, height);
+}
+
+LayoutPointer^ LayoutTree::HitTest(Point point) {
+	// Find a box that contains the point
+	for each(auto box in Boxes) {
+		if(box->Metrics->LayoutBounds.Contains(point)) {
+			return box->HitTest(point);
+		}
+	}
+
+	// No match
+	return nullptr;
 }

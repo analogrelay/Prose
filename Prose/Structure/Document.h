@@ -1,5 +1,6 @@
 #pragma once
 #include "Paragraph.h"
+#include "DocumentVisitor.h"
 
 namespace Prose {
 	namespace Structure {
