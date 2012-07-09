@@ -18,8 +18,8 @@ using namespace Windows::UI::Xaml::Media;
 using namespace Microsoft::WRL;
 
 // LayoutBuilder
-LayoutBuilder::LayoutBuilder(LayoutBox^ box, Windows::Foundation::Collections::IVector<Prose::Structure::Paragraph^>^ overflow) : 
-	_offset(0), _formatters(), _buffer(), _box(box), _overflow(overflow) { }
+LayoutBuilder::LayoutBuilder(LayoutEngineVisitor^ visitor, LayoutBox^ box, Prose::Structure::Paragraph^ paragraph) : 
+	_offset(0), _formatters(ref new Vector<FormattedRange^>()), _buffer(), _box(box), _visitor(visitor), _paragraph(paragraph) { }
 
 void LayoutBuilder::Process(Run^ run) {
 	UINT32 length = run->Text->Length();
@@ -44,18 +44,23 @@ void LayoutBuilder::ProcessInline(Inline^ inl, UINT32 length) {
 		format->Foreground = inl->Foreground;
 	}
 	if(appliedSomething) {
-		
+		_formatters->Append(
+			ref new FormattedRange(
+			ref new TextRange(_offset, length),
+			format));
 	}
+	_offset += length;
 }
 
-layout_t LayoutBuilder::CreateLayout(LayoutBox^ box, Paragraph^ paragraph, bool requireAtLeastOne, float boxWidth, float boxHeight, float yOffset) {
-	layout_t layoutResult;
-	layoutResult.success = false;
-	layoutResult.overflowing = false;
+bool LayoutBuilder::Layout() {
+	if(!_box) {
+		throw ref new Platform::FailureException("Invalid Operation: Cannot use layout builder twice");
+	}
 
 	// Apply margins
-	double x = box->Margin.Left;
-	double y = yOffset + box->Margin.Top;
+	double top = _visitor->VerticalOffset;
+	double x = _box->Margin.Left;
+	double y = top + _box->Margin.Top;
 	Point origin = PointHelper::FromCoordinates((float)x, (float)y);
 
 	// TODO: Apply padding.
@@ -73,16 +78,17 @@ layout_t LayoutBuilder::CreateLayout(LayoutBox^ box, Paragraph^ paragraph, bool 
 		&format));
 
 	// Determine the layout box for this text
-	float horiz = ((float)box->Margin.Left + (float)box->Margin.Right);
-	float vertical = ((float)box->Margin.Top + (float)box->Margin.Bottom);
-	float width = boxWidth - horiz;
-	float height = boxHeight - vertical;
+	auto available = _visitor->GetAvailableSize();
+	float horiz = ((float)_box->Margin.Left + (float)_box->Margin.Right);
+	float vertical = ((float)_box->Margin.Top + (float)_box->Margin.Bottom);
+	float width = available.Width - horiz;
+	float height = available.Height - vertical;
 
 	if(width < 0 || height < 0) {
-		if(!requireAtLeastOne) {
-			_overflow->Append(paragraph);
-			layoutResult.overflowing = true;
-			return layoutResult;
+		if(!_visitor->CanOverflowAll) {
+			_visitor->AddOverflow(_paragraph);
+			_box = nullptr;
+			return false;
 		} else {
 			width = max(0, width);
 			height = max(0, height);
@@ -90,7 +96,8 @@ layout_t LayoutBuilder::CreateLayout(LayoutBox^ box, Paragraph^ paragraph, bool 
 	}
 
 	// Build the prepared text layout
-	ComPtr<IDWriteTextLayout> layout = CreateLayout(format, _buffer.str(), width, height);
+	std::wstring str = _buffer.str();
+	ComPtr<IDWriteTextLayout> layout = ConstructLayout(format, str, width, height);
 
 	// Extract the measured size
 	DWRITE_TEXT_METRICS metrics;
@@ -114,21 +121,20 @@ layout_t LayoutBuilder::CreateLayout(LayoutBox^ box, Paragraph^ paragraph, bool 
 		delete [] lineMetrics;
 
 		// Get a pointer to the split location
-		TextPointer^ ptr = paragraph->OffsetToPointer(textOffset);
-		
+		TextPointer^ ptr = _paragraph->OffsetToPointer(textOffset);
+
 		// Split that node
 		InlinePair^ pair = ptr->Node->Split(ptr->LocalOffset);
-		
+
 		// Collect the split node and all nodes after into a new paragraph
 		Paragraph^ overflowParagraph = ref new Paragraph();
 		overflowParagraph->Inlines->Append(pair->Right);
-		for(UINT32 i = (ptr->NodeIndex + 1); i < paragraph->Inlines->Size; i++) {
-			overflowParagraph->Inlines->Append(paragraph->Inlines->GetAt(i));
+		for(UINT32 i = (ptr->NodeIndex + 1); i < _paragraph->Inlines->Size; i++) {
+			overflowParagraph->Inlines->Append(_paragraph->Inlines->GetAt(i));
 		}
 
 		// Put the new paragraph in the overflow set and start overflowing
-		_overflow->Append(overflowParagraph);
-		_overflowing = true;
+		_visitor->AddOverflow(overflowParagraph);
 
 		// Calculate the string to keep in this node
 		std::wstring str = _buffer.str();
@@ -136,48 +142,58 @@ layout_t LayoutBuilder::CreateLayout(LayoutBox^ box, Paragraph^ paragraph, bool 
 
 		if(keepString.length() == 0) {
 			// Just drop this box
+			_box = nullptr;
 			return false;
 		}
 		else {
 			// Reformat the kept string and continue
-			layout = CreateLayout(format, keepString, width, height);
+			layout = ConstructLayout(format, keepString, width, height);
 			ThrowIfFailed(layout->GetMetrics(&metrics));
 		}
 	}
-	
+
 	Size measuredSize = SizeHelper::FromDimensions(metrics.widthIncludingTrailingWhitespace, metrics.height);
 
 	// Apply top margin to get new layout height
-	_height += (measuredSize.Height + vertical);
-
-	// Apply left margin and get the max with layout width to get new layout width
-	_width = max(_width, measuredSize.Width + horiz);
+	_visitor->ReserveSpace(measuredSize.Width + horiz, measuredSize.Height + vertical);
 
 	// Determine box sizes
 	Rect renderArea = RectHelper::FromLocationAndSize(origin, measuredSize);
 	Rect layoutBounds = RectHelper::FromCoordinatesAndDimensions(
-		0, _width, measuredSize.Width + horiz, measuredSize.Height + vertical);
+		0, (float)top, measuredSize.Width + horiz, measuredSize.Height + vertical);
 
 	// Apply these metrics to the box
-	box->Metrics = ref new DWLayoutMetrics(layout, metrics, renderArea, layoutBounds);
+	_box->Metrics = ref new DWLayoutMetrics(layout, metrics, renderArea, layoutBounds, _formatters);
+
+	_box = nullptr;
 	return true;
 }
 
-void LayoutBuilder::RunFormatters(ComPtr<IDWriteTextLayout> layout, UINT32 length) {
+void LayoutBuilder::ApplyFormatters(ComPtr<IDWriteTextLayout> layout, UINT32 length) {
 	for(auto formatter : _formatters) {
-		if(formatter.start_position < length) {
+		if(formatter->Range->Offset < length) {
 			// Create the range
-			DWRITE_TEXT_RANGE range;
-			range.startPosition = formatter.start_position;
-			range.length = min(formatter.length, (length - formatter.start_position));
+			UINT32 offset = formatter->Range->Offset;
+			UINT32 range = min(formatter->Range->Length, (length - formatter->Range->Offset));
 
 			// Run the formatter
-			formatter.action(layout, range);
+			formatter->Format->ApplyTo(layout, offset, range);
 		}
 	}
 }
 
-ComPtr<IDWriteTextLayout> LayoutBuilder::ConstructLayout(
+ComPtr<IDWriteTextLayout> LayoutBuilder::ConstructLayout(ComPtr<IDWriteTextFormat> baseFormat, std::wstring text, float boxWidth, float boxHeight) {
+	ComPtr<IDWriteTextLayout> layout;
+	ThrowIfFailed(DX::GetDWFactory()->CreateTextLayout(
+		text.c_str(),
+		text.length(),
+		baseFormat.Get(),
+		boxWidth,
+		boxHeight,
+		&layout));
+	ApplyFormatters(layout, text.length());
+	return layout;
+}
 
 LayoutEngineVisitor::LayoutEngineVisitor(Windows::Foundation::Size layoutSize) : 
 	_layout(ref new LayoutTree()), 
@@ -185,7 +201,7 @@ LayoutEngineVisitor::LayoutEngineVisitor(Windows::Foundation::Size layoutSize) :
 	_layoutSize(layoutSize),
 	_width(0),
 	_height(0),
-	_acceptedAtLeastOne(false) {
+	_canOverflowAll(false) {
 }
 
 LayoutResult^ LayoutEngineVisitor::CreateResult() {
@@ -200,23 +216,18 @@ void LayoutEngineVisitor::Visit(Paragraph^ paragraph) {
 
 	// Set up the layout builder
 	LayoutBuilder* oldbuilder = _builder;
-	_builder = new LayoutBuilder(_layoutSize, _width, _height, _overflow);
+	auto box = ref new LayoutBox();
+	_builder = new LayoutBuilder(this, box, paragraph);
 
 	// Visit children
 	DocumentVisitor::Visit(paragraph);
 
 	// Now perform layout for this box
-	layout_outcome_t outcome = _builder->Layout();
-	_overflowing = _overflowing || outcome.overflowing;
-	if(outcome.successful) {
-		// Reserve the space
-		_height += outcome.size.Height;
-		_width = max(_width, outcome.size.Width);
-
+	if(_builder->Layout()) {
 		// Collect the newly constructed node
-		_layout->Boxes->Append(_currentBox);
+		_layout->Boxes->Append(box);
 	}
-	
+
 	// Clean up
 	if(_builder) {
 		delete _builder;
@@ -226,4 +237,18 @@ void LayoutEngineVisitor::Visit(Paragraph^ paragraph) {
 
 void LayoutEngineVisitor::Visit(Run^ run) {
 	_builder->Process(run);
+}
+
+Size LayoutEngineVisitor::GetAvailableSize() {
+	return SizeHelper::FromDimensions(_width, _height);
+}
+
+void LayoutEngineVisitor::AddOverflow(Paragraph^ paragraph) {
+	_overflowing = true;
+	_overflow->Append(paragraph);
+}
+
+void LayoutEngineVisitor::ReserveSpace(float width, float height) {
+	_width = max(width, _width);
+	_height += height;
 }

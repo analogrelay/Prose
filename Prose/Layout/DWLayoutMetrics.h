@@ -28,7 +28,7 @@ namespace Prose {
 							DWRITE_TEXT_METRICS metrics, 
 							Windows::Foundation::Rect renderArea, 
 							Windows::Foundation::Rect layoutBounds,
-							Windows::Foundation::Collections::IVector<FormattedRange^> formattedRanges) :
+							Windows::Foundation::Collections::IVector<FormattedRange^>^ formattedRanges) :
 				_layout(layout),
 				_metrics(metrics),
 				_renderArea(renderArea),

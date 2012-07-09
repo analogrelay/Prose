@@ -15,7 +15,9 @@ public:
 	};
 
 	static void ToNativeRect(Windows::Foundation::Rect rect, RECT* pRect);
-
+	static D2D1_COLOR_F ToDXColor(Windows::UI::Color winColor);
+	static D2D1_POINT_2F ToDXPoint(Windows::Foundation::Point winPoint);
+	static D2D1_BRUSH_PROPERTIES ToDXBrushProperties(Windows::UI::Xaml::Media::Brush^ winBrush);
 private:
 	static DX _theFactory;
 

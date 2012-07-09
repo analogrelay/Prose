@@ -10,41 +10,51 @@
 
 namespace Prose {
 	namespace Layout {
-		typedef struct layout_t {
-			bool success;
-			bool overflowing;
-			Windows::Foundation::Size finalSize;
-		} layout_t;
+		ref class LayoutEngineVisitor;
 
 		private class LayoutBuilder {
 		public:
-			LayoutBuilder(void);
+			LayoutBuilder(LayoutEngineVisitor^ visitor, LayoutBox^ box, Prose::Structure::Paragraph^ paragraph);
 
+			bool Layout(void);
 			void Process(Prose::Structure::Run^ run);
-			layout_t CreateLayout(LayoutBox^ box, Prose::Structure::Paragraph^ paragraph, bool requireAtLeastOne, float boxWidth, float boxHeight, float yOffset);
 		private:
-			void RunFormatters(Microsoft::WRL::ComPtr<IDWriteTextLayout> layout, UINT32 length);
 			void ProcessInline(Prose::Structure::Inline^ inl, UINT32 length);
-			Microsoft::WRL::ComPtr<IDWriteTextLayout> ConstructLayout(ComPtr<IDWriteTextFormat> baseFormat, std::wstring text);
+			void ApplyFormatters(Microsoft::WRL::ComPtr<IDWriteTextLayout> layout, UINT32 length);
+			Microsoft::WRL::ComPtr<IDWriteTextLayout> ConstructLayout(Microsoft::WRL::ComPtr<IDWriteTextFormat> baseFormat, std::wstring text, float boxWidth, float boxHeight);
 
-			LayoutBox^ _box;
-			bool _acceptedAtLeastOne;
-			std::wstringstream _buffer;
-			Platform::Collections::Vector<FormattedRange^>^ _formatters;
-			Windows::Foundation::Collections::IVector<Prose::Structure::Paragraph^>^ _overflow;
 			UINT32 _offset;
+			LayoutBox^ _box;
+			std::wstringstream _buffer;
+			LayoutEngineVisitor^ _visitor;
+			Prose::Structure::Paragraph^ _paragraph;
+			Platform::Collections::Vector<FormattedRange^>^ _formatters;
 		};
 
 		private ref class LayoutEngineVisitor sealed :
 			public Prose::Structure::DocumentVisitor
 		{
 		public:
-			LayoutEngineVisitor(Windows::Foundation::Size layoutSize);
-	
 			LayoutResult^ CreateResult(void);
 
-			virtual void Visit(Prose::Structure::Paragraph^ paragraph) override;
+			LayoutEngineVisitor(Windows::Foundation::Size layoutSize);
+
 			virtual void Visit(Prose::Structure::Run^ run) override;
+			virtual void Visit(Prose::Structure::Paragraph^ paragraph) override;
+
+		internal:
+			property float VerticalOffset {
+				float get() { return _height; }
+			}
+
+			property bool CanOverflowAll {
+				bool get() { return _canOverflowAll; }
+			}
+
+			Windows::Foundation::Size GetAvailableSize();
+
+			void AddOverflow(Prose::Structure::Paragraph^ paragraph);
+			void ReserveSpace(float width, float height);
 		private:
 			float _height;
 			float _width;
@@ -53,6 +63,7 @@ namespace Prose {
 			LayoutBuilder* _builder;
 
 			bool _overflowing;
+			bool _canOverflowAll;
 			LayoutTree^ _layout;
 
 			Windows::Foundation::Collections::IVector<Prose::Structure::Paragraph^>^ _overflow;
