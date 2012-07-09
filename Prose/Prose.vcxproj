@@ -223,6 +223,7 @@
     <ClInclude Include="Controls\OverflowDocumentHost.h" />
     <ClInclude Include=".\DX.h" />
     <ClInclude Include=".\Controls\DocumentViewer.h" />
+    <ClInclude Include="FormattedRange.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include=".\Layout\LayoutBox.h" />
     <ClInclude Include=".\Layout\DirectWriteLayoutEngine.h" />
@@ -250,6 +251,8 @@
     <ClInclude Include="Structure\InlinePair.h" />
     <ClInclude Include="Structure\Run.h" />
     <ClInclude Include="Structure\TextPointer.h" />
+    <ClInclude Include="TextFormat.h" />
+    <ClInclude Include="TextRange.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include=".\Controls\OverflowDocumentHost.cpp" />
@@ -260,6 +263,7 @@
     <ClCompile Include=".\Layout\DirectWriteLayoutEngine.cpp" />
     <ClCompile Include=".\Layout\LayoutVisitor.cpp" />
     <ClCompile Include=".\Controls\DocumentViewer.cpp" />
+    <ClCompile Include="FormattedRange.cpp" />
     <ClCompile Include="Layout\LayoutEngineVisitor.cpp" />
     <ClCompile Include="Layout\LayoutNode.cpp" />
     <ClCompile Include="Layout\LayoutTree.cpp" />
@@ -282,6 +286,8 @@
     <ClCompile Include="Structure\DocumentVisitor.cpp" />
     <ClCompile Include="Structure\Inline.cpp" />
     <ClCompile Include="Structure\Run.cpp" />
+    <ClCompile Include="TextFormat.cpp" />
+    <ClCompile Include="TextRange.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

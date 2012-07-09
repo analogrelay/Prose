@@ -30,12 +30,25 @@ namespace Prose {
 				Windows::UI::Xaml::Media::Brush^ get() { return _foreground; }
 			}
 
-			void ApplyDeviceDependentEffects(Microsoft::WRL::ComPtr<ID2D1RenderTarget> renderTarget);
+			property Windows::Foundation::Collections::IVector<FormattedRange^>^ FormattedRanges {
+				Windows::Foundation::Collections::IVector<FormattedRange^>^ get() { return _formattedRanges; }
+			}
 
-			DirectWriteSurface(Windows::Foundation::Rect renderArea, Windows::Foundation::Rect layoutBounds, Microsoft::WRL::ComPtr<IDWriteTextLayout> layout, DWRITE_TEXT_METRICS metrics, Prose::Layout::LayoutBox^ box, Windows::UI::Xaml::Media::Brush^ foreground) : 
-				_renderArea(renderArea), _layoutBounds(layoutBounds), _layout(layout), _metrics(metrics), _box(box), _foreground(foreground) { };
+			DirectWriteSurface(Windows::Foundation::Rect renderArea, 
+							   Windows::Foundation::Rect layoutBounds, 
+							   Microsoft::WRL::ComPtr<IDWriteTextLayout> layout, 
+							   DWRITE_TEXT_METRICS metrics, 
+							   Prose::Layout::LayoutBox^ box, 
+							   Windows::Foundation::Collections::IVector<FormattedRange^>^ formattedRanges) : 
+				_renderArea(renderArea), 
+				_layoutBounds(layoutBounds), 
+				_layout(layout), 
+				_metrics(metrics), 
+				_box(box), 
+				_formattedRanges(formattedRanges) { };
 
 		private:
+			Windows::Foundation::Collections::IVector<FormattedRange^>^ _formattedRanges;
 			Windows::UI::Xaml::Media::Brush^ _foreground;
 			Prose::Layout::LayoutBox^ _box;
 			DWRITE_TEXT_METRICS _metrics;

@@ -30,6 +30,9 @@
     <ClCompile Include="ObjectTracking.cpp" />
     <ClCompile Include="Structure\Inline.cpp" />
     <ClCompile Include="Layout\LayoutEngineVisitor.cpp" />
+    <ClCompile Include="FormattedRange.cpp" />
+    <ClCompile Include="TextRange.cpp" />
+    <ClCompile Include="TextFormat.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -66,5 +69,8 @@
     <ClInclude Include="Structure\TextPointer.h" />
     <ClInclude Include="Structure\InlinePair.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="FormattedRange.h" />
+    <ClInclude Include="TextRange.h" />
+    <ClInclude Include="TextFormat.h" />
   </ItemGroup>
 </Project>

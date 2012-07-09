@@ -9,8 +9,11 @@ namespace Prose {
 		{
 		public:
 			LayoutBox(void);
+			LayoutBox(Windows::UI::Xaml::Thickness margin);
 
-			property Windows::UI::Xaml::Thickness Margin;
+			property Windows::UI::Xaml::Thickness Margin {
+				Windows::UI::Xaml::Thickness get() { return _margin; }
+			}
 			
 			property ILayoutMetrics^ Metrics {
 				ILayoutMetrics^ get() { return _metrics; }
@@ -19,6 +22,7 @@ namespace Prose {
 
 			virtual void Accept(LayoutVisitor^ visitor) override;
 		private:
+			Windows::UI::Xaml::Thickness _margin;
 			ILayoutMetrics^ _metrics;
 		};
 	}

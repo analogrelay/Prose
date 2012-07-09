@@ -1,5 +1,7 @@
 #pragma once
 
+#include "..\FormattedRange.h"
+
 namespace Prose {
 	namespace Layout {
 		public interface class ILayoutMetrics {
@@ -13,6 +15,10 @@ namespace Prose {
 
 			virtual property Windows::Foundation::Rect LayoutBounds {
 				Windows::Foundation::Rect get() = 0;
+			}
+
+			virtual property Windows::Foundation::Collections::IVector<FormattedRange^>^ FormattedRanges {
+				Windows::Foundation::Collections::IVector<FormattedRange^>^ get() = 0;
 			}
 		};
 	}

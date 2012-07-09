@@ -3,30 +3,36 @@
 #include "..\Structure\Paragraph.h"
 #include "..\Structure\DocumentVisitor.h"
 #include "LayoutBox.h"
+#include "DWLayoutMetrics.h"
 
 #include <sstream>
 #include <stack>
 
 namespace Prose {
 	namespace Layout {
+		typedef struct layout_t {
+			bool success;
+			bool overflowing;
+			Windows::Foundation::Size finalSize;
+		} layout_t;
+
 		private class LayoutBuilder {
 		public:
 			LayoutBuilder(void);
 
 			void Process(Prose::Structure::Run^ run);
-			void AddFormatter(format_action_t format, UINT32 start_position, UINT32 length);
-			Microsoft::WRL::ComPtr<IDWriteTextLayout> CreateLayout(Microsoft::WRL::ComPtr<IDWriteTextFormat> baseFormat, FLOAT boxWidth, FLOAT boxHeight);
-			Microsoft::WRL::ComPtr<IDWriteTextLayout> Reformat(std::wstring newString, Microsoft::WRL::ComPtr<IDWriteTextFormat> baseFormat, FLOAT boxWidth, FLOAT boxHeight);
-			void ApplyMetrics(DWLayoutMetrics^ metrics);
-
-			std::wstring Str();
+			layout_t CreateLayout(LayoutBox^ box, Prose::Structure::Paragraph^ paragraph, bool requireAtLeastOne, float boxWidth, float boxHeight, float yOffset);
 		private:
-			std::wstringstream _buffer;
-			std::vector<format_operation_t> _formatters;
-			UINT32 _offset;
-
 			void RunFormatters(Microsoft::WRL::ComPtr<IDWriteTextLayout> layout, UINT32 length);
 			void ProcessInline(Prose::Structure::Inline^ inl, UINT32 length);
+			Microsoft::WRL::ComPtr<IDWriteTextLayout> ConstructLayout(ComPtr<IDWriteTextFormat> baseFormat, std::wstring text);
+
+			LayoutBox^ _box;
+			bool _acceptedAtLeastOne;
+			std::wstringstream _buffer;
+			Platform::Collections::Vector<FormattedRange^>^ _formatters;
+			Windows::Foundation::Collections::IVector<Prose::Structure::Paragraph^>^ _overflow;
+			UINT32 _offset;
 		};
 
 		private ref class LayoutEngineVisitor sealed :
@@ -43,12 +49,9 @@ namespace Prose {
 			float _height;
 			float _width;
 
-			bool CalculateLayout(LayoutBox^ box, Prose::Structure::Paragraph^ paragraph);
-
 			LayoutBox^ _currentBox;
 			LayoutBuilder* _builder;
 
-			bool _acceptedAtLeastOne;
 			bool _overflowing;
 			LayoutTree^ _layout;
 
