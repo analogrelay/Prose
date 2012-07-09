@@ -177,7 +177,7 @@ void LayoutBuilder::ApplyFormatters(ComPtr<IDWriteTextLayout> layout, UINT32 len
 			UINT32 range = min(formatter->Range->Length, (length - formatter->Range->Offset));
 
 			// Run the formatter
-			formatter->Format->ApplyTo(layout, offset, range);
+			formatter->Format->ApplyDeviceIndependent(layout, offset, range);
 		}
 	}
 }
@@ -211,12 +211,13 @@ LayoutResult^ LayoutEngineVisitor::CreateResult() {
 void LayoutEngineVisitor::Visit(Paragraph^ paragraph) {
 	// If we're overflowing, just add this to overflow and stop
 	if(_overflowing) {
-		_overflow->Append(paragraph);
+		AddOverflow(paragraph);
+		return;
 	}
 
 	// Set up the layout builder
 	LayoutBuilder* oldbuilder = _builder;
-	auto box = ref new LayoutBox();
+	auto box = ref new LayoutBox(ThicknessHelper::FromUniformLength(10));
 	_builder = new LayoutBuilder(this, box, paragraph);
 
 	// Visit children
@@ -240,7 +241,7 @@ void LayoutEngineVisitor::Visit(Run^ run) {
 }
 
 Size LayoutEngineVisitor::GetAvailableSize() {
-	return SizeHelper::FromDimensions(_width, _height);
+	return SizeHelper::FromDimensions(_layoutSize.Width, _layoutSize.Height - _height);
 }
 
 void LayoutEngineVisitor::AddOverflow(Paragraph^ paragraph) {
