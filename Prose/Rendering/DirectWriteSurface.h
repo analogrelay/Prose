@@ -34,18 +34,24 @@ namespace Prose {
 				Windows::Foundation::Collections::IVector<FormattedRange^>^ get() { return _formattedRanges; }
 			}
 
+			property UINT32 TextLength {
+				UINT32 get() { return _textLength; }
+			}
+
 			DirectWriteSurface(Windows::Foundation::Rect renderArea, 
 							   Windows::Foundation::Rect layoutBounds, 
 							   Microsoft::WRL::ComPtr<IDWriteTextLayout> layout, 
 							   DWRITE_TEXT_METRICS metrics, 
 							   Prose::Layout::LayoutBox^ box, 
-							   Windows::Foundation::Collections::IVector<FormattedRange^>^ formattedRanges) : 
+							   Windows::Foundation::Collections::IVector<FormattedRange^>^ formattedRanges,
+							   UINT32 textLength) : 
 				_renderArea(renderArea), 
 				_layoutBounds(layoutBounds), 
 				_layout(layout), 
 				_metrics(metrics), 
 				_box(box), 
-				_formattedRanges(formattedRanges) { };
+				_formattedRanges(formattedRanges),
+				_textLength(textLength) { };
 
 		private:
 			Windows::Foundation::Collections::IVector<FormattedRange^>^ _formattedRanges;
@@ -55,6 +61,7 @@ namespace Prose {
 			Microsoft::WRL::ComPtr<IDWriteTextLayout> _layout;
 			Windows::Foundation::Rect _renderArea;
 			Windows::Foundation::Rect _layoutBounds;
+			UINT32 _textLength;
 		};
 	}
 }

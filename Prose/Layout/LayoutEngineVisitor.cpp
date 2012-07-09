@@ -97,6 +97,7 @@ bool LayoutBuilder::Layout() {
 
 	// Build the prepared text layout
 	std::wstring str = _buffer.str();
+	UINT32 textLength = str.length();
 	ComPtr<IDWriteTextLayout> layout = ConstructLayout(format, str, width, height);
 
 	// Extract the measured size
@@ -139,7 +140,8 @@ bool LayoutBuilder::Layout() {
 		// Calculate the string to keep in this node
 		std::wstring str = _buffer.str();
 		std::wstring keepString = str.substr(0, ptr->GlobalOffset);
-
+		textLength = keepString.length();
+			
 		if(keepString.length() == 0) {
 			// Just drop this box
 			_box = nullptr;
@@ -163,7 +165,7 @@ bool LayoutBuilder::Layout() {
 		0, (float)top, measuredSize.Width + horiz, measuredSize.Height + vertical);
 
 	// Apply these metrics to the box
-	_box->Metrics = ref new DWLayoutMetrics(layout, metrics, renderArea, layoutBounds, _formatters);
+	_box->Metrics = ref new DWLayoutMetrics(layout, metrics, renderArea, layoutBounds, _formatters, textLength);
 
 	_box = nullptr;
 	return true;

@@ -62,6 +62,15 @@ void DirectWriteRenderingPlan::RenderSurface(DirectWriteSurface^ surface, ComPtr
 
 	dbgf(L"Rendering Surface [%s] to (x=%f,y=%f)", str->Data(), xformed.x, xformed.y);
 #endif
+
+	// Apply Device-Dependent Formatting
+	for each(auto format in surface->FormattedRanges) {
+		if(format->Range->Offset < surface->TextLength) {
+			UINT32 start = format->Range->Offset;
+			UINT32 length = min(format->Range->Length, (surface->TextLength - format->Range->Offset));
+			format->Format->ApplyDeviceDependent(renderTarget, surface->Layout, start, length);
+		}
+	}
 	
 	renderTarget->DrawTextLayout(
 		origin,

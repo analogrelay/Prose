@@ -9,4 +9,5 @@ using namespace Prose::Structure;
 void Inline::CopyStyleTo(Inline^ other) {
 	other->FontFamily = this->FontFamily;
 	other->FontSize = this->FontSize;
+	other->Foreground = this->Foreground;
 }

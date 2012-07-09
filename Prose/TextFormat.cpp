@@ -34,18 +34,19 @@ void TextFormat::ApplyDeviceDependent(ComPtr<ID2D1RenderTarget> target, ComPtr<I
 
 ComPtr<ID2D1Brush> TextFormat::ConvertBrush(ComPtr<ID2D1RenderTarget> target, Brush^ xamlBrush) {
 	ComPtr<ID2D1Brush> brush;
-	if(xamlBrush->GetType() == SolidColorBrush::typeid) {
-		SolidColorBrush^ solidBrush = reinterpret_cast<SolidColorBrush^>(xamlBrush);
+	auto type = xamlBrush->GetType();
+	if(type->FullName->Equals(SolidColorBrush::typeid->FullName)) {
+		SolidColorBrush^ solidBrush = safe_cast<SolidColorBrush^>(xamlBrush);
 		Color color = solidBrush->Color;
 		ThrowIfFailed(target->CreateSolidColorBrush(
 			DX::ToDXColor(color),
 			DX::ToDXBrushProperties(xamlBrush),
 			(reinterpret_cast<ID2D1SolidColorBrush**>(brush.GetAddressOf()))));
 	}
-	else if(xamlBrush->GetType() == LinearGradientBrush::typeid) {
+	else if(type->FullName->Equals(LinearGradientBrush::typeid->FullName)) {
 		// TODO: Handle MappingMode
 
-		LinearGradientBrush^ lgBrush = reinterpret_cast<LinearGradientBrush^>(xamlBrush);
+		LinearGradientBrush^ lgBrush = safe_cast<LinearGradientBrush^>(xamlBrush);
 		
 		D2D1_GRADIENT_STOP* stops = new D2D1_GRADIENT_STOP[lgBrush->GradientStops->Size];
 		for(UINT32 i = 0; i < lgBrush->GradientStops->Size; i++) {

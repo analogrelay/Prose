@@ -20,6 +20,10 @@ namespace Prose {
 			virtual property Windows::Foundation::Collections::IVector<FormattedRange^>^ FormattedRanges {
 				Windows::Foundation::Collections::IVector<FormattedRange^>^ get() = 0;
 			}
+
+			virtual property UINT32 TextLength {
+				UINT32 get() = 0;
+			}
 		};
 	}
 }

@@ -20,7 +20,8 @@ void RenderingLayoutVisitor::Visit(LayoutBox^ box) {
 		metrics->Layout,
 		metrics->DWMetrics,
 		box,
-		metrics->FormattedRanges);
+		metrics->FormattedRanges,
+		metrics->TextLength);
 
 	// Add it to the plan and we're done (for now... maybe more later ;))
 	_plan->Surfaces->Append(surface);
