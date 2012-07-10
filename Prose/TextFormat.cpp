@@ -6,7 +6,27 @@ using namespace Prose;
 using namespace Microsoft::WRL;
 
 using namespace Windows::UI;
+using namespace Windows::UI::Text;
 using namespace Windows::UI::Xaml::Media;
+
+DWRITE_FONT_STRETCH stretchTable[] = {
+	DWRITE_FONT_STRETCH_UNDEFINED,
+	DWRITE_FONT_STRETCH_ULTRA_CONDENSED,
+	DWRITE_FONT_STRETCH_EXTRA_CONDENSED,
+	DWRITE_FONT_STRETCH_CONDENSED,
+	DWRITE_FONT_STRETCH_SEMI_CONDENSED,
+	DWRITE_FONT_STRETCH_NORMAL, // DWRITE_FONT_STRETCH_MEDIUM == DWRITE_FONT_STRETCH_NORMAL
+	DWRITE_FONT_STRETCH_SEMI_EXPANDED,
+	DWRITE_FONT_STRETCH_EXPANDED,
+	DWRITE_FONT_STRETCH_EXTRA_EXPANDED,
+	DWRITE_FONT_STRETCH_ULTRA_EXPANDED  
+};
+
+DWRITE_FONT_STYLE styleTable[] = {
+	DWRITE_FONT_STYLE_NORMAL,
+	DWRITE_FONT_STYLE_OBLIQUE,
+	DWRITE_FONT_STYLE_ITALIC
+};
 
 void TextFormat::ApplyDeviceIndependent(ComPtr<IDWriteTextLayout> layout, UINT32 offset, UINT32 length) {
 	DWRITE_TEXT_RANGE range;
@@ -14,10 +34,22 @@ void TextFormat::ApplyDeviceIndependent(ComPtr<IDWriteTextLayout> layout, UINT32
 	range.length = length;
 
 	if(!_isnan(FontSize)) {
-		layout->SetFontSize((float)FontSize, range);
+		ThrowIfFailed(layout->SetFontSize((float)FontSize, range));
 	}
 	if(FontFamily) {
-		layout->SetFontFamilyName(FontFamily->Source->Data(), range);
+		ThrowIfFailed(layout->SetFontFamilyName(FontFamily->Source->Data(), range));
+	}
+	if(FontStretch != Text::FontStretch::Undefined) {
+		INT32 stretchIndex = (INT32)FontStretch;
+		if(stretchIndex >= 0 && stretchIndex < ARRAYSIZE(stretchTable)) {
+			ThrowIfFailed(layout->SetFontStretch(stretchTable[stretchIndex], range));
+		}
+	}
+	if(IsFontStyleSet) {
+		INT32 styleIndex = (INT32)FontStyle;
+		if(styleIndex >= 0 && styleIndex < ARRAYSIZE(styleTable)) {
+			ThrowIfFailed(layout->SetFontStyle(styleTable[styleIndex], range));
+		}
 	}
 }
 
@@ -28,7 +60,7 @@ void TextFormat::ApplyDeviceDependent(ComPtr<ID2D1RenderTarget> target, ComPtr<I
 
 	if(Foreground) {
 		ComPtr<ID2D1Brush> brush = ConvertBrush(target, Foreground);
-		layout->SetDrawingEffect(brush.Get(), range);
+		ThrowIfFailed(layout->SetDrawingEffect(brush.Get(), range));
 	}
 }
 
@@ -47,7 +79,7 @@ ComPtr<ID2D1Brush> TextFormat::ConvertBrush(ComPtr<ID2D1RenderTarget> target, Br
 		// TODO: Handle MappingMode
 
 		LinearGradientBrush^ lgBrush = safe_cast<LinearGradientBrush^>(xamlBrush);
-		
+
 		D2D1_GRADIENT_STOP* stops = new D2D1_GRADIENT_STOP[lgBrush->GradientStops->Size];
 		for(UINT32 i = 0; i < lgBrush->GradientStops->Size; i++) {
 			auto stop = lgBrush->GradientStops->GetAt(i);
@@ -61,12 +93,12 @@ ComPtr<ID2D1Brush> TextFormat::ConvertBrush(ComPtr<ID2D1RenderTarget> target, Br
 			lgBrush->GradientStops->Size,
 			lgBrush->ColorInterpolationMode == ColorInterpolationMode::SRgbLinearInterpolation ? D2D1_GAMMA_2_2 : D2D1_GAMMA_1_0,
 			lgBrush->SpreadMethod == GradientSpreadMethod::Pad ? D2D1_EXTEND_MODE_CLAMP :
-				(lgBrush->SpreadMethod == GradientSpreadMethod::Repeat ? D2D1_EXTEND_MODE_WRAP : D2D1_EXTEND_MODE_MIRROR),
+			(lgBrush->SpreadMethod == GradientSpreadMethod::Repeat ? D2D1_EXTEND_MODE_WRAP : D2D1_EXTEND_MODE_MIRROR),
 			&stopCollection));
 		ThrowIfFailed(target->CreateLinearGradientBrush(
 			D2D1::LinearGradientBrushProperties(
-				DX::ToDXPoint(lgBrush->StartPoint),
-				DX::ToDXPoint(lgBrush->EndPoint)),				
+			DX::ToDXPoint(lgBrush->StartPoint),
+			DX::ToDXPoint(lgBrush->EndPoint)),				
 			DX::ToDXBrushProperties(xamlBrush),
 			stopCollection.Get(),
 			(reinterpret_cast<ID2D1LinearGradientBrush**>(brush.GetAddressOf()))));

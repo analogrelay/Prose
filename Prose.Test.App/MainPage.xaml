@@ -19,18 +19,21 @@
             <Button Click="Increase_Click">Increase</Button>
             <TextBlock Name="SizeBlock">Column Width: 400</TextBlock>
         </StackPanel>
-        <!--<ScrollViewer Grid.Row="1" VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Disabled" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto">-->
+        <ScrollViewer Grid.Row="1" VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Disabled" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto">
             <prose:DocumentViewer Grid.Row="2" x:Name="Viewer" ColumnWidth="400" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <Document xmlns="using:Prose.Structure">
                     <Paragraph>
-                        <Run xml:space="preserve">Hello World </Run>
-                        <Run>from</Run>
+                        <Run FontStyle="Italic">Italic</Run>
                     </Paragraph>
                     <Paragraph>
-                        <Run FontFamily="Segoe Script" FontSize="15">Prose!</Run>
+                        <Run FontStyle="Oblique">Oblique</Run>
                     </Paragraph>
                     <Paragraph>
-                        <Run Foreground="Yellow" FontFamily="Impact">Nostrud accusamus brooklyn, eiusmod ea sed gluten-free ethnic quinoa post-ironic lomo. Accusamus artisan nihil, laborum wolf 8-bit squid assumenda godard viral vinyl consectetur odd future gluten-free. Labore fixie do photo booth lomo. Pitchfork cupidatat qui, duis viral odio assumenda. Forage non nihil typewriter id delectus. Ea esse portland eu ethical four loko voluptate, adipisicing in odd future mcsweeney's. +1 narwhal forage, vero in wes anderson selvage four loko letterpress jean shorts farm-to-table banh mi voluptate occaecat.</Run>
+                        <Run xml:space="preserve">Prose!</Run>
+                    </Paragraph>
+                    <Paragraph>
+                        <Run Foreground="Yellow" FontFamily="Impact">Nostrud accusamus brooklyn, eiusmod ea sed gluten-free ethnic quinoa post-ironic lomo. </Run>
+                        <Run>Accusamus artisan nihil, laborum wolf 8-bit squid assumenda godard viral vinyl consectetur odd future gluten-free. Labore fixie do photo booth lomo. Pitchfork cupidatat qui, duis viral odio assumenda. Forage non nihil typewriter id delectus. Ea esse portland eu ethical four loko voluptate, adipisicing in odd future mcsweeney's. +1 narwhal forage, vero in wes anderson selvage four loko letterpress jean shorts farm-to-table banh mi voluptate occaecat.</Run>
                     </Paragraph>
                     <Paragraph>
                         <Run>Nostrud accusamus brooklyn, eiusmod ea sed gluten-free ethnic quinoa post-ironic lomo. Accusamus artisan nihil, laborum wolf 8-bit squid assumenda godard viral vinyl consectetur odd future gluten-free. Labore fixie do photo booth lomo. Pitchfork cupidatat qui, duis viral odio assumenda. Forage non nihil typewriter id delectus. Ea esse portland eu ethical four loko voluptate, adipisicing in odd future mcsweeney's. +1 narwhal forage, vero in wes anderson selvage four loko letterpress jean shorts farm-to-table banh mi voluptate occaecat.</Run>
@@ -43,6 +46,6 @@
                     </Paragraph>
                 </Document>            
             </prose:DocumentViewer>
-        <!--</ScrollViewer>-->
+        </ScrollViewer>
     </Grid>
 </Page>

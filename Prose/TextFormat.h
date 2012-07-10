@@ -6,15 +6,19 @@ namespace Prose {
 	public ref class TextFormat sealed
 	{
 	public:
-		property Windows::UI::Xaml::Media::FontFamily^ FontFamily;
-		property double FontSize;
-		property Windows::UI::Xaml::Media::Brush^ Foreground;
+		PROPERTY(Windows::UI::Xaml::Media::FontFamily^, FontFamily)
+		PROPERTY(double, FontSize)
+		PROPERTY(Windows::UI::Xaml::Media::Brush^, Foreground)
+		PROPERTY(Windows::UI::Text::FontStretch, FontStretch)
+		NULLABLE_PROPERTY(Windows::UI::Text::FontStyle, FontStyle)
 
-		TextFormat(void) {
-			FontFamily = nullptr;
-			FontSize = std::numeric_limits<double>::quiet_NaN();
-			Foreground = nullptr;
-		}
+		TextFormat(void) :
+			_FontFamily(nullptr),
+			_FontSize(std::numeric_limits<double>::quiet_NaN()),
+			_Foreground(nullptr),
+			_FontStretch(Windows::UI::Text::FontStretch::Undefined),
+			_FontStyle(Windows::UI::Text::FontStyle::Normal),
+			_IsFontStyleSet(false) { }
 
 	internal:
 		void ApplyDeviceIndependent(Microsoft::WRL::ComPtr<IDWriteTextLayout> layout, UINT32 start, UINT32 length);

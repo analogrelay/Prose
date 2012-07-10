@@ -29,27 +29,13 @@ void LayoutBuilder::Process(Run^ run) {
 }
 
 void LayoutBuilder::ProcessInline(Inline^ inl, UINT32 length) {
-	TextFormat^ format = ref new TextFormat();
-	bool appliedSomething = false;
-	if(!_isnan(inl->FontSize)) {
-		appliedSomething = true;
-		format->FontSize = inl->FontSize;
-	}
-	if(inl->FontFamily != nullptr) {
-		appliedSomething = true;
-		format->FontFamily = inl->FontFamily;
-	}
-	if(inl->Foreground != nullptr) {
-		appliedSomething = true;
-		format->Foreground = inl->Foreground;
-	}
-	if(appliedSomething) {
+	TextFormat^ format = inl->CreateFormat();
+	if(format) {
 		_formatters->Append(
 			ref new FormattedRange(
 			ref new TextRange(_offset, length),
 			format));
 	}
-	_offset += length;
 }
 
 bool LayoutBuilder::Layout() {

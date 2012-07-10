@@ -62,15 +62,59 @@ public: \
 #define IMPLEMENT_DP(Owner, Name, Type) Windows::UI::Xaml::DependencyProperty^ Owner::_ ## Name ## Property = Windows::UI::Xaml::DependencyProperty::Register( \
 	"Name", Type::typeid, Owner::typeid, ref new Windows::UI::Xaml::PropertyMetadata(nullptr))
 
-#define NOTIFY_PROPERTY(Type, Name) private: \
-	Type _ ## Name; \
+#define _BACKING_FIELD(Type, Name) Type _ ## Name;
+#define _NULLITY_FIELD_NAME(Name) _Is ## Name ## Set
+#define _NULLITY_FIELD(Type, Name) bool _NULLITY_FIELD_NAME(Name);
+#define _NULLITY_PROPERTY(Type, Name) property bool Is ## Name ## Set { bool get() { return _NULLITY_FIELD_NAME(Name); } };
+#define _GETTER(Type, Name) Type get() { return _ ## Name; };
+#define _SETTER(Type, Name) void set(Type value) { _ ## Name = value; };
+#define _NOTIFY_PROPERTY_SETTER_BODY(Name) if(_ ## Name != value) { \
+	_ ## Name = value; \
+	OnPropertyChanged(L"Name"); \
+}
+
+#define PROPERTY(Type, Name) private: \
+	_BACKING_FIELD(Type, Name) \
 public: \
 	property Type Name { \
-		Type get() { return _ ## Name; }; \
+		_GETTER(Type, Name) \
+		_SETTER(Type, Name) \
+	}
+
+#define NOTIFY_PROPERTY(Type, Name) private: \
+	_BACKING_FIELD(Type, Name) \
+public: \
+	property Type Name { \
+		_GETTER(Type, Name) \
 		void set(Type value) { \
-			if(_ ## Name != value) { \
-				_ ## Name = value; \
-				OnPropertyChanged(L"Name"); \
-			} \
+			_NOTIFY_PROPERTY_SETTER_BODY(Name) \
 		} \
 	}
+
+#define NOTIFY_NULLABLE_PROPERTY(Type, Name) private: \
+	_BACKING_FIELD(Type, Name) \
+	_NULLITY_FIELD(Type, Name) \
+public: \
+	property Type Name { \
+		_GETTER(Type, Name) \
+		void set(Type value) { \
+			_NULLITY_FIELD_NAME(Name) = true; \
+			_NOTIFY_PROPERTY_SETTER_BODY(Name) \
+		} \
+	} \
+internal: \
+	_NULLITY_PROPERTY(Type, Name)
+
+#define NULLABLE_PROPERTY(Type, Name) private: \
+	_BACKING_FIELD(Type, Name) \
+	_NULLITY_FIELD(Type, Name) \
+public: \
+	property Type Name { \
+		_GETTER(Type, Name) \
+		void set(Type value) { \
+			_NULLITY_FIELD_NAME(Name) = true; \
+			_ ## Name = value; \
+		} \
+	} \
+internal: \
+	_NULLITY_PROPERTY(Type, Name)
