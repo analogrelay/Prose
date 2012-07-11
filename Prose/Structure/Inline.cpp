@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Inline.h"
+#include "DocumentVisitor.h"
 #include "..\TextFormat.h"
 
 using namespace Windows::UI::Xaml;
@@ -14,8 +15,8 @@ IMPLEMENT_DP(Inline, Windows::UI::Xaml::Media::Brush, Foreground, nullptr);
 IMPLEMENT_DP(Inline, Platform::Box<Windows::UI::Text::FontStretch>, FontStretch, Windows::UI::Text::FontStretch::Undefined);
 IMPLEMENT_DP(Inline, Platform::Box<Windows::UI::Text::FontStyle>, FontStyle, Windows::UI::Text::FontStyle::Normal);
 IMPLEMENT_DP(Inline, Windows::UI::Text::FontWeight, FontWeight, Windows::UI::Text::FontWeights::Normal);
-IMPLEMENT_DP(Inline, bool, Strikethrough, false);
-IMPLEMENT_DP(Inline, bool, Underline, false);
+IMPLEMENT_DP(Inline, bool, HasStrikethrough, false);
+IMPLEMENT_DP(Inline, bool, HasUnderline, false);
 
 void Inline::CopyStyleTo(Inline^ other) {
 	other->FontFamily = this->FontFamily;
@@ -28,11 +29,11 @@ void Inline::CopyStyleTo(Inline^ other) {
 	if(DPHasLocalValue(this, FontWeightProperty)) {
 		other->FontWeight = FontWeight;
 	}
-	if(DPHasLocalValue(this, StrikethroughProperty)) {
-		other->Strikethrough = Strikethrough;
+	if(DPHasLocalValue(this, HasStrikethroughProperty)) {
+		other->HasStrikethrough = HasStrikethrough;
 	}
-	if(DPHasLocalValue(this, UnderlineProperty)) {
-		other->Underline = Underline;
+	if(DPHasLocalValue(this, HasUnderlineProperty)) {
+		other->HasUnderline = HasUnderline;
 	}
 }
 
@@ -48,11 +49,15 @@ TextFormat^ Inline::CreateFormat(void) {
 	if(DPHasLocalValue(this, FontWeightProperty)) {
 		format->FontWeight = FontWeight;
 	}
-	if(DPHasLocalValue(this, StrikethroughProperty)) {
-		format->Strikethrough = Strikethrough;
+	if(DPHasLocalValue(this, HasStrikethroughProperty)) {
+		format->HasStrikethrough = HasStrikethrough;
 	}
-	if(DPHasLocalValue(this, UnderlineProperty)) {
-		format->Underline = Underline;
+	if(DPHasLocalValue(this, HasUnderlineProperty)) {
+		format->HasUnderline = HasUnderline;
 	}
 	return format;
+}
+
+void Inline::Accept(DocumentVisitor^ visitor) {
+	visitor->Visit(this);
 }

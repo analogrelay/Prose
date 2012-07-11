@@ -15,8 +15,8 @@ IMPLEMENT_DP(TextFormat, Windows::UI::Xaml::Media::Brush, Foreground, nullptr);
 IMPLEMENT_DP(TextFormat, Platform::Box<Windows::UI::Text::FontStretch>, FontStretch, Windows::UI::Text::FontStretch::Undefined);
 IMPLEMENT_DP(TextFormat, Platform::Box<Windows::UI::Text::FontStyle>, FontStyle, Windows::UI::Text::FontStyle::Normal);
 IMPLEMENT_DP(TextFormat, Windows::UI::Text::FontWeight, FontWeight, Windows::UI::Text::FontWeights::Normal);
-IMPLEMENT_DP(TextFormat, bool, Strikethrough, false);
-IMPLEMENT_DP(TextFormat, bool, Underline, false);
+IMPLEMENT_DP(TextFormat, bool, HasStrikethrough, false);
+IMPLEMENT_DP(TextFormat, bool, HasUnderline, false);
 
 DWRITE_FONT_STRETCH stretchTable[] = {
 	DWRITE_FONT_STRETCH_UNDEFINED,
@@ -36,6 +36,34 @@ DWRITE_FONT_STYLE styleTable[] = {
 	DWRITE_FONT_STYLE_OBLIQUE,
 	DWRITE_FONT_STYLE_ITALIC
 };
+
+TextFormat^ TextFormat::MergeWith(TextFormat^ overridingCopy) {
+	TextFormat^ newFormat = ref new TextFormat();
+
+	#define MERGE(Condition, Property) if(Condition) { newFormat-> ## Property = overridingCopy-> ## Property; } else { newFormat-> ## Property = this-> ## Property; }
+	MERGE(!_isnan(overridingCopy->FontSize), FontSize);
+	MERGE(overridingCopy->FontFamily, FontFamily);
+	MERGE(overridingCopy->FontStretch != Text::FontStretch::Undefined, FontStretch);
+	MERGE(overridingCopy->Foreground, Foreground);
+	MERGE(DPHasLocalValue(overridingCopy, FontStyleProperty), FontStyle);
+	MERGE(DPHasLocalValue(overridingCopy, FontWeightProperty), FontWeight);
+	MERGE(DPHasLocalValue(overridingCopy, HasStrikethroughProperty), HasStrikethrough);
+	MERGE(DPHasLocalValue(overridingCopy, HasUnderlineProperty), HasUnderline);
+
+	return newFormat;
+}
+
+TextFormat^ TextFormat::MergeSequence(std::list<TextFormat^>& list) {
+	TextFormat^ current = nullptr;
+	for(auto format : list) {
+		if(!current) {
+			current = format;
+		} else {
+			current = current->MergeWith(format);
+		}
+	}
+	return current;
+}
 
 void TextFormat::ApplyDeviceIndependent(ComPtr<IDWriteTextLayout> layout, UINT32 offset, UINT32 length) {
 	DWRITE_TEXT_RANGE range;
@@ -65,8 +93,8 @@ void TextFormat::ApplyDeviceIndependent(ComPtr<IDWriteTextLayout> layout, UINT32
 		ThrowIfFailed(layout->SetFontWeight((DWRITE_FONT_WEIGHT)weight, range));
 	}
 
-	ThrowIfFailed(layout->SetStrikethrough(Strikethrough, range));
-	ThrowIfFailed(layout->SetUnderline(Underline, range));
+	ThrowIfFailed(layout->SetStrikethrough(HasStrikethrough, range));
+	ThrowIfFailed(layout->SetUnderline(HasUnderline, range));
 }
 
 void TextFormat::ApplyDeviceDependent(ComPtr<ID2D1RenderTarget> target, ComPtr<IDWriteTextLayout> layout, UINT32 offset, UINT32 length) {

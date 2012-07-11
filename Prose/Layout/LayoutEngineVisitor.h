@@ -6,7 +6,7 @@
 #include "DWLayoutMetrics.h"
 
 #include <sstream>
-#include <stack>
+#include <list>
 
 namespace Prose {
 	namespace Layout {
@@ -18,6 +18,8 @@ namespace Prose {
 
 			bool Layout(void);
 			void Process(Prose::Structure::Run^ run);
+			void PushFormat(Prose::TextFormat^ format);
+			void PopFormat(void);
 		private:
 			void ProcessInline(Prose::Structure::Inline^ inl, UINT32 length);
 			void ApplyFormatters(Microsoft::WRL::ComPtr<IDWriteTextLayout> layout, UINT32 length);
@@ -26,6 +28,7 @@ namespace Prose {
 			UINT32 _offset;
 			LayoutBox^ _box;
 			std::wstringstream _buffer;
+			std::list<Prose::TextFormat^> _formatStack;
 			LayoutEngineVisitor^ _visitor;
 			Prose::Structure::Paragraph^ _paragraph;
 			Platform::Collections::Vector<FormattedRange^>^ _formatters;
@@ -41,7 +44,7 @@ namespace Prose {
 
 			virtual void Visit(Prose::Structure::Run^ run) override;
 			virtual void Visit(Prose::Structure::Paragraph^ paragraph) override;
-
+			virtual void Visit(Prose::Structure::SpanBase^ span) override;
 		internal:
 			property float VerticalOffset {
 				float get() { return _height; }

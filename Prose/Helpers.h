@@ -46,6 +46,8 @@ bool operator!=(Windows::UI::Text::FontWeight left, Windows::UI::Text::FontWeigh
 
 #define DPHasLocalValue(Obj, Prop) ((Obj)->ReadLocalValue((Prop)) != Windows::UI::Xaml::DependencyProperty::UnsetValue)
 
+#define LAZY_INIT(Ctor, Name) Name ? Name : (Name = ref new Ctor)
+
 #define _CORE_DEPENDENCY_PROPERTY(Name) private: \
 	static Windows::UI::Xaml::DependencyProperty^ _ ## Name ## Property; \
 public: \
@@ -54,7 +56,7 @@ public: \
 
 #define DEPENDENCY_PROPERTY(Type, Name) _CORE_DEPENDENCY_PROPERTY(Name) \
 	property Type Name { \
-		Type get() { return (Type)GetValue(Name ## Property); } \
+		virtual Type get() { return (Type)GetValue(Name ## Property); } \
 		void set(Type value) { SetValue(Name ## Property, value); } \
 	}
 

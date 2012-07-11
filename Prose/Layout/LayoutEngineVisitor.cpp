@@ -29,13 +29,25 @@ void LayoutBuilder::Process(Run^ run) {
 }
 
 void LayoutBuilder::ProcessInline(Inline^ inl, UINT32 length) {
+	TextFormat^ base = TextFormat::MergeSequence(_formatStack);
 	TextFormat^ format = inl->CreateFormat();
+	if(base) {
+		format = base->MergeWith(format);
+	}
 	if(format) {
 		_formatters->Append(
 			ref new FormattedRange(
 			ref new TextRange(_offset, length),
 			format));
 	}
+}
+
+void LayoutBuilder::PushFormat(TextFormat^ format) {
+	_formatStack.push_back(format);
+}
+
+void LayoutBuilder::PopFormat() {
+	_formatStack.pop_back();
 }
 
 bool LayoutBuilder::Layout() {
@@ -226,6 +238,12 @@ void LayoutEngineVisitor::Visit(Paragraph^ paragraph) {
 
 void LayoutEngineVisitor::Visit(Run^ run) {
 	_builder->Process(run);
+}
+
+void LayoutEngineVisitor::Visit(SpanBase^ span) {
+	_builder->PushFormat(span->CreateFormat());
+	DocumentVisitor::Visit(span);
+	_builder->PopFormat();
 }
 
 Size LayoutEngineVisitor::GetAvailableSize() {

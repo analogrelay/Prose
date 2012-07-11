@@ -218,7 +218,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Common.h" />
     <ClInclude Include="Controls\DocumentHost.h" />
     <ClInclude Include="Controls\DocumentHostBase.h" />
     <ClInclude Include="Controls\IDocumentSource.h" />
@@ -252,6 +251,7 @@
     <ClInclude Include="Structure\Inline.h" />
     <ClInclude Include="Structure\InlinePair.h" />
     <ClInclude Include="Structure\Run.h" />
+    <ClInclude Include="Structure\Span.h" />
     <ClInclude Include="Structure\TextPointer.h" />
     <ClInclude Include="TextFormat.h" />
     <ClInclude Include="TextRange.h" />
@@ -289,6 +289,7 @@
     <ClCompile Include="Structure\DocumentVisitor.cpp" />
     <ClCompile Include="Structure\Inline.cpp" />
     <ClCompile Include="Structure\Run.cpp" />
+    <ClCompile Include="Structure\Span.cpp" />
     <ClCompile Include="TextFormat.cpp" />
     <ClCompile Include="TextRange.cpp" />
   </ItemGroup>

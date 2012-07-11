@@ -8,6 +8,8 @@
 
 namespace Prose {
 	namespace Structure {
+		ref class DocumentVisitor;
+
 		public ref class Inline :
 			public DocumentNode
 		{
@@ -17,15 +19,17 @@ namespace Prose {
 			DEPENDENCY_PROPERTY(Windows::UI::Text::FontStretch, FontStretch);
 			DEPENDENCY_PROPERTY(Windows::UI::Text::FontStyle, FontStyle);
 			DEPENDENCY_PROPERTY(Windows::UI::Text::FontWeight, FontWeight);
-			DEPENDENCY_PROPERTY(bool, Strikethrough);
-			DEPENDENCY_PROPERTY(bool, Underline);
+			DEPENDENCY_PROPERTY(bool, HasStrikethrough);
+			DEPENDENCY_PROPERTY(bool, HasUnderline);
 			
 		public:
-			virtual property UINT32 Length { UINT32 get() { throw ref new Platform::NotImplementedException(); } }
-			virtual InlinePair^ Split(UINT32 localOffset) { throw ref new Platform::NotImplementedException(); };
+			virtual property UINT32 Length { UINT32 get() { throw ref new Platform::NotImplementedException(L"Inline.Length must be implemented on subclasses of Inline"); } }
+			virtual InlinePair^ Split(UINT32 localOffset) { throw ref new Platform::NotImplementedException(L"Inline.Split must be implemented on subclasses of Inline"); };
 
 			/// <summary>Creates a TextFormat representing this node</summary>
 			TextFormat^ CreateFormat(void);
+
+			virtual void Accept(DocumentVisitor^ visitor) override;
 
 		public protected:
 			void CopyStyleTo(Inline^ other);
