@@ -9,6 +9,15 @@ using namespace Windows::UI;
 using namespace Windows::UI::Text;
 using namespace Windows::UI::Xaml::Media;
 
+IMPLEMENT_DP(TextFormat, Windows::UI::Xaml::Media::FontFamily, FontFamily, nullptr);
+IMPLEMENT_DP(TextFormat, double, FontSize, std::numeric_limits<double>::quiet_NaN());
+IMPLEMENT_DP(TextFormat, Windows::UI::Xaml::Media::Brush, Foreground, nullptr);
+IMPLEMENT_DP(TextFormat, Platform::Box<Windows::UI::Text::FontStretch>, FontStretch, Windows::UI::Text::FontStretch::Undefined);
+IMPLEMENT_DP(TextFormat, Platform::Box<Windows::UI::Text::FontStyle>, FontStyle, Windows::UI::Text::FontStyle::Normal);
+IMPLEMENT_DP(TextFormat, Windows::UI::Text::FontWeight, FontWeight, Windows::UI::Text::FontWeights::Normal);
+IMPLEMENT_DP(TextFormat, bool, Strikethrough, false);
+IMPLEMENT_DP(TextFormat, bool, Underline, false);
+
 DWRITE_FONT_STRETCH stretchTable[] = {
 	DWRITE_FONT_STRETCH_UNDEFINED,
 	DWRITE_FONT_STRETCH_ULTRA_CONDENSED,
@@ -45,18 +54,19 @@ void TextFormat::ApplyDeviceIndependent(ComPtr<IDWriteTextLayout> layout, UINT32
 			ThrowIfFailed(layout->SetFontStretch(stretchTable[stretchIndex], range));
 		}
 	}
-	if(IsFontStyleSet) {
-		INT32 styleIndex = (INT32)FontStyle;
-		if(styleIndex >= 0 && styleIndex < ARRAYSIZE(styleTable)) {
-			ThrowIfFailed(layout->SetFontStyle(styleTable[styleIndex], range));
-		}
+
+	INT32 styleIndex = (INT32)FontStyle;
+	if(styleIndex >= 0 && styleIndex < ARRAYSIZE(styleTable)) {
+		ThrowIfFailed(layout->SetFontStyle(styleTable[styleIndex], range));
 	}
-	if(IsFontWeightSet) {
-		UINT16 weight = (UINT16)FontWeight.Weight;
-		if(weight >= 1 && weight <= 999) {
-			ThrowIfFailed(layout->SetFontWeight((DWRITE_FONT_WEIGHT)weight, range));
-		}
+
+	UINT16 weight = (UINT16)FontWeight.Weight;
+	if(weight >= 1 && weight <= 999) {
+		ThrowIfFailed(layout->SetFontWeight((DWRITE_FONT_WEIGHT)weight, range));
 	}
+
+	ThrowIfFailed(layout->SetStrikethrough(Strikethrough, range));
+	ThrowIfFailed(layout->SetUnderline(Underline, range));
 }
 
 void TextFormat::ApplyDeviceDependent(ComPtr<ID2D1RenderTarget> target, ComPtr<IDWriteTextLayout> layout, UINT32 offset, UINT32 length) {

@@ -3,25 +3,20 @@
 #include <limits>
 
 namespace Prose {
-	public ref class TextFormat sealed
+	public ref class TextFormat sealed :
+		Windows::UI::Xaml::DependencyObject
 	{
 	public:
-		PROPERTY(Windows::UI::Xaml::Media::FontFamily^, FontFamily)
-		PROPERTY(double, FontSize)
-		PROPERTY(Windows::UI::Xaml::Media::Brush^, Foreground)
-		PROPERTY(Windows::UI::Text::FontStretch, FontStretch)
-		NULLABLE_PROPERTY(Windows::UI::Text::FontStyle, FontStyle)
-		NULLABLE_PROPERTY(Windows::UI::Text::FontWeight, FontWeight)
+		DEPENDENCY_PROPERTY(Windows::UI::Xaml::Media::FontFamily^, FontFamily);
+		DEPENDENCY_PROPERTY(double, FontSize);
+		DEPENDENCY_PROPERTY(Windows::UI::Xaml::Media::Brush^, Foreground);
+		DEPENDENCY_PROPERTY(Windows::UI::Text::FontStretch, FontStretch);
+		DEPENDENCY_PROPERTY(Windows::UI::Text::FontStyle, FontStyle);
+		DEPENDENCY_PROPERTY(Windows::UI::Text::FontWeight, FontWeight);
+		DEPENDENCY_PROPERTY(bool, Strikethrough);
+		DEPENDENCY_PROPERTY(bool, Underline);
 
-		TextFormat(void) :
-			_FontFamily(nullptr),
-			_FontSize(std::numeric_limits<double>::quiet_NaN()),
-			_Foreground(nullptr),
-			_FontStretch(Windows::UI::Text::FontStretch::Undefined),
-			_FontStyle(Windows::UI::Text::FontStyle::Normal),
-			_IsFontStyleSet(false),
-			_FontWeight(Windows::UI::Text::FontWeights::Normal),
-			_IsFontWeightSet(false) { }
+		TextFormat(void) { }
 
 	internal:
 		void ApplyDeviceIndependent(Microsoft::WRL::ComPtr<IDWriteTextLayout> layout, UINT32 start, UINT32 length);

@@ -3,8 +3,6 @@
 #include "pch.h"
 #include <Windows.h>
 
-#include <boost\type_traits\has_equal_to.hpp>
-
 inline void ThrowIfFailed(HRESULT hr)
 {
 	if (FAILED(hr))
@@ -46,27 +44,22 @@ inline void dbgf(...) {
 bool operator==(Windows::UI::Text::FontWeight left, Windows::UI::Text::FontWeight right);
 bool operator!=(Windows::UI::Text::FontWeight left, Windows::UI::Text::FontWeight right);
 
+#define DPHasLocalValue(Obj, Prop) ((Obj)->ReadLocalValue((Prop)) != Windows::UI::Xaml::DependencyProperty::UnsetValue)
 
 #define _CORE_DEPENDENCY_PROPERTY(Name) private: \
 	static Windows::UI::Xaml::DependencyProperty^ _ ## Name ## Property; \
 public: \
-	static property Windows::UI::Xaml::DependencyProperty^ Name ## Property { Windows::UI::Xaml::DependencyProperty^ get() { return _ ## Name ## Property; } }
+	static property Windows::UI::Xaml::DependencyProperty^ Name ## Property { Windows::UI::Xaml::DependencyProperty^ get() { return _ ## Name ## Property; } };	
 
 
-#define DEPENDENCY_PROPERTY(Name, Type) _CORE_DEPENDENCY_PROPERTY(Name) \
-	property Type^ Name { \
-		Type^ get() { return (Type^)GetValue(Name ## Property); } \
-		void set(Type^ value) { SetValue(Name ## Property, value); } \
-	}
-
-#define DEPENDENCY_PROPERTY_VAL(Name, Type) _CORE_DEPENDENCY_PROPERTY(Name) \
+#define DEPENDENCY_PROPERTY(Type, Name) _CORE_DEPENDENCY_PROPERTY(Name) \
 	property Type Name { \
 		Type get() { return (Type)GetValue(Name ## Property); } \
 		void set(Type value) { SetValue(Name ## Property, value); } \
 	}
 
-#define IMPLEMENT_DP(Owner, Name, Type) Windows::UI::Xaml::DependencyProperty^ Owner::_ ## Name ## Property = Windows::UI::Xaml::DependencyProperty::Register( \
-	"Name", Type::typeid, Owner::typeid, ref new Windows::UI::Xaml::PropertyMetadata(nullptr))
+#define IMPLEMENT_DP(Owner, Type, Name, DefaultValue) Windows::UI::Xaml::DependencyProperty^ Owner::_ ## Name ## Property = Windows::UI::Xaml::DependencyProperty::Register( \
+	#Name, Type::typeid, Owner::typeid, ref new Windows::UI::Xaml::PropertyMetadata(DefaultValue))
 
 #define _BACKING_FIELD(Type, Name) Type _ ## Name;
 #define _NULLITY_FIELD_NAME(Name) _Is ## Name ## Set
@@ -74,7 +67,7 @@ public: \
 #define _NULLITY_PROPERTY(Type, Name) property bool Is ## Name ## Set { bool get() { return _NULLITY_FIELD_NAME(Name); } };
 #define _GETTER(Type, Name) Type get() { return _ ## Name; };
 #define _SETTER(Type, Name) void set(Type value) { _ ## Name = value; };
-#define _NOTIFY_PROPERTY_SETTER_BODY(Name) if(true /*_ ## Name != value*/) { \
+#define _NOTIFY_PROPERTY_SETTER_BODY(Name) if(_ ## Name != value) { \
 	_ ## Name = value; \
 	OnPropertyChanged(L"Name"); \
 }

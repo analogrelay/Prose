@@ -8,16 +8,18 @@
 
 namespace Prose {
 	namespace Structure {
-		public ref class Inline abstract:
+		public ref class Inline :
 			public DocumentNode
 		{
-			NOTIFY_PROPERTY(Windows::UI::Xaml::Media::FontFamily^, FontFamily);
-			NOTIFY_PROPERTY(double, FontSize);
-			NOTIFY_PROPERTY(Windows::UI::Xaml::Media::Brush^, Foreground);
-			NOTIFY_PROPERTY(Windows::UI::Text::FontStretch, FontStretch);
-			NOTIFY_NULLABLE_PROPERTY(Windows::UI::Text::FontStyle, FontStyle);
-			NOTIFY_NULLABLE_PROPERTY(Windows::UI::Text::FontWeight, FontWeight);
-
+			DEPENDENCY_PROPERTY(Windows::UI::Xaml::Media::FontFamily^, FontFamily);
+			DEPENDENCY_PROPERTY(double, FontSize);
+			DEPENDENCY_PROPERTY(Windows::UI::Xaml::Media::Brush^, Foreground);
+			DEPENDENCY_PROPERTY(Windows::UI::Text::FontStretch, FontStretch);
+			DEPENDENCY_PROPERTY(Windows::UI::Text::FontStyle, FontStyle);
+			DEPENDENCY_PROPERTY(Windows::UI::Text::FontWeight, FontWeight);
+			DEPENDENCY_PROPERTY(bool, Strikethrough);
+			DEPENDENCY_PROPERTY(bool, Underline);
+			
 		public:
 			virtual property UINT32 Length { UINT32 get() { throw ref new Platform::NotImplementedException(); } }
 			virtual InlinePair^ Split(UINT32 localOffset) { throw ref new Platform::NotImplementedException(); };
@@ -27,16 +29,6 @@ namespace Prose {
 
 		public protected:
 			void CopyStyleTo(Inline^ other);
-
-		private protected:
-			Inline(void) : 
-				_FontSize(std::numeric_limits<double>::quiet_NaN()), 
-				_FontFamily(nullptr), 
-				_Foreground(nullptr),
-				_FontStretch(Windows::UI::Text::FontStretch::Undefined) {}
-
-		private:
-			Windows::UI::Text::FontWeight _fontWeight;
 		};
 	}
 }
