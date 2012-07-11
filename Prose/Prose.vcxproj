@@ -130,6 +130,7 @@
       <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
       <AdditionalUsingDirectories>$(WindowsSDK_WindowsMetadata);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\ext\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -264,6 +265,7 @@
     <ClCompile Include=".\Layout\LayoutVisitor.cpp" />
     <ClCompile Include=".\Controls\DocumentViewer.cpp" />
     <ClCompile Include="FormattedRange.cpp" />
+    <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="Layout\LayoutEngineVisitor.cpp" />
     <ClCompile Include="Layout\LayoutNode.cpp" />
     <ClCompile Include="Layout\LayoutTree.cpp" />

@@ -16,6 +16,9 @@ void Inline::CopyStyleTo(Inline^ other) {
 	if(this->IsFontStyleSet) {
 		other->FontStyle = this->FontStyle;
 	}
+	if(this->IsFontWeightSet) {
+		other->FontWeight = FontWeight;
+	}
 }
 
 TextFormat^ Inline::CreateFormat(void) {
@@ -26,6 +29,9 @@ TextFormat^ Inline::CreateFormat(void) {
 	format->FontStretch = FontStretch;
 	if(this->IsFontStyleSet) {
 		format->FontStyle = FontStyle;
+	}
+	if(this->IsFontWeightSet) {
+		format->FontWeight = FontWeight;
 	}
 	return format;
 }

@@ -16,6 +16,7 @@ namespace Prose {
 			NOTIFY_PROPERTY(Windows::UI::Xaml::Media::Brush^, Foreground);
 			NOTIFY_PROPERTY(Windows::UI::Text::FontStretch, FontStretch);
 			NOTIFY_NULLABLE_PROPERTY(Windows::UI::Text::FontStyle, FontStyle);
+			NOTIFY_NULLABLE_PROPERTY(Windows::UI::Text::FontWeight, FontWeight);
 
 		public:
 			virtual property UINT32 Length { UINT32 get() { throw ref new Platform::NotImplementedException(); } }
@@ -33,6 +34,9 @@ namespace Prose {
 				_FontFamily(nullptr), 
 				_Foreground(nullptr),
 				_FontStretch(Windows::UI::Text::FontStretch::Undefined) {}
+
+		private:
+			Windows::UI::Text::FontWeight _fontWeight;
 		};
 	}
 }

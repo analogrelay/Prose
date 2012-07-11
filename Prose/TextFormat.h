@@ -11,6 +11,7 @@ namespace Prose {
 		PROPERTY(Windows::UI::Xaml::Media::Brush^, Foreground)
 		PROPERTY(Windows::UI::Text::FontStretch, FontStretch)
 		NULLABLE_PROPERTY(Windows::UI::Text::FontStyle, FontStyle)
+		NULLABLE_PROPERTY(Windows::UI::Text::FontWeight, FontWeight)
 
 		TextFormat(void) :
 			_FontFamily(nullptr),
@@ -18,7 +19,9 @@ namespace Prose {
 			_Foreground(nullptr),
 			_FontStretch(Windows::UI::Text::FontStretch::Undefined),
 			_FontStyle(Windows::UI::Text::FontStyle::Normal),
-			_IsFontStyleSet(false) { }
+			_IsFontStyleSet(false),
+			_FontWeight(Windows::UI::Text::FontWeights::Normal),
+			_IsFontWeightSet(false) { }
 
 	internal:
 		void ApplyDeviceIndependent(Microsoft::WRL::ComPtr<IDWriteTextLayout> layout, UINT32 start, UINT32 length);

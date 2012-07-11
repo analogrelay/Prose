@@ -3,6 +3,7 @@
 #include "pch.h"
 #include <Windows.h>
 
+#include <boost\type_traits\has_equal_to.hpp>
 
 inline void ThrowIfFailed(HRESULT hr)
 {
@@ -41,6 +42,11 @@ inline void dbgf(...) {
 }
 #endif
 
+// Helpful equality comparers
+bool operator==(Windows::UI::Text::FontWeight left, Windows::UI::Text::FontWeight right);
+bool operator!=(Windows::UI::Text::FontWeight left, Windows::UI::Text::FontWeight right);
+
+
 #define _CORE_DEPENDENCY_PROPERTY(Name) private: \
 	static Windows::UI::Xaml::DependencyProperty^ _ ## Name ## Property; \
 public: \
@@ -68,7 +74,7 @@ public: \
 #define _NULLITY_PROPERTY(Type, Name) property bool Is ## Name ## Set { bool get() { return _NULLITY_FIELD_NAME(Name); } };
 #define _GETTER(Type, Name) Type get() { return _ ## Name; };
 #define _SETTER(Type, Name) void set(Type value) { _ ## Name = value; };
-#define _NOTIFY_PROPERTY_SETTER_BODY(Name) if(_ ## Name != value) { \
+#define _NOTIFY_PROPERTY_SETTER_BODY(Name) if(true /*_ ## Name != value*/) { \
 	_ ## Name = value; \
 	OnPropertyChanged(L"Name"); \
 }

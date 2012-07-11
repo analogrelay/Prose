@@ -33,6 +33,7 @@
     <ClCompile Include="FormattedRange.cpp" />
     <ClCompile Include="TextRange.cpp" />
     <ClCompile Include="TextFormat.cpp" />
+    <ClCompile Include="Helpers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

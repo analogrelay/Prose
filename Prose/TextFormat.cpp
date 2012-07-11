@@ -51,6 +51,12 @@ void TextFormat::ApplyDeviceIndependent(ComPtr<IDWriteTextLayout> layout, UINT32
 			ThrowIfFailed(layout->SetFontStyle(styleTable[styleIndex], range));
 		}
 	}
+	if(IsFontWeightSet) {
+		UINT16 weight = (UINT16)FontWeight.Weight;
+		if(weight >= 1 && weight <= 999) {
+			ThrowIfFailed(layout->SetFontWeight((DWRITE_FONT_WEIGHT)weight, range));
+		}
+	}
 }
 
 void TextFormat::ApplyDeviceDependent(ComPtr<ID2D1RenderTarget> target, ComPtr<IDWriteTextLayout> layout, UINT32 offset, UINT32 length) {
