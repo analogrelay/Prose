@@ -38,6 +38,8 @@
     <ClCompile Include="Layout\DWLayoutMetrics.cpp" />
     <ClCompile Include=".\Events\PointerTextEvents.cpp" />
     <ClCompile Include=".\Layout\LayoutInline.cpp" />
+    <ClCompile Include="Events\EventManager.cpp" />
+    <ClCompile Include="Events\RoutedEventManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -80,5 +82,11 @@
     <ClInclude Include=".\Events\PointerTextEvents.h" />
     <ClInclude Include=".\Layout\LayoutPointer.h" />
     <ClInclude Include=".\Layout\LayoutInline.h" />
+    <ClInclude Include="Events\EventManager.h" />
+    <ClInclude Include="Events\RoutedEvent.h" />
+    <ClInclude Include="Events\IRoutedEventSource.h" />
+    <ClInclude Include="Events\RoutedEventHandlerInfo.h" />
+    <ClInclude Include="Events\CustomRoutedEvent.h" />
+    <ClInclude Include="Events\RoutedEventManager.h" />
   </ItemGroup>
 </Project>

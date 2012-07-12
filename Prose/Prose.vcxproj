@@ -221,6 +221,12 @@
     <ClInclude Include="Controls\OverflowDocumentHost.h" />
     <ClInclude Include=".\DX.h" />
     <ClInclude Include=".\Controls\DocumentViewer.h" />
+    <ClInclude Include="Events\CustomRoutedEvent.h" />
+    <ClInclude Include="Events\EventManager.h" />
+    <ClInclude Include="Events\IRoutedEventSource.h" />
+    <ClInclude Include="Events\RoutedEvent.h" />
+    <ClInclude Include="Events\RoutedEventHandlerInfo.h" />
+    <ClInclude Include="Events\RoutedEventManager.h" />
     <ClInclude Include="FormattedRange.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include=".\Layout\LayoutBox.h" />
@@ -265,6 +271,8 @@
     <ClCompile Include=".\Layout\DirectWriteLayoutEngine.cpp" />
     <ClCompile Include=".\Layout\LayoutVisitor.cpp" />
     <ClCompile Include=".\Controls\DocumentViewer.cpp" />
+    <ClCompile Include="Events\EventManager.cpp" />
+    <ClCompile Include="Events\RoutedEventManager.cpp" />
     <ClCompile Include="FormattedRange.cpp" />
     <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="Layout\LayoutEngineVisitor.cpp" />
