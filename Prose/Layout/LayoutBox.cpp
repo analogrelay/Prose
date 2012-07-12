@@ -17,13 +17,10 @@ LayoutBox::LayoutBox(Prose::Structure::DocumentNode^ node, Windows::UI::Xaml::Th
 void LayoutBox::Accept(LayoutVisitor^ visitor) { visitor->Visit(this); }
 
 LayoutPointer^ LayoutBox::HitTest(Point point) {
-	// Assert
-	assert(Metrics->LayoutBounds.Contains(point));
-
 	// Run the hit test against the metrics
 	INullable<UINT32>^ offset = Metrics->HitTest(point);
 	
-	if(offset->HasValue) {
+	if(!offset->HasValue) {
 		return nullptr; // No match
 	}
 	UINT32 offsetVal = offset->Value;
@@ -32,7 +29,7 @@ LayoutPointer^ LayoutBox::HitTest(Point point) {
 	UINT32 counter = 0;
 	for(UINT32 i = 0; i < Inlines->Size; i++) {
 		auto span = Inlines->GetAt(i);
-		if(offsetVal > counter && offsetVal < (counter + span->Text->Length())) {
+		if(offsetVal >= counter && offsetVal < (counter + span->Text->Length())) {
 			return ref new LayoutPointer(this, span, i, offsetVal - counter, offsetVal);
 		}
 		counter += span->Text->Length();

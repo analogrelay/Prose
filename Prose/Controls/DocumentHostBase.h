@@ -25,6 +25,9 @@ namespace Prose {
 		protected:
 			virtual Windows::Foundation::Size MeasureOverride(Windows::Foundation::Size) override;
 			virtual Windows::Foundation::Size ArrangeOverride(Windows::Foundation::Size) override;
+			virtual void OnPointerEntered(Platform::Object^ sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs^ args);
+			virtual void OnPointerExited(Platform::Object^ sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs^ args);
+			virtual void OnPointerMoved(Platform::Object^ sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs^ args);
 
 		private protected:
 			DocumentHostBase(void);
@@ -41,23 +44,22 @@ namespace Prose {
 			virtual void SendOverflow(void);
 
 		private:
+			
+			bool _hasOverflowContent;
 			Microsoft::WRL::WeakRef _targetRef;
-
+			Prose::Layout::LayoutTree^ _layout;
+			Prose::Layout::LayoutPointer^ _currentlySelected;
+			Prose::Rendering::IRenderingPlan^ _renderingPlan;
+			
 			Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource^ _renderSurface;
 			Windows::UI::Xaml::Controls::Image^ _renderHost;
-			Prose::Layout::LayoutTree^ _layout;
-			Prose::Rendering::IRenderingPlan^ _renderingPlan;
 			Windows::Foundation::Size _layoutSize;
 			Windows::Foundation::Collections::IVectorView<Prose::Structure::Paragraph^>^ _overflow;
-			bool _hasOverflowContent;
 			Windows::UI::Core::CoreCursor^ _oldCursor;
 
 #ifdef _DEBUG
 			Windows::UI::Xaml::Controls::Border^ _debugBorder;
 #endif
-			void Panel_PointerEntered(Platform::Object^ sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs^ args);
-			void Panel_PointerExited(Platform::Object^ sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs^ args);
-
 			void TargetChanged(void);
 		};
 	}

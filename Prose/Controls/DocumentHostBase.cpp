@@ -30,8 +30,9 @@ using namespace Prose::Layout;
 using namespace Prose::Events;
 
 DocumentHostBase::DocumentHostBase() {
-	PointerEntered += ref new PointerEventHandler(this, &DocumentHostBase::Panel_PointerEntered);
-	PointerExited += ref new PointerEventHandler(this, &DocumentHostBase::Panel_PointerExited);
+	PointerEntered += ref new PointerEventHandler(this, &DocumentHostBase::OnPointerEntered);
+	PointerExited += ref new PointerEventHandler(this, &DocumentHostBase::OnPointerExited);
+	PointerMoved += ref new PointerEventHandler(this, &DocumentHostBase::OnPointerMoved);
 }
 
 OverflowDocumentHost^ DocumentHostBase::OverflowTarget::get() {
@@ -198,11 +199,13 @@ void DocumentHostBase::InvalidateRender() {
 		renderSize.Height));
 }
 
-void DocumentHostBase::Panel_PointerEntered(Object^ sender, PointerRoutedEventArgs^ args) {
+void DocumentHostBase::OnPointerEntered(Object^ sender, PointerRoutedEventArgs^ args) {
 	_oldCursor = Window::Current->CoreWindow->PointerCursor;
 	Window::Current->CoreWindow->PointerCursor = ref new CoreCursor(
 		CoreCursorType::IBeam, 1);
+}
 
+void DocumentHostBase::OnPointerMoved(Object^ sender, PointerRoutedEventArgs^ args) {
 	// Hit test on the layout
 	if(_layout) {
 		auto point = args->GetCurrentPoint(this);
@@ -211,11 +214,20 @@ void DocumentHostBase::Panel_PointerEntered(Object^ sender, PointerRoutedEventAr
 			PointerLayoutEventArgs^ layoutargs = ref new PointerLayoutEventArgs(
 				hit,
 				args);
-			hit->Node->FirePointerEntered(layoutargs);
+			auto text = hit->Node->Text->Data();
+			dbgf(L"Hit: (x=%f, y=%f) [%s]", point->Position.X, point->Position.Y, text);
+			if(!Platform::Object::ReferenceEquals(_currentlySelected, hit)) {
+				if(_currentlySelected) {
+					// TODO: Fire pointer exited
+				}
+				hit->Node->FirePointerEntered(layoutargs);
+				_currentlySelected = hit;
+			}
+			// TODO: Fire pointer moved
 		}
 	}
 }
 
-void DocumentHostBase::Panel_PointerExited(Object^ sender, PointerRoutedEventArgs^ args) {
+void DocumentHostBase::OnPointerExited(Object^ sender, PointerRoutedEventArgs^ args) {
 	Window::Current->CoreWindow->PointerCursor = _oldCursor;
 }

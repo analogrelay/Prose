@@ -30,7 +30,7 @@
                         <p:Run FontStyle="Oblique">Oblique</p:Run>
                     </p:Paragraph>
                     <p:Paragraph>
-                        <p:Run>
+                        <p:Run PointerEntered="ProseText_PointerEntered">
                             <p:Run.FontWeight>
                                 <FontWeight>Bold</FontWeight>
                             </p:Run.FontWeight>    

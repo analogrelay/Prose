@@ -26,6 +26,9 @@ void LayoutBuilder::Process(Run^ run) {
 	_buffer << run->Text->Data();
 	ProcessInline(run, length);
 	_offset += length;
+
+	LayoutInline^ linline = ref new LayoutInline(run, run->Text);
+	_box->Inlines->Append(linline);
 }
 
 void LayoutBuilder::ProcessInline(Inline^ inl, UINT32 length) {
