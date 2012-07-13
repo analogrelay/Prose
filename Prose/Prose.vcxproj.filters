@@ -36,7 +36,6 @@
     <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="Structure\Span.cpp" />
     <ClCompile Include="Layout\DWLayoutMetrics.cpp" />
-    <ClCompile Include=".\Events\PointerTextEvents.cpp" />
     <ClCompile Include=".\Layout\LayoutInline.cpp" />
     <ClCompile Include="Events\EventManager.cpp" />
     <ClCompile Include="Events\RoutedEventManager.cpp" />
@@ -79,7 +78,6 @@
     <ClInclude Include="TextRange.h" />
     <ClInclude Include="TextFormat.h" />
     <ClInclude Include="Structure\Span.h" />
-    <ClInclude Include=".\Events\PointerTextEvents.h" />
     <ClInclude Include=".\Layout\LayoutPointer.h" />
     <ClInclude Include=".\Layout\LayoutInline.h" />
     <ClInclude Include="Events\EventManager.h" />
@@ -88,5 +86,7 @@
     <ClInclude Include="Events\RoutedEventHandlerInfo.h" />
     <ClInclude Include="Events\CustomRoutedEvent.h" />
     <ClInclude Include="Events\RoutedEventManager.h" />
+    <ClInclude Include=".\Events\PointerEvents.h" />
+    <ClInclude Include="ChildNodeCollection.h" />
   </ItemGroup>
 </Project>

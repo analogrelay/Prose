@@ -18,11 +18,11 @@
         <StackPanel Orientation="Horizontal">
             <Button Click="Decrease_Click">Decrease</Button>
             <Button Click="Increase_Click">Increase</Button>
-            <TextBlock Name="SizeBlock" FontWeight="Bold">Column Width: 400</TextBlock>
+            <TextBlock Name="CursorLoc"></TextBlock>
         </StackPanel>
         <ScrollViewer Grid.Row="1" VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Disabled" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto">
             <prose:DocumentViewer Grid.Row="2" x:Name="Viewer" ColumnWidth="400" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <p:Document>
+                <p:Document PointerEntered="ProseDoc_PointerEntered">
                     <p:Paragraph>
                         <p:Run FontStyle="Italic">Italic</p:Run>
                     </p:Paragraph>
@@ -30,7 +30,7 @@
                         <p:Run FontStyle="Oblique">Oblique</p:Run>
                     </p:Paragraph>
                     <p:Paragraph>
-                        <p:Run PointerEntered="ProseText_PointerEntered">
+                        <p:Run>
                             <p:Run.FontWeight>
                                 <FontWeight>Bold</FontWeight>
                             </p:Run.FontWeight>    

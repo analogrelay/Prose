@@ -15,6 +15,6 @@ void LayoutNode::FirePointerEntered(PointerLayoutEventArgs^ args) {
 	// Fire structure node event
 	TextPointer^ ptr = args->LayoutPointer->GetTextPointer();
 	PointerTextEventArgs^ textargs = ref new PointerTextEventArgs(
-		ptr, args->PointerInfo);
+		StructureNode, ptr, args->PointerInfo);
 	StructureNode->FirePointerEntered(textargs);
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Prose.Events;
+using Prose.Structure;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -42,13 +43,24 @@ namespace Prose.Test.App
             {
                 Viewer.ColumnWidth -= 50;
             }
-            SizeBlock.Text = String.Format("Column Width: {0}", Viewer.ColumnWidth);
+            //SizeBlock.Text = String.Format("Column Width: {0}", Viewer.ColumnWidth);
         }
 
         private void Increase_Click(object sender, RoutedEventArgs e)
         {
             Viewer.ColumnWidth += 50;
-            SizeBlock.Text = String.Format("Column Width: {0}", Viewer.ColumnWidth);
+            //SizeBlock.Text = String.Format("Column Width: {0}", Viewer.ColumnWidth);
+        }
+        public void ProseDoc_PointerEntered(object sender, PointerTextEventArgs args)
+        {
+            if (args.OriginalSource is Run)
+            {
+                Run r = args.TextPointer.Node as Run;
+                if (r != null)
+                {
+                    CursorLoc.Text = String.Format("Character Offset: {0}, Text: {1}", args.TextPointer.GlobalOffset, r.Text.Length > 10 ? (r.Text.Substring(0, 10) + "...") : r.Text);
+                }
+            }
         }
     }
 }

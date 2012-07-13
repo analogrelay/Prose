@@ -1,6 +1,6 @@
 #pragma once
 #include "..\Structure\DocumentNode.h"
-#include "..\Events\PointerTextEvents.h"
+#include "..\Events\PointerEvents.h"
 
 namespace Prose {
 	namespace Layout {

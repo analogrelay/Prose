@@ -2,11 +2,13 @@
 #include "Paragraph.h"
 #include "DocumentVisitor.h"
 #include "Run.h"
+#include "..\ChildNodeCollection.h"
 
+using namespace Prose;
 using namespace Prose::Structure;
 using namespace Platform::Collections;
 
-Paragraph::Paragraph(void) : _inlines(ref new Vector<Inline^>()) { }
+Paragraph::Paragraph(void) : _inlines(ref new ChildNodeCollection<Inline^, DocumentNode^>(this)) { }
 
 void Paragraph::Accept(DocumentVisitor^ visitor) {
 	visitor->Visit(this);

@@ -7,7 +7,7 @@
 #include "DocumentHost.h"
 #include "OverflowDocumentHost.h"
 #include "..\Layout\LayoutResult.h"
-#include "..\Events\PointerTextEvents.h"
+#include "..\Events\PointerEvents.h"
 
 using namespace Platform;
 using namespace Platform::Collections;
@@ -212,6 +212,7 @@ void DocumentHostBase::OnPointerMoved(Object^ sender, PointerRoutedEventArgs^ ar
 		LayoutPointer^ hit = _layout->HitTest(point->Position);
 		if(hit != nullptr) {
 			PointerLayoutEventArgs^ layoutargs = ref new PointerLayoutEventArgs(
+				hit->Node,
 				hit,
 				args);
 			auto text = hit->Node->Text->Data();
