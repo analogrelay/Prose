@@ -88,5 +88,6 @@
     <ClInclude Include="Events\RoutedEventManager.h" />
     <ClInclude Include=".\Events\PointerEvents.h" />
     <ClInclude Include="ChildNodeCollection.h" />
+    <ClInclude Include="Macros.h" />
   </ItemGroup>
 </Project>

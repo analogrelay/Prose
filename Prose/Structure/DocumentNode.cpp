@@ -7,28 +7,21 @@ using namespace Prose::Events;
 
 using namespace Windows::UI::Xaml::Input;
 
-RoutedEvent^ DocumentNode::_PointerEnteredEvent = EventManager::RegisterRoutedEvent(
-	L"PointerEntered", RoutingStrategy::Bubble, PointerTextEventHandler::typeid, DocumentNode::typeid);
+IMPLEMENT_ROUTED_EVENT(DocumentNode, Bubble, PointerTextEventHandler, PointerTextEventArgs^, PointerEntered);
+IMPLEMENT_ROUTED_EVENT(DocumentNode, Bubble, PointerTextEventHandler, PointerTextEventArgs^, PointerExited);
+IMPLEMENT_ROUTED_EVENT(DocumentNode, Bubble, PointerTextEventHandler, PointerTextEventArgs^, PointerMoved);
 
 DocumentNode::DocumentNode(void) : _eventManager(ref new RoutedEventManager()) {
 }
 
-Windows::Foundation::EventRegistrationToken DocumentNode::PointerEntered::add(PointerTextEventHandler^ handler) {
-	return EventManager::AddHandler(
-		_PointerEnteredEvent, 
-		this, 
-		reinterpret_cast<CustomRoutedEventHandler^>(handler), 
-		false);
-}
-
-void DocumentNode::PointerEntered::remove(Windows::Foundation::EventRegistrationToken token) {
-	EventManager::RemoveHandler(_PointerEnteredEvent, this, token);
-}
-
-void DocumentNode::PointerEntered::raise(Platform::Object^ sender, Prose::Events::PointerTextEventArgs^ args) {
-	EventManager::RaiseRoutedEvent(_PointerEnteredEvent, this, args);
-}
-
 void DocumentNode::FirePointerEntered(PointerTextEventArgs^ args) {
 	PointerEntered(this, args);
+}
+
+void DocumentNode::FirePointerExited(PointerTextEventArgs^ args) {
+	PointerExited(this, args);
+}
+
+void DocumentNode::FirePointerMoved(PointerTextEventArgs^ args) {
+	PointerMoved(this, args);
 }

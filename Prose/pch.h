@@ -25,6 +25,7 @@
 
 // Prose Common
 #include "Helpers.h"
+#include "Macros.h"
 #include "DX.h"
 
 #include "ObjectTracking.h"

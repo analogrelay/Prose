@@ -92,7 +92,7 @@ namespace Prose {
 			_inner->SetAt(index, value);
 		}
 
-		ChildNodeCollection(_ParentType parent) : _inner(ref new Vector<_NodeType>()), _parent(parent) {
+		ChildNodeCollection(_ParentType parent) : _inner(ref new Platform::Collections::Vector<_NodeType>()), _parent(parent) {
 		}
 	private:
 		_ParentType _parent;

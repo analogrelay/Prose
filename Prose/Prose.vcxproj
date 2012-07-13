@@ -242,6 +242,7 @@
     <ClInclude Include="Layout\LayoutResult.h" />
     <ClInclude Include=".\Layout\LayoutInline.h" />
     <ClInclude Include=".\Layout\LayoutPointer.h" />
+    <ClInclude Include="Macros.h" />
     <ClInclude Include="ObjectTracking.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include=".\Structure\Paragraph.h" />

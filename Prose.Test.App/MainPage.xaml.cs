@@ -51,7 +51,7 @@ namespace Prose.Test.App
             Viewer.ColumnWidth += 50;
             //SizeBlock.Text = String.Format("Column Width: {0}", Viewer.ColumnWidth);
         }
-        public void ProseDoc_PointerEntered(object sender, PointerTextEventArgs args)
+        public void ProseDoc_PointerMoved(object sender, PointerTextEventArgs args)
         {
             if (args.OriginalSource is Run)
             {

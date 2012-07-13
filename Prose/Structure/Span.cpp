@@ -1,8 +1,11 @@
 #include "pch.h"
 #include "Span.h"
 #include "DocumentVisitor.h"
+#include "..\ChildNodeCollection.h"
 
 using namespace Prose::Structure;
+
+SpanBase::SpanBase(void) : _inlines(ref new ChildNodeCollection<Inline^, DocumentNode^>(this)) {}
 
 void SpanBase::Accept(DocumentVisitor^ visitor) {
 	visitor->Visit(this);

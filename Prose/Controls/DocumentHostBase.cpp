@@ -217,14 +217,16 @@ void DocumentHostBase::OnPointerMoved(Object^ sender, PointerRoutedEventArgs^ ar
 				args);
 			auto text = hit->Node->Text->Data();
 			dbgf(L"Hit: (x=%f, y=%f) [%s]", point->Position.X, point->Position.Y, text);
-			if(!Platform::Object::ReferenceEquals(_currentlySelected, hit)) {
+			if(!_currentlySelected || !Platform::Object::ReferenceEquals(_currentlySelected, static_cast<LayoutNode^>(hit->Node))) {
 				if(_currentlySelected) {
-					// TODO: Fire pointer exited
+					_currentlySelected->FirePointerExited(layoutargs);
 				}
 				hit->Node->FirePointerEntered(layoutargs);
-				_currentlySelected = hit;
+				_currentlySelected = hit->Node;
 			}
-			// TODO: Fire pointer moved
+			hit->Node->FirePointerMoved(layoutargs);
+		} else {
+			_currentlySelected = nullptr;
 		}
 	}
 }

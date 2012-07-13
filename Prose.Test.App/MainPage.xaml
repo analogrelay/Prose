@@ -22,7 +22,7 @@
         </StackPanel>
         <ScrollViewer Grid.Row="1" VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Disabled" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto">
             <prose:DocumentViewer Grid.Row="2" x:Name="Viewer" ColumnWidth="400" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <p:Document PointerEntered="ProseDoc_PointerEntered">
+                <p:Document PointerMoved="ProseDoc_PointerMoved">
                     <p:Paragraph>
                         <p:Run FontStyle="Italic">Italic</p:Run>
                     </p:Paragraph>

@@ -26,7 +26,7 @@ namespace Prose {
 			virtual SpanBase^ Clone() { throw ref new Platform::NotImplementedException("SpanBase.Clone must be implemented by subclasses of SpanBase"); };
 
 		private protected:
-			SpanBase(void) : _inlines(ref new Platform::Collections::Vector<Inline^>()) {}
+			SpanBase(void);
 
 		private:
 			Windows::Foundation::Collections::IVector<Inline^>^ _inlines;

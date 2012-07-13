@@ -48,7 +48,7 @@ namespace Prose {
 			bool _hasOverflowContent;
 			Microsoft::WRL::WeakRef _targetRef;
 			Prose::Layout::LayoutTree^ _layout;
-			Prose::Layout::LayoutPointer^ _currentlySelected;
+			Prose::Layout::LayoutNode^ _currentlySelected;
 			Prose::Rendering::IRenderingPlan^ _renderingPlan;
 			
 			Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource^ _renderSurface;

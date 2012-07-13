@@ -2,6 +2,7 @@
 #include "LayoutBox.h"
 #include "LayoutVisitor.h"
 #include "LayoutInline.h"
+#include "..\ChildNodeCollection.h"
 
 #include <assert.h>
 
@@ -11,8 +12,8 @@ using namespace Prose::Structure;
 using namespace Platform::Collections;
 using namespace Windows::Foundation;
 
-LayoutBox::LayoutBox(Prose::Structure::DocumentNode^ node) : _node(node), _inlines(ref new Vector<LayoutInline^>()), _metrics(nullptr), _margin(0) { }
-LayoutBox::LayoutBox(Prose::Structure::DocumentNode^ node, Windows::UI::Xaml::Thickness margin) : _node(node), _inlines(ref new Vector<LayoutInline^>()), _metrics(nullptr), _margin(margin) { }
+LayoutBox::LayoutBox(Prose::Structure::DocumentNode^ node) : _node(node), _inlines(ref new ChildNodeCollection<LayoutInline^, LayoutNode^>(this)), _metrics(nullptr), _margin(0) { }
+LayoutBox::LayoutBox(Prose::Structure::DocumentNode^ node, Windows::UI::Xaml::Thickness margin) : _node(node), _inlines(ref new ChildNodeCollection<LayoutInline^, LayoutNode^>(this)), _metrics(nullptr), _margin(margin) { }
 
 void LayoutBox::Accept(LayoutVisitor^ visitor) { visitor->Visit(this); }
 
