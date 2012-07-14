@@ -3,6 +3,8 @@
 #include "pch.h"
 #include "DX.h"
 
+using namespace Prose;
+
 using namespace Windows::UI;
 using namespace Windows::UI::Xaml::Media;
 using namespace Windows::Foundation;

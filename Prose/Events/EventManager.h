@@ -33,12 +33,12 @@ namespace Prose {
 			static Windows::Foundation::EventRegistrationToken AddHandler(
 				RoutedEvent^ routedEvent,
 				IRoutedEventSource^ source,	
-				CustomRoutedEventHandler^ handler);
+				Windows::Foundation::TypedEventHandler<Platform::Object^, ICustomRoutedEventArgs^>^ handler);
 
 			static Windows::Foundation::EventRegistrationToken AddHandler(
 				RoutedEvent^ routedEvent,
 				IRoutedEventSource^ source,	
-				CustomRoutedEventHandler^ handler,
+				Windows::Foundation::TypedEventHandler<Platform::Object^, ICustomRoutedEventArgs^>^ handler,
 				bool invokeForHandledEvents);
 
 			static void RemoveHandler(

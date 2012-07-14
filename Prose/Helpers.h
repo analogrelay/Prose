@@ -3,21 +3,6 @@
 #include "pch.h"
 #include <Windows.h>
 
-inline void ThrowIfFailed(HRESULT hr)
-{
-	if (FAILED(hr))
-	{
-		throw Platform::Exception::CreateException(hr);
-	}
-}
-
-template<class T> inline void SafeRelease(T **ppT) {
-	if(*ppT) {
-		(*ppT)->Release();
-		*ppT = NULL;
-	}
-}
-
 #if _DEBUG
 inline void dbgf(const wchar_t* format, ...) {
 	va_list list;
@@ -45,6 +30,35 @@ bool operator==(Windows::UI::Text::FontWeight left, Windows::UI::Text::FontWeigh
 bool operator!=(Windows::UI::Text::FontWeight left, Windows::UI::Text::FontWeight right);
 
 namespace Prose {
+	Windows::UI::Xaml::DependencyProperty^ RegisterDP(
+		Platform::String^ name,
+		Platform::Type^ type,
+		Platform::Type^ owner);
+	Windows::UI::Xaml::DependencyProperty^ RegisterDP(
+		Platform::String^ name,
+		Platform::Type^ type,
+		Platform::Type^ owner,
+		Platform::Object^ defaultValue);
+	Windows::UI::Xaml::DependencyProperty^ RegisterDP(
+		Platform::String^ name,
+		Platform::Type^ type,
+		Platform::Type^ owner,
+		Windows::UI::Xaml::PropertyChangedCallback^ changedCallback);
+	Windows::UI::Xaml::DependencyProperty^ RegisterDP(
+		Platform::String^ name,
+		Platform::Type^ type,
+		Platform::Type^ owner,
+		Platform::Object^ defaultValue,
+		Windows::UI::Xaml::PropertyChangedCallback^ changedCallback);
+
+	inline void ThrowIfFailed(HRESULT hr)
+	{
+		if (FAILED(hr))
+		{
+			throw Platform::Exception::CreateException(hr);
+		}
+	}
+
 	generic<typename T>
 	public interface class INullable {
 		property bool HasValue { bool get(); }

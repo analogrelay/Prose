@@ -28,6 +28,6 @@ namespace Prose {
 			bool _handled;
 		};
 
-		public delegate void CustomRoutedEventHandler(Platform::Object^ sender, ICustomRoutedEventArgs^ e);
+		public delegate void CustomRoutedEventHandler(Platform::Object^ sender, CustomRoutedEventArgs^ e);
 	}
 }

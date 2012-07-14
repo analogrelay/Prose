@@ -33,6 +33,13 @@ namespace Prose {
 
 		public protected:
 			void CopyStyleTo(Inline^ other);
+
+		private:
+			void InvalidateFormat();
+
+			static void FormatPropertyChanged(
+				Windows::UI::Xaml::DependencyObject^ sender, 
+				Windows::UI::Xaml::DependencyPropertyChangedEventArgs^ args);
 		};
 	}
 }

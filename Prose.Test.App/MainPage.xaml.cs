@@ -6,6 +6,7 @@ using Prose.Events;
 using Prose.Structure;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -23,6 +24,10 @@ namespace Prose.Test.App
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private static readonly SolidColorBrush brush = new SolidColorBrush(Colors.Yellow);
+        private Run _currentlySelected;
+        private Brush _oldBrush;
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -51,6 +56,7 @@ namespace Prose.Test.App
             Viewer.ColumnWidth += 50;
             //SizeBlock.Text = String.Format("Column Width: {0}", Viewer.ColumnWidth);
         }
+
         public void ProseDoc_PointerMoved(object sender, PointerTextEventArgs args)
         {
             if (args.OriginalSource is Run)
@@ -58,6 +64,13 @@ namespace Prose.Test.App
                 Run r = args.TextPointer.Node as Run;
                 if (r != null)
                 {
+                    if (_currentlySelected != null)
+                    {
+                        _currentlySelected.Foreground = _oldBrush;
+                    }
+                    _currentlySelected = r;
+                    _oldBrush = r.Foreground;
+                    r.Foreground = brush;
                     CursorLoc.Text = String.Format("Character Offset: {0}, Text: {1}", args.TextPointer.GlobalOffset, r.Text.Length > 10 ? (r.Text.Substring(0, 10) + "...") : r.Text);
                 }
             }

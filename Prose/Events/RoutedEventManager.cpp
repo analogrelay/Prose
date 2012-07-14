@@ -17,7 +17,7 @@ IIterable<RoutedEventHandlerInfo^>^ RoutedEventManager::GetHandlersForRoutedEven
 	return GetOrCreateHandlerList(routedEvent)->GetHandlers();
 }
 
-Windows::Foundation::EventRegistrationToken RoutedEventManager::AddHandlerForRoutedEvent(RoutedEvent^ routedEvent, CustomRoutedEventHandler^ handler, bool invokeForHandledEvents) {
+Windows::Foundation::EventRegistrationToken RoutedEventManager::AddHandlerForRoutedEvent(RoutedEvent^ routedEvent, TypedEventHandler<Platform::Object^, ICustomRoutedEventArgs^>^ handler, bool invokeForHandledEvents) {
 	return GetOrCreateHandlerList(routedEvent)->AddHandler(handler, invokeForHandledEvents);
 }
 
@@ -43,7 +43,7 @@ IIterable<RoutedEventHandlerInfo^>^ RoutedEventManager::RoutedEventHandlerList::
 	return _handlers;
 }
 
-Windows::Foundation::EventRegistrationToken RoutedEventManager::RoutedEventHandlerList::AddHandler(CustomRoutedEventHandler^ handler, bool invokeForHandledEvents) {
+Windows::Foundation::EventRegistrationToken RoutedEventManager::RoutedEventHandlerList::AddHandler(TypedEventHandler<Platform::Object^, ICustomRoutedEventArgs^>^ handler, bool invokeForHandledEvents) {
 	// Create a Handler Info structure
 	auto info = ref new RoutedEventHandlerInfo(handler, invokeForHandledEvents, _nextId++);
 

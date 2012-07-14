@@ -11,9 +11,17 @@ namespace Prose {
 		public:
 			RoutedEventManager(void);
 
-			virtual Windows::Foundation::Collections::IIterable<RoutedEventHandlerInfo^>^ GetHandlersForRoutedEvent(RoutedEvent^ routedEvent);
-			virtual Windows::Foundation::EventRegistrationToken AddHandlerForRoutedEvent(RoutedEvent^ routedEvent, CustomRoutedEventHandler^ handler, bool invokeForHandledEvents);
-			virtual void RemoveHandlerForRoutedEvent(RoutedEvent^ routedEvent, Windows::Foundation::EventRegistrationToken token);
+			virtual Windows::Foundation::Collections::IIterable<RoutedEventHandlerInfo^>^ GetHandlersForRoutedEvent(
+				RoutedEvent^ routedEvent);
+
+			virtual Windows::Foundation::EventRegistrationToken AddHandlerForRoutedEvent(
+				RoutedEvent^ routedEvent, 
+				Windows::Foundation::TypedEventHandler<Platform::Object^, ICustomRoutedEventArgs^>^ handler, 
+				bool invokeForHandledEvents);
+
+			virtual void RemoveHandlerForRoutedEvent(
+				RoutedEvent^ routedEvent, 
+				Windows::Foundation::EventRegistrationToken token);
 
 		private:
 			class RoutedEventHandlerList {
@@ -21,8 +29,11 @@ namespace Prose {
 				RoutedEventHandlerList(void);
 
 				Windows::Foundation::Collections::IIterable<RoutedEventHandlerInfo^>^ GetHandlers();
-				Windows::Foundation::EventRegistrationToken AddHandler(CustomRoutedEventHandler^ handler, bool invokeForHandledEvents);
-				void RemoveHandler(Windows::Foundation::EventRegistrationToken token);
+				Windows::Foundation::EventRegistrationToken AddHandler(
+					Windows::Foundation::TypedEventHandler<Platform::Object^, ICustomRoutedEventArgs^>^ handler, 
+					bool invokeForHandledEvents);
+				void RemoveHandler(
+					Windows::Foundation::EventRegistrationToken token);
 			private:
 				UINT64 _nextId;
 				Platform::Collections::Vector<RoutedEventHandlerInfo^>^ _handlers;

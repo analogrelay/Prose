@@ -12,7 +12,7 @@ public: \
 #define IMPLEMENT_ROUTED_EVENT(Owner, RoutingStrategy_, HandlerTypeNoHat, ArgsType, Name) Prose::Events::RoutedEvent^ Owner::_ ## Name ## Event = Prose::Events::EventManager::RegisterRoutedEvent( \
 	#Name, Prose::Events::RoutingStrategy:: ## RoutingStrategy_, HandlerTypeNoHat::typeid, Owner::typeid); \
 Windows::Foundation::EventRegistrationToken Owner::Name::add(HandlerTypeNoHat^ handler) { \
-	return Prose::Events::EventManager::AddHandler(_ ## Name ## Event, this, ref new Prose::Events::CustomRoutedEventHandler([handler](Platform::Object^ sender, Prose::Events::ICustomRoutedEventArgs^ args) { \
+	return Prose::Events::EventManager::AddHandler(_ ## Name ## Event, this, ref new Windows::Foundation::TypedEventHandler<Platform::Object^, ICustomRoutedEventArgs^>([handler](Platform::Object^ sender, Prose::Events::ICustomRoutedEventArgs^ args) { \
 		handler(sender, safe_cast<ArgsType>(args)); \
 	}), false); \
 } \
@@ -34,15 +34,14 @@ void Owner:: ## Name ## ::raise(Platform::Object^ sender, ArgsType args) { \
 public: \
 	static property Windows::UI::Xaml::DependencyProperty^ Name ## Property { Windows::UI::Xaml::DependencyProperty^ get() { return _ ## Name ## Property; } };	
 
-
 #define DEPENDENCY_PROPERTY(Type, Name) _CORE_DEPENDENCY_PROPERTY(Name) \
 	property Type Name { \
 		virtual Type get() { return (Type)GetValue(Name ## Property); } \
 		void set(Type value) { SetValue(Name ## Property, value); } \
 	}
 
-#define IMPLEMENT_DP(Owner, Type, Name, DefaultValue) Windows::UI::Xaml::DependencyProperty^ Owner::_ ## Name ## Property = Windows::UI::Xaml::DependencyProperty::Register( \
-	#Name, Type::typeid, Owner::typeid, ref new Windows::UI::Xaml::PropertyMetadata(DefaultValue))
+#define DP_METADATA(DefaultValue) ref new Windows::UI::Xaml::PropertyMetadata(DefaultValue)
+#define DP_METADATA_WITH_HANDLER(DefaultValue, ChangedHandler) ref new Windows::UI::Xaml::PropertyMetadata(DefaultValue, ref new Windows::UI::Xaml::PropertyChangedCallback(ChangedHandler))
 
 #define _BACKING_FIELD(Type, Name) Type _ ## Name;
 #define _NULLITY_FIELD_NAME(Name) _Is ## Name ## Set

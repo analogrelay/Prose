@@ -100,14 +100,14 @@ void EventManager::RaiseRoutedEvent(
 Windows::Foundation::EventRegistrationToken EventManager::AddHandler(
 	RoutedEvent^ routedEvent,
 	IRoutedEventSource^ source,
-	CustomRoutedEventHandler^ handler) {
+	TypedEventHandler<Platform::Object^, ICustomRoutedEventArgs^>^ handler) {
 	return AddHandler(routedEvent, source, handler, false);
 }
 	
 Windows::Foundation::EventRegistrationToken EventManager::AddHandler(
 	RoutedEvent^ routedEvent,
 	IRoutedEventSource^ source,
-	CustomRoutedEventHandler^ handler,
+	TypedEventHandler<Platform::Object^, ICustomRoutedEventArgs^>^ handler,
 	bool invokeForHandledEvents) {
 	
 	return source->GetRoutedEventManager()->AddHandlerForRoutedEvent(routedEvent, handler, invokeForHandledEvents);

@@ -3,6 +3,7 @@
 #include "..\Events\PointerEvents.h"
 #include "..\Events\IRoutedEventSource.h"
 #include "..\Events\RoutedEvent.h"
+#include "..\Events\CustomRoutedEvent.h"
 
 namespace Prose {
 	namespace Structure {
@@ -24,6 +25,12 @@ namespace Prose {
 				Prose::Events::PointerTextEventHandler, 
 				Prose::Events::PointerTextEventArgs^,
 				PointerMoved);
+			DEFINE_ROUTED_EVENT(
+				Prose::Events::CustomRoutedEventHandler,
+				Prose::Events::CustomRoutedEventArgs^,
+				Invalidated);
+
+			virtual property DocumentNode^ Parent { DocumentNode^ get() { return _parent; } }
 
 			virtual void Accept(DocumentVisitor^ visitor) { dbgf(L"Accept was called but is not implemented for this sub-class"); };
 
@@ -34,8 +41,6 @@ namespace Prose {
 			
 			virtual Prose::Events::IRoutedEventManager^ GetRoutedEventManager() { return _eventManager; }
 			virtual Prose::Events::IRoutedEventSource^ GetEventRoutingParent(void) { return Parent; }
-
-			virtual property DocumentNode^ Parent { DocumentNode^ get() { return _parent; } }
 
 		internal:
 			void DetachParent(void) { _parent = nullptr; }

@@ -10,6 +10,7 @@ using namespace Windows::UI::Xaml::Input;
 IMPLEMENT_ROUTED_EVENT(DocumentNode, Bubble, PointerTextEventHandler, PointerTextEventArgs^, PointerEntered);
 IMPLEMENT_ROUTED_EVENT(DocumentNode, Bubble, PointerTextEventHandler, PointerTextEventArgs^, PointerExited);
 IMPLEMENT_ROUTED_EVENT(DocumentNode, Bubble, PointerTextEventHandler, PointerTextEventArgs^, PointerMoved);
+IMPLEMENT_ROUTED_EVENT(DocumentNode, Bubble, CustomRoutedEventHandler, CustomRoutedEventArgs^, Invalidated);
 
 DocumentNode::DocumentNode(void) : _eventManager(ref new RoutedEventManager()) {
 }

@@ -8,9 +8,17 @@ namespace Prose {
 		ref class RoutedEventHandlerInfo;
 
 		public interface class IRoutedEventManager {
-			Windows::Foundation::Collections::IIterable<RoutedEventHandlerInfo^>^ GetHandlersForRoutedEvent(RoutedEvent^ routedEvent);
-			Windows::Foundation::EventRegistrationToken AddHandlerForRoutedEvent(RoutedEvent^ routedEvent, CustomRoutedEventHandler^ handler, bool invokeForHandledEvents);
-			void RemoveHandlerForRoutedEvent(RoutedEvent^ routedEvent, Windows::Foundation::EventRegistrationToken token);
+			Windows::Foundation::Collections::IIterable<RoutedEventHandlerInfo^>^ GetHandlersForRoutedEvent(
+				RoutedEvent^ routedEvent);
+
+			Windows::Foundation::EventRegistrationToken AddHandlerForRoutedEvent(
+				RoutedEvent^ routedEvent, 
+				Windows::Foundation::TypedEventHandler<Platform::Object^, ICustomRoutedEventArgs^>^ handler, 
+				bool invokeForHandledEvents);
+
+			void RemoveHandlerForRoutedEvent(
+				RoutedEvent^ routedEvent, 
+				Windows::Foundation::EventRegistrationToken token);
 		};
 
 		public interface class IRoutedEventSource

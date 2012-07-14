@@ -3,20 +3,22 @@
 
 using namespace Prose;
 
+using namespace Platform;
 using namespace Microsoft::WRL;
 
 using namespace Windows::UI;
 using namespace Windows::UI::Text;
+using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Media;
 
-IMPLEMENT_DP(TextFormat, Windows::UI::Xaml::Media::FontFamily, FontFamily, nullptr);
-IMPLEMENT_DP(TextFormat, double, FontSize, std::numeric_limits<double>::quiet_NaN());
-IMPLEMENT_DP(TextFormat, Windows::UI::Xaml::Media::Brush, Foreground, nullptr);
-IMPLEMENT_DP(TextFormat, Platform::Box<Windows::UI::Text::FontStretch>, FontStretch, Windows::UI::Text::FontStretch::Undefined);
-IMPLEMENT_DP(TextFormat, Platform::Box<Windows::UI::Text::FontStyle>, FontStyle, Windows::UI::Text::FontStyle::Normal);
-IMPLEMENT_DP(TextFormat, Windows::UI::Text::FontWeight, FontWeight, Windows::UI::Text::FontWeights::Normal);
-IMPLEMENT_DP(TextFormat, bool, HasStrikethrough, false);
-IMPLEMENT_DP(TextFormat, bool, HasUnderline, false);
+DependencyProperty^ TextFormat::_FontFamilyProperty = RegisterDP("FontFamily", FontFamily::typeid, TextFormat::typeid);
+DependencyProperty^ TextFormat::_FontSizeProperty = RegisterDP("FontSize", double::typeid, TextFormat::typeid, std::numeric_limits<double>::quiet_NaN());
+DependencyProperty^ TextFormat::_ForegroundProperty = RegisterDP("Foreground", Brush::typeid, TextFormat::typeid);
+DependencyProperty^ TextFormat::_FontStretchProperty = RegisterDP("FontStretch", Box<Windows::UI::Text::FontStretch>::typeid, TextFormat::typeid, Windows::UI::Text::FontStretch::Undefined);
+DependencyProperty^ TextFormat::_FontStyleProperty = RegisterDP("FontStyle", Box<Windows::UI::Text::FontStyle>::typeid, TextFormat::typeid, Windows::UI::Text::FontStyle::Normal);
+DependencyProperty^ TextFormat::_FontWeightProperty = RegisterDP("FontWeight", FontWeight::typeid, TextFormat::typeid, FontWeights::Normal);
+DependencyProperty^ TextFormat::_HasStrikethroughProperty = RegisterDP("HasStrikethrough", bool::typeid, TextFormat::typeid, false);
+DependencyProperty^ TextFormat::_HasUnderlineProperty = RegisterDP("HasUnderlineProperty", bool::typeid, TextFormat::typeid, false);
 
 DWRITE_FONT_STRETCH stretchTable[] = {
 	DWRITE_FONT_STRETCH_UNDEFINED,

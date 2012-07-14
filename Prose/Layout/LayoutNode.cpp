@@ -10,8 +10,9 @@ using namespace Prose::Events;
 IMPLEMENT_ROUTED_EVENT(LayoutNode, Bubble, PointerLayoutEventHandler, PointerLayoutEventArgs^, PointerEntered);
 IMPLEMENT_ROUTED_EVENT(LayoutNode, Bubble, PointerLayoutEventHandler, PointerLayoutEventArgs^, PointerExited);
 IMPLEMENT_ROUTED_EVENT(LayoutNode, Bubble, PointerLayoutEventHandler, PointerLayoutEventArgs^, PointerMoved);
+IMPLEMENT_ROUTED_EVENT(LayoutNode, Bubble, CustomRoutedEventHandler, CustomRoutedEventArgs^, Invalidated);
 
-LayoutNode::LayoutNode(void) : _eventManager(ref new RoutedEventManager()) {
+LayoutNode::LayoutNode(Prose::Structure::DocumentNode^ structureNode) : _eventManager(ref new RoutedEventManager()), _structureNode(structureNode) {
 }
 
 void LayoutNode::FirePointerEntered(PointerLayoutEventArgs^ args) {

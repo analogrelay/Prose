@@ -3,20 +3,24 @@
 #include "DocumentVisitor.h"
 #include "..\TextFormat.h"
 
+using namespace Windows::UI::Text;
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Media;
 
 using namespace Prose;
+using namespace Prose::Events;
 using namespace Prose::Structure;
 
-IMPLEMENT_DP(Inline, Windows::UI::Xaml::Media::FontFamily, FontFamily, nullptr);
-IMPLEMENT_DP(Inline, double, FontSize, std::numeric_limits<double>::quiet_NaN());
-IMPLEMENT_DP(Inline, Windows::UI::Xaml::Media::Brush, Foreground, nullptr);
-IMPLEMENT_DP(Inline, Platform::Box<Windows::UI::Text::FontStretch>, FontStretch, Windows::UI::Text::FontStretch::Undefined);
-IMPLEMENT_DP(Inline, Platform::Box<Windows::UI::Text::FontStyle>, FontStyle, Windows::UI::Text::FontStyle::Normal);
-IMPLEMENT_DP(Inline, Windows::UI::Text::FontWeight, FontWeight, Windows::UI::Text::FontWeights::Normal);
-IMPLEMENT_DP(Inline, bool, HasStrikethrough, false);
-IMPLEMENT_DP(Inline, bool, HasUnderline, false);
+using namespace Platform;
+
+DependencyProperty^ Inline::_FontFamilyProperty = RegisterDP("FontFamily", FontFamily::typeid, Inline::typeid, ref new PropertyChangedCallback(&Inline::FormatPropertyChanged));
+DependencyProperty^ Inline::_FontSizeProperty = RegisterDP("FontSize", double::typeid, Inline::typeid, std::numeric_limits<double>::quiet_NaN(), ref new PropertyChangedCallback(&Inline::FormatPropertyChanged));
+DependencyProperty^ Inline::_ForegroundProperty = RegisterDP("Foreground", Brush::typeid, Inline::typeid, ref new PropertyChangedCallback(&Inline::FormatPropertyChanged));
+DependencyProperty^ Inline::_FontStretchProperty = RegisterDP("FontStretch", Box<Windows::UI::Text::FontStretch>::typeid, Inline::typeid, Windows::UI::Text::FontStretch::Undefined, ref new PropertyChangedCallback(&Inline::FormatPropertyChanged));
+DependencyProperty^ Inline::_FontStyleProperty = RegisterDP("FontStyle", Box<Windows::UI::Text::FontStyle>::typeid, Inline::typeid, Windows::UI::Text::FontStyle::Normal, ref new PropertyChangedCallback(&Inline::FormatPropertyChanged));
+DependencyProperty^ Inline::_FontWeightProperty = RegisterDP("FontWeight", FontWeight::typeid, Inline::typeid, FontWeights::Normal, ref new PropertyChangedCallback(&Inline::FormatPropertyChanged));
+DependencyProperty^ Inline::_HasStrikethroughProperty = RegisterDP("HasStrikethrough", bool::typeid, Inline::typeid, false, ref new PropertyChangedCallback(&Inline::FormatPropertyChanged));
+DependencyProperty^ Inline::_HasUnderlineProperty = RegisterDP("HasUnderlineProperty", bool::typeid, Inline::typeid, false, ref new PropertyChangedCallback(&Inline::FormatPropertyChanged));
 
 void Inline::CopyStyleTo(Inline^ other) {
 	other->FontFamily = this->FontFamily;
@@ -60,4 +64,16 @@ TextFormat^ Inline::CreateFormat(void) {
 
 void Inline::Accept(DocumentVisitor^ visitor) {
 	visitor->Visit(this);
+}
+
+void Inline::FormatPropertyChanged(
+	DependencyObject^ sender, 
+	DependencyPropertyChangedEventArgs^ args) {
+	
+	Inline^ inl = safe_cast<Inline^>(sender);
+	inl->InvalidateFormat();
+}
+
+void Inline::InvalidateFormat() {
+	Invalidated(this, ref new CustomRoutedEventArgs(this));
 }

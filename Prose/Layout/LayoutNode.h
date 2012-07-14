@@ -6,7 +6,7 @@ namespace Prose {
 	namespace Layout {
 		ref class LayoutVisitor;
 
-		public ref class LayoutNode :
+		public ref class LayoutNode abstract :
 			public Prose::Events::IRoutedEventSource
 		{
 			DEFINE_ROUTED_EVENT(
@@ -21,13 +21,18 @@ namespace Prose {
 				Prose::Events::PointerLayoutEventHandler, 
 				Prose::Events::PointerLayoutEventArgs^,
 				PointerMoved);
+			DEFINE_ROUTED_EVENT(
+				Prose::Events::CustomRoutedEventHandler,
+				Prose::Events::CustomRoutedEventArgs^,
+				Invalidated);
+
 
 		public:
 			virtual void FirePointerEntered(Prose::Events::PointerLayoutEventArgs^ args);
 			virtual void FirePointerExited(Prose::Events::PointerLayoutEventArgs^ args);
 			virtual void FirePointerMoved(Prose::Events::PointerLayoutEventArgs^ args);
 
-			virtual void Accept(LayoutVisitor^ visitor) { dbgf(L"Accept was called but is not implemented for this sub-class"); };
+			virtual void Accept(LayoutVisitor^ visitor) = 0;
 		
 			virtual property LayoutNode^ Parent { LayoutNode^ get() { return _parent; } }
 			virtual Prose::Events::IRoutedEventManager^ GetRoutedEventManager() { return _eventManager; }
@@ -35,11 +40,11 @@ namespace Prose {
 
 		public protected:
 			virtual property Prose::Structure::DocumentNode^ StructureNode {
-				virtual Prose::Structure::DocumentNode^ get() { throw ref new Platform::NotImplementedException(); };
+				virtual Prose::Structure::DocumentNode^ get() { return _structureNode; };
 			}
 
 		private protected:
-			LayoutNode(void);
+			LayoutNode(Prose::Structure::DocumentNode^ structureNode);
 
 		internal:
 			void DetachParent(void) { _parent = nullptr; }
@@ -47,6 +52,7 @@ namespace Prose {
 
 		private:
 			LayoutNode^ _parent;
+			Prose::Structure::DocumentNode^ _structureNode;
 			Prose::Events::IRoutedEventManager^ _eventManager;
 		};
 	}
