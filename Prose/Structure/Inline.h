@@ -1,17 +1,34 @@
 #pragma once
 
 #include "DocumentNode.h"
-#include "InlinePair.h"
-#include "..\TextFormat.h"
-
-#include <limits>
 
 namespace Prose {
+	ref class TextFormat;
+
 	namespace Structure {
-		ref class DocumentVisitor;
+		interface class IInlinePair;
+		interface class IDocumentVisitor;
+		
+		public interface class IInline :
+			public IDocumentNode {
+
+			property Windows::UI::Xaml::Media::FontFamily^ FontFamily;
+			property double FontSize;
+			property Windows::UI::Xaml::Media::Brush^ Foreground;
+			property Windows::UI::Text::FontStretch FontStretch;
+			property Windows::UI::Text::FontStyle FontStyle;
+			property Windows::UI::Text::FontWeight FontWeight;
+			property bool HasStrikethrough;
+			property bool HasUnderline;
+
+			property UINT32 Length { UINT32 get(); }
+
+			IInlinePair^ Split(UINT32 at);
+		};
 
 		public ref class Inline :
-			public DocumentNode
+			public DocumentNode,
+			public IInline
 		{
 			DEPENDENCY_PROPERTY(Windows::UI::Xaml::Media::FontFamily^, FontFamily);
 			DEPENDENCY_PROPERTY(double, FontSize);
@@ -23,18 +40,16 @@ namespace Prose {
 			DEPENDENCY_PROPERTY(bool, HasUnderline);
 			
 		public:
-			virtual property UINT32 Length { UINT32 get() { throw ref new Platform::NotImplementedException(L"Inline.Length must be implemented on subclasses of Inline"); } }
-			virtual InlinePair^ Split(UINT32 localOffset) { throw ref new Platform::NotImplementedException(L"Inline.Split must be implemented on subclasses of Inline"); };
-
-			/// <summary>Creates a TextFormat representing this node</summary>
-			TextFormat^ CreateFormat(void);
-
-			virtual void Accept(DocumentVisitor^ visitor) override;
-
-		public protected:
-			void CopyStyleTo(Inline^ other);
+			virtual property UINT32 Length { UINT32 get() FAUX_ABSTRACT }
+			virtual IInlinePair^ Split(UINT32 localOffset) FAUX_ABSTRACT;
+			
+			virtual TextFormat^ CreateFormat(void);
+			virtual void CopyStyleTo(IInline^ other);
+			virtual void Accept(IDocumentVisitor^ visitor) override;
 
 		private:
+			Inline(void) { }
+
 			void InvalidateFormat();
 
 			static void FormatPropertyChanged(

@@ -1,26 +1,33 @@
 #pragma once
-#include "Document.h"
-#include "Paragraph.h"
-#include "Run.h"
-#include "Inline.h"
-#include "Span.h"
 
 namespace Prose {
 	namespace Structure {
-		ref class Document;
-		ref class Paragraph;
-		ref class Run;
+		interface class IRun;
+		interface class ISpan;
+		interface class IInline;
+		interface class IDocument;
+		interface class IParagraph;
+		interface class IDocumentNode;
+		
+		public interface class IDocumentVisitor {
+			void Visit(IRun^ run);
+			void Visit(ISpan^ span);
+			void Visit(IInline^ inl);
+			void Visit(IDocument^ document);
+			void Visit(IDocumentNode^ node);
+			void Visit(IParagraph^ paragraph);
+		};
 
-		public ref class DocumentVisitor abstract
+		private ref class DocumentVisitor abstract :
+			public IDocumentVisitor
 		{
 		public:
-			virtual void Visit(DocumentNode^ node);
-			virtual void Visit(Document^ document);
-			virtual void Visit(Paragraph^ paragraph);
-			virtual void Visit(Inline^ inl);
-			virtual void Visit(Run^ run);
-			virtual void Visit(SpanBase^ span);
-			virtual void Visit(Span^ span);
+			virtual void Visit(IRun^ run);
+			virtual void Visit(ISpan^ span);
+			virtual void Visit(IInline^ inl);
+			virtual void Visit(IDocument^ document);
+			virtual void Visit(IDocumentNode^ node);
+			virtual void Visit(IParagraph^ paragraph);
 		};
 	}
 }

@@ -1,19 +1,26 @@
 #pragma once
+
 #include "Inline.h"
-#include "DocumentNode.h"
-#include "DocumentVisitor.h"
 
 namespace Prose {
 	namespace Structure {
+
+		public interface class IRun :
+			public IInline {
+
+			property Platform::String^ Text;
+		};
+
 		[Windows::UI::Xaml::Markup::ContentProperty(Name = "Text")]
 		public ref class Run sealed :
-			public Inline
+			public Inline,
+			public IRun
 		{
 		public:
 			Run(void);
 			Run(Platform::String^);
 
-			property Platform::String^ Text {
+			virtual property Platform::String^ Text {
 				Platform::String^ get() { return _text; }
 				void set(Platform::String^ value) { _text = value; }
 			};
@@ -23,7 +30,8 @@ namespace Prose {
 			}
 
 			virtual void Accept(DocumentVisitor^ visitor) override;
-			virtual InlinePair^ Split(UINT32 localOffset) override;
+			virtual IInlinePair^ Split(UINT32 localOffset) override;
+
 		private:
 			Platform::String^ _text;
 		};

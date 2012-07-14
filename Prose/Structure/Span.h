@@ -6,16 +6,23 @@ namespace Prose {
 	namespace Structure {
 		ref class DocumentVisitor;
 
+		public interface class ISpan {
+			property Windows::Foundation::Collections::IVector<IInline^>^ Inlines {
+				Windows::Foundation::Collections::IVector<IInline^>^ get();
+			}
+		}
+
 		[Windows::UI::Xaml::Markup::ContentProperty(Name = "Inlines")]
-		public ref class SpanBase :
-			public Inline
+		private ref class SpanBase :
+			public Inline,
+			public ISpan
 		{
 		public:
 			virtual property UINT32 Length { UINT32 get() override; }
-			virtual InlinePair^ Split(UINT32 localOffset) override;
+			virtual IInlinePair^ Split(UINT32 localOffset) override;
 
-			property Windows::Foundation::Collections::IVector<Inline^>^ Inlines {
-				Windows::Foundation::Collections::IVector<Inline^>^ get() { 
+			virtual property Windows::Foundation::Collections::IVector<IInline^>^ Inlines {
+				Windows::Foundation::Collections::IVector<IInline^>^ get() { 
 					return _inlines;
 				}
 			};
@@ -29,7 +36,7 @@ namespace Prose {
 			SpanBase(void);
 
 		private:
-			Windows::Foundation::Collections::IVector<Inline^>^ _inlines;
+			Windows::Foundation::Collections::IVector<IInline^>^ _inlines;
 		};
 
 		public ref class Span sealed : public SpanBase {

@@ -22,7 +22,7 @@ DependencyProperty^ Inline::_FontWeightProperty = RegisterDP("FontWeight", FontW
 DependencyProperty^ Inline::_HasStrikethroughProperty = RegisterDP("HasStrikethrough", bool::typeid, Inline::typeid, false, ref new PropertyChangedCallback(&Inline::FormatPropertyChanged));
 DependencyProperty^ Inline::_HasUnderlineProperty = RegisterDP("HasUnderlineProperty", bool::typeid, Inline::typeid, false, ref new PropertyChangedCallback(&Inline::FormatPropertyChanged));
 
-void Inline::CopyStyleTo(Inline^ other) {
+void Inline::CopyStyleTo(IInline^ other) {
 	other->FontFamily = this->FontFamily;
 	other->FontSize = this->FontSize;
 	other->Foreground = this->Foreground;
@@ -62,7 +62,7 @@ TextFormat^ Inline::CreateFormat(void) {
 	return format;
 }
 
-void Inline::Accept(DocumentVisitor^ visitor) {
+void Inline::Accept(IDocumentVisitor^ visitor) {
 	visitor->Visit(this);
 }
 

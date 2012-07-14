@@ -1,12 +1,15 @@
+// Macros for defining type members
+#define FAUX_ABSTRACT { throw ref new Platform::NotImplementedException("This method must be overridden by inheritors"); }
+
 // Macros for defining events
 #define DEFINE_ROUTED_EVENT(HandlerTypeNoHat, ArgsType, Name) private: \
 	static Prose::Events::RoutedEvent^ _ ## Name ## Event; \
 public: \
 	static property Prose::Events::RoutedEvent^ Name ## Event { Prose::Events::RoutedEvent^ get() { return _ ## Name ## Event; } }; \
 	virtual event HandlerTypeNoHat^ Name { \
-		Windows::Foundation::EventRegistrationToken add(HandlerTypeNoHat^ handler); \
-		void remove(Windows::Foundation::EventRegistrationToken token); \
-		void raise(Platform::Object^ sender, ArgsType args); \
+		virtual Windows::Foundation::EventRegistrationToken add(HandlerTypeNoHat^ handler); \
+		virtual void remove(Windows::Foundation::EventRegistrationToken token); \
+		virtual void raise(Platform::Object^ sender, ArgsType args); \
 	};
 
 #define IMPLEMENT_ROUTED_EVENT(Owner, RoutingStrategy_, HandlerTypeNoHat, ArgsType, Name) Prose::Events::RoutedEvent^ Owner::_ ## Name ## Event = Prose::Events::EventManager::RegisterRoutedEvent( \
@@ -37,7 +40,7 @@ public: \
 #define DEPENDENCY_PROPERTY(Type, Name) _CORE_DEPENDENCY_PROPERTY(Name) \
 	property Type Name { \
 		virtual Type get() { return (Type)GetValue(Name ## Property); } \
-		void set(Type value) { SetValue(Name ## Property, value); } \
+		virtual void set(Type value) { SetValue(Name ## Property, value); } \
 	}
 
 #define DP_METADATA(DefaultValue) ref new Windows::UI::Xaml::PropertyMetadata(DefaultValue)
