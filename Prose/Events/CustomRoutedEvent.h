@@ -8,7 +8,7 @@ namespace Prose {
 			property bool Handled;
 		};
 
-		public ref class CustomRoutedEventArgs:
+		private ref class CustomRoutedEventArgs abstract :
 			public ICustomRoutedEventArgs {
 		public:
 			virtual property Platform::Object^ OriginalSource {
@@ -28,6 +28,6 @@ namespace Prose {
 			bool _handled;
 		};
 
-		public delegate void CustomRoutedEventHandler(Platform::Object^ sender, CustomRoutedEventArgs^ e);
+		public delegate void CustomRoutedEventHandler(Platform::Object^ sender, ICustomRoutedEventArgs^ e);
 	}
 }

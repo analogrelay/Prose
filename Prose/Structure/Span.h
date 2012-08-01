@@ -4,16 +4,19 @@
 
 namespace Prose {
 	namespace Structure {
+		namespace WFC = Windows::Foundation::Collections;
+		namespace WUX = Windows::UI::Xaml;
+
 		ref class DocumentVisitor;
 
 		public interface class ISpan {
-			property Windows::Foundation::Collections::IVector<IInline^>^ Inlines {
-				Windows::Foundation::Collections::IVector<IInline^>^ get();
+			property WFC::IVector<IInline^>^ Inlines {
+				WFC::IVector<IInline^>^ get();
 			}
 		}
 
-		[Windows::UI::Xaml::Markup::ContentProperty(Name = "Inlines")]
-		private ref class SpanBase :
+		[WUX::Markup::ContentProperty(Name = "Inlines")]
+		private ref class SpanBase abstract :
 			public Inline,
 			public ISpan
 		{
@@ -21,8 +24,8 @@ namespace Prose {
 			virtual property UINT32 Length { UINT32 get() override; }
 			virtual IInlinePair^ Split(UINT32 localOffset) override;
 
-			virtual property Windows::Foundation::Collections::IVector<IInline^>^ Inlines {
-				Windows::Foundation::Collections::IVector<IInline^>^ get() { 
+			virtual property WFC::IVector<IInline^>^ Inlines {
+				WFC::IVector<IInline^>^ get() { 
 					return _inlines;
 				}
 			};
@@ -30,16 +33,16 @@ namespace Prose {
 			virtual void Accept(DocumentVisitor^ visitor) override;
 
 		public protected:
-			virtual SpanBase^ Clone() { throw ref new Platform::NotImplementedException("SpanBase.Clone must be implemented by subclasses of SpanBase"); };
+			virtual SpanBase^ Clone() abstract;
 
 		private protected:
 			SpanBase(void);
 
 		private:
-			Windows::Foundation::Collections::IVector<IInline^>^ _inlines;
+			WFC::IVector<IInline^>^ _inlines;
 		};
 
-		public ref class Span sealed : public SpanBase {
+		private ref class Span sealed : public SpanBase {
 		public:
 			Span(void) : SpanBase() {}
 
@@ -49,7 +52,7 @@ namespace Prose {
 			virtual SpanBase^ Clone() override { return ref new Span(); }
 		};
 
-		public ref class Italic sealed : public SpanBase {
+		private ref class Italic sealed : public SpanBase {
 		public:
 			Italic(void) : SpanBase() {
 				FontStyle = Windows::UI::Text::FontStyle::Italic;
@@ -61,7 +64,7 @@ namespace Prose {
 			virtual SpanBase^ Clone() override { return ref new Italic(); }
 		};
 
-		public ref class Bold sealed : public SpanBase {
+		private ref class Bold sealed : public SpanBase {
 		public:
 			Bold(void) : SpanBase() {
 				FontWeight = Windows::UI::Text::FontWeights::Bold;
@@ -73,7 +76,7 @@ namespace Prose {
 			virtual SpanBase^ Clone() override { return ref new Bold(); }
 		};
 
-		public ref class Underline sealed : public SpanBase {
+		private ref class Underline sealed : public SpanBase {
 		public:
 			Underline(void) : SpanBase() {
 				this->HasUnderline = true;
@@ -85,7 +88,7 @@ namespace Prose {
 			virtual SpanBase^ Clone() override { return ref new Underline(); }
 		};
 
-		public ref class Strikethrough sealed : public SpanBase {
+		private ref class Strikethrough sealed : public SpanBase {
 		public:
 			Strikethrough(void) : SpanBase() {
 				this->HasStrikethrough = true;

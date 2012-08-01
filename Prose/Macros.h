@@ -39,8 +39,8 @@ public: \
 
 #define DEPENDENCY_PROPERTY(Type, Name) _CORE_DEPENDENCY_PROPERTY(Name) \
 	property Type Name { \
-		virtual Type get() { return (Type)GetValue(Name ## Property); } \
-		virtual void set(Type value) { SetValue(Name ## Property, value); } \
+		Type get() { return (Type)GetValue(Name ## Property); } \
+		void set(Type value) { SetValue(Name ## Property, value); } \
 	}
 
 #define DP_METADATA(DefaultValue) ref new Windows::UI::Xaml::PropertyMetadata(DefaultValue)

@@ -4,7 +4,7 @@
 
 namespace Prose {
 	namespace Events {
-		public ref class RoutedEvent
+		public ref class RoutedEvent sealed
 		{
 		public:
 			property Platform::String^ Name { Platform::String^ get() { return _name; } }

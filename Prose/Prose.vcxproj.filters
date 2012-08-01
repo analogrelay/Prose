@@ -86,8 +86,10 @@
     <ClInclude Include="Events\RoutedEventHandlerInfo.h" />
     <ClInclude Include="Events\CustomRoutedEvent.h" />
     <ClInclude Include="Events\RoutedEventManager.h" />
-    <ClInclude Include=".\Events\PointerEvents.h" />
     <ClInclude Include="ChildNodeCollection.h" />
     <ClInclude Include="Macros.h" />
+    <ClInclude Include="Xaml\IDocumentXamlNode.h" />
+    <ClInclude Include="Events\PointerTextEvent.h" />
+    <ClInclude Include="Events\PointerLayoutEvent.h" />
   </ItemGroup>
 </Project>

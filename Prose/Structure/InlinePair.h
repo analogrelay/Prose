@@ -10,7 +10,7 @@ namespace Prose {
 			property IInline^ Right { IInline^ get(); }
 		};
 
-		public ref class InlinePair sealed :
+		private ref class InlinePair sealed :
 			public IInlinePair
 		{
 		public:

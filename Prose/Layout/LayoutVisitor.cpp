@@ -5,7 +5,7 @@ using namespace Prose::Layout;
 using namespace Windows::Foundation::Collections;
 
 void LayoutVisitor::Visit(LayoutTree^ tree) {
-	VisitChildren<LayoutBox>(tree->Boxes);
+	VisitChildren(tree->Boxes);
 }
 
 void LayoutVisitor::Visit(LayoutBox^ box) {

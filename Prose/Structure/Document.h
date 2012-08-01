@@ -5,28 +5,32 @@
 
 namespace Prose {
 	namespace Structure {
-		public interface class IDocument :
-			public IDocumentNode {
+		namespace WUX = Windows::UI::Xaml;
+		namespace WFC = Windows::Foundation::Collections;
+
+		public interface class IDocument {
 			property Windows::Foundation::Collections::IVector<IParagraph^>^ Paragraphs {
 				Windows::Foundation::Collections::IVector<IParagraph^>^ get();
 			}
 		};
 
-		[Windows::UI::Xaml::Markup::ContentProperty(Name = "Paragraphs")]
-		public ref class Document sealed :
+		[WUX::Markup::ContentProperty(Name = "Paragraphs")]
+		private ref class Document :
 			public DocumentNode,
 			public IDocument
 		{
 		public:
-			virtual property Windows::Foundation::Collections::IVector<IParagraph^>^ Paragraphs {
-				Windows::Foundation::Collections::IVector<IParagraph^>^ get() { return _paragraphs; }
+			virtual property WFC::IVector<IParagraph^>^ Paragraphs {
+				WFC::IVector<IParagraph^>^ get() { return _paragraphs; }
 			}
 
+			virtual void Accept(IDocumentVisitor^ visitor) override;
+
+		internal:
 			Document(void);
 
-			virtual void Accept(IDocumentVisitor^ visitor) override;
 		private:
-			Windows::Foundation::Collections::IVector<IParagraph^>^ _paragraphs;
+			WFC::IVector<IParagraph^>^ _paragraphs;
 		};
 	}
 }

@@ -17,7 +17,7 @@ namespace Prose {
 			LayoutBuilder(LayoutEngineVisitor^ visitor, LayoutBox^ box, Prose::Structure::Paragraph^ paragraph);
 
 			bool Layout(void);
-			void Process(Prose::Structure::Run^ run);
+			void Process(Prose::Structure::IRun^ run);
 			void PushFormat(Prose::TextFormat^ format);
 			void PopFormat(void);
 		private:
@@ -34,7 +34,7 @@ namespace Prose {
 			Platform::Collections::Vector<FormattedRange^>^ _formatters;
 		};
 
-		private ref class LayoutEngineVisitor sealed :
+		private ref class LayoutEngineVisitor :
 			public Prose::Structure::DocumentVisitor
 		{
 		public:
@@ -42,9 +42,9 @@ namespace Prose {
 
 			LayoutEngineVisitor(Windows::Foundation::Size layoutSize);
 
-			virtual void Visit(Prose::Structure::Run^ run) override;
-			virtual void Visit(Prose::Structure::Paragraph^ paragraph) override;
-			virtual void Visit(Prose::Structure::SpanBase^ span) override;
+			virtual void Visit(Prose::Structure::IRun^ run) override;
+			virtual void Visit(Prose::Structure::IParagraph^ paragraph) override;
+			virtual void Visit(Prose::Structure::ISpan^ span) override;
 		internal:
 			property float VerticalOffset {
 				float get() { return _height; }

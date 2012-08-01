@@ -4,7 +4,7 @@
 
 namespace Prose {
 	namespace Events {
-		public ref class RoutedEventHandlerInfo {
+		public ref class RoutedEventHandlerInfo sealed {
 		public:
 			property Windows::Foundation::TypedEventHandler<Platform::Object^, ICustomRoutedEventArgs^>^ Handler { 
 				Windows::Foundation::TypedEventHandler<Platform::Object^, ICustomRoutedEventArgs^>^ get() { return _handler; } 

@@ -1,18 +1,21 @@
 #pragma once
 
-#include "..\Events\PointerEvents.h"
+#include "..\Events\PointerTextEvent.h"
 #include "..\Events\IRoutedEventSource.h"
 #include "..\Events\RoutedEvent.h"
 #include "..\Events\CustomRoutedEvent.h"
 
 namespace Prose {
 	namespace Structure {
+		namespace PE = Prose::Events;
+		namespace WUX = Windows::UI::Xaml;
+
 		interface class IDocumentVisitor;
 
 		public interface class IDocumentNode {
-			event Prose::Events::PointerTextEventHandler^ PointerEntered;
-			event Prose::Events::PointerTextEventHandler^ PointerExited;
-			event Prose::Events::PointerTextEventHandler^ PointerMoved;
+			event PE::PointerTextEventHandler^ PointerEntered;
+			event PE::PointerTextEventHandler^ PointerExited;
+			event PE::PointerTextEventHandler^ PointerMoved;
 
 			property IDocumentNode^ Parent { IDocumentNode^ get(); }
 			
@@ -21,26 +24,26 @@ namespace Prose {
 			void AttachParent(IDocumentNode^ parent);
 		};
 
-		public ref class DocumentNode : 
-			public Windows::UI::Xaml::DependencyObject,
-			public Prose::Events::IRoutedEventSource,
+		private ref class DocumentNode abstract : 
+			public WUX::DependencyObject,
+			public PE::IRoutedEventSource,
 			public IDocumentNode
 		{
 			DEFINE_ROUTED_EVENT(
-				Prose::Events::PointerTextEventHandler, 
-				Prose::Events::PointerTextEventArgs^,
+				PE::PointerTextEventHandler, 
+				PE::IPointerTextEventArgs^,
 				PointerEntered);
 			DEFINE_ROUTED_EVENT(
-				Prose::Events::PointerTextEventHandler, 
-				Prose::Events::PointerTextEventArgs^,
+				PE::PointerTextEventHandler, 
+				PE::IPointerTextEventArgs^,
 				PointerExited);
 			DEFINE_ROUTED_EVENT(
-				Prose::Events::PointerTextEventHandler, 
-				Prose::Events::PointerTextEventArgs^,
+				PE::PointerTextEventHandler, 
+				PE::IPointerTextEventArgs^,
 				PointerMoved);
 			DEFINE_ROUTED_EVENT(
-				Prose::Events::CustomRoutedEventHandler,
-				Prose::Events::CustomRoutedEventArgs^,
+				PE::CustomRoutedEventHandler,
+				PE::ICustomRoutedEventArgs^,
 				Invalidated);
 
 		public:
@@ -48,12 +51,12 @@ namespace Prose {
 			
 			virtual void Accept(IDocumentVisitor^ visitor) { dbgf(L"Accept called but subclass '%s' does not implement it", GetType()->FullName); }
 			
-			virtual Prose::Events::IRoutedEventManager^ GetRoutedEventManager() { return _eventManager; }
-			virtual Prose::Events::IRoutedEventSource^ GetEventRoutingParent(void) { return dynamic_cast<Prose::Events::IRoutedEventSource^>(Parent); }
+			virtual PE::IRoutedEventManager^ GetRoutedEventManager() { return _eventManager; }
+			virtual PE::IRoutedEventSource^ GetEventRoutingParent(void) { return dynamic_cast<PE::IRoutedEventSource^>(Parent); }
 
-			virtual void FirePointerEntered(Prose::Events::PointerTextEventArgs^ args);
-			virtual void FirePointerExited(Prose::Events::PointerTextEventArgs^ args);
-			virtual void FirePointerMoved(Prose::Events::PointerTextEventArgs^ args);
+			virtual void FirePointerEntered(PE::PointerTextEventArgs^ args);
+			virtual void FirePointerExited(PE::PointerTextEventArgs^ args);
+			virtual void FirePointerMoved(PE::PointerTextEventArgs^ args);
 			
 			virtual void DetachParent(void) { _parent = nullptr; }
 			virtual void AttachParent(IDocumentNode^ parent) { _parent = parent; }
@@ -63,7 +66,7 @@ namespace Prose {
 
 		private:
 			IDocumentNode^ _parent;
-			Prose::Events::IRoutedEventManager^ _eventManager;
+			PE::IRoutedEventManager^ _eventManager;
 		};
 	}
 }

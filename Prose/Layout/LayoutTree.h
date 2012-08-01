@@ -4,22 +4,24 @@
 
 namespace Prose {
 	namespace Layout {
+		namespace WFC = Windows::Foundation::Collections;
+
 		public ref class LayoutTree sealed
 		{
 		public:
-			property Windows::Foundation::Collections::IVector<LayoutBox^>^ Boxes {
-				Windows::Foundation::Collections::IVector<LayoutBox^>^ get() { return _boxes; }
+			property WFC::IVector<ILayoutBox^>^ Boxes {
+				WFC::IVector<ILayoutBox^>^ get() { return _boxes; }
 			}
 
 			Windows::Foundation::Size Measure(void);
 
 			LayoutTree(void);
 
-			virtual void Accept(LayoutVisitor^ visitor);
+			void Accept(ILayoutVisitor^ visitor);
 
 			LayoutPointer^ HitTest(Windows::Foundation::Point point);
 		private:
-			Windows::Foundation::Collections::IVector<LayoutBox^>^ _boxes;
+			WFC::IVector<ILayoutBox^>^ _boxes;
 		};
 	}
 }

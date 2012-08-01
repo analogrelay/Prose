@@ -7,7 +7,7 @@ namespace Prose {
 			public ILayoutEngine
 		{
 		public:
-			virtual LayoutResult^ CreateLayout(Prose::Structure::Document^ document, Windows::Foundation::Size layoutSize);
+			virtual LayoutResult^ CreateLayout(Prose::Structure::IDocument^ document, Windows::Foundation::Size layoutSize);
 		};
 	}
 }

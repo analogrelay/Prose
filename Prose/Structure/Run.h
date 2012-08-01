@@ -4,6 +4,7 @@
 
 namespace Prose {
 	namespace Structure {
+		namespace WUX = Windows::UI::Xaml;
 
 		public interface class IRun :
 			public IInline {
@@ -11,8 +12,8 @@ namespace Prose {
 			property Platform::String^ Text;
 		};
 
-		[Windows::UI::Xaml::Markup::ContentProperty(Name = "Text")]
-		public ref class Run sealed :
+		[WUX::Markup::ContentProperty(Name = "Text")]
+		private ref class Run :
 			public Inline,
 			public IRun
 		{

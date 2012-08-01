@@ -4,25 +4,38 @@
 
 namespace Prose {
 	namespace Layout {
-		public ref class LayoutInline sealed :
-			public LayoutNode
+		namespace PS = Prose::Structure;
+
+
+		public interface class ILayoutInline :
+			public ILayoutNode {
+
+			property Platform::String^ Text {
+				Platform::String^ get();
+			}
+		};
+
+		private ref class LayoutInline :
+			public LayoutNode,
+			public ILayoutInline
 		{
 		public:
-			LayoutInline(Prose::Structure::DocumentNode^ node, Platform::String^ text);
-
 			property Platform::String^ Text {
 				Platform::String^ get() { return _text; }
 			}
 			
-			virtual void Accept(LayoutVisitor^ visitor) override;
+			virtual void Accept(ILayoutVisitor^ visitor) override;
+
+		internal:
+			LayoutInline(PS::IDocumentNode^ node, Platform::String^ text);
 
 		public protected:
-			virtual property Prose::Structure::DocumentNode^ StructureNode {
-				virtual Prose::Structure::DocumentNode^ get() override;
+			virtual property PS::IDocumentNode^ StructureNode {
+				virtual PS::IDocumentNode^ get() override;
 			}
 
 		private:
-			Prose::Structure::DocumentNode^ _node;
+			PS::IDocumentNode^ _node;
 			Platform::String^ _text;
 		};
 	}

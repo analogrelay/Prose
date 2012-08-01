@@ -12,8 +12,8 @@ using namespace Prose::Structure;
 using namespace Platform::Collections;
 using namespace Windows::Foundation;
 
-LayoutBox::LayoutBox(Prose::Structure::DocumentNode^ node) : _node(node), _inlines(ref new ChildNodeCollection<LayoutInline^, LayoutNode^>(this)), _metrics(nullptr), _margin(0) { }
-LayoutBox::LayoutBox(Prose::Structure::DocumentNode^ node, Windows::UI::Xaml::Thickness margin) : _node(node), _inlines(ref new ChildNodeCollection<LayoutInline^, LayoutNode^>(this)), _metrics(nullptr), _margin(margin) { }
+LayoutBox::LayoutBox(Prose::Structure::DocumentNode^ node) : _node(node), _inlines(ref new ChildNodeCollection<ILayoutInline^, ILayoutNode^>(this)), _metrics(nullptr), _margin(0) { }
+LayoutBox::LayoutBox(Prose::Structure::DocumentNode^ node, Windows::UI::Xaml::Thickness margin) : LayoutBox(node), _margin(margin) { }
 
 void LayoutBox::Accept(LayoutVisitor^ visitor) { visitor->Visit(this); }
 

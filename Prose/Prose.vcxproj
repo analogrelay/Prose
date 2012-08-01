@@ -225,6 +225,7 @@
     <ClInclude Include="Events\CustomRoutedEvent.h" />
     <ClInclude Include="Events\EventManager.h" />
     <ClInclude Include="Events\IRoutedEventSource.h" />
+    <ClInclude Include="Events\PointerLayoutEvent.h" />
     <ClInclude Include="Events\RoutedEvent.h" />
     <ClInclude Include="Events\RoutedEventHandlerInfo.h" />
     <ClInclude Include="Events\RoutedEventManager.h" />
@@ -248,7 +249,7 @@
     <ClInclude Include=".\Structure\Paragraph.h" />
     <ClInclude Include=".\Rendering\IDocumentRenderer.h" />
     <ClInclude Include=".\Rendering\IRenderingPlan.h" />
-    <ClInclude Include=".\Events\PointerEvents.h" />
+    <ClInclude Include="Events\PointerTextEvent.h" />
     <ClInclude Include="Rendering\DirectWriteRenderer.h" />
     <ClInclude Include="Rendering\DirectWriteRenderingPlan.h" />
     <ClInclude Include="Rendering\DirectWriteSurface.h" />
@@ -263,6 +264,7 @@
     <ClInclude Include="Structure\TextPointer.h" />
     <ClInclude Include="TextFormat.h" />
     <ClInclude Include="TextRange.h" />
+    <ClInclude Include="Xaml\IDocumentXamlNode.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include=".\Controls\OverflowDocumentHost.cpp" />

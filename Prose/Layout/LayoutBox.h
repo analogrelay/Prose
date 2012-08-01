@@ -8,19 +8,40 @@ namespace Prose {
 		ref class DocumentNode;
 	}
 	namespace Layout {
-		ref class LayoutPointer;
-		ref class LayoutVisitor;
-		ref class LayoutInline;
+		namespace WUX = Windows::UI::Xaml;
+		namespace WFC = Windows::Foundation::Collections;
+		namespace PS = Prose::Structure;
 
-		public ref class LayoutBox sealed :
-			public LayoutNode
+		ref class LayoutPointer;
+		
+		interface class ILayoutVisitor;
+		interface class ILayoutInline;
+
+		public interface class ILayoutBox :
+			public ILayoutNode {
+
+			property WUX::Thickness Margin {
+				WUX::Thickness get();
+			}
+
+			property ILayoutMetrics^ Metrics {
+				ILayoutMetrics^ get();
+			}
+
+			property WFC::IVector<ILayoutInline^>^ Inlines {
+				WFC::IVector<ILayoutInline^>^ get();
+			}
+
+			PS::TextPointer^ LayoutToText(LayoutPointer^ ptr);
+		};
+
+		private ref class LayoutBox :
+			public LayoutNode,
+			public ILayoutBox
 		{
 		public:
-			LayoutBox(Prose::Structure::DocumentNode^ node);
-			LayoutBox(Prose::Structure::DocumentNode^ node, Windows::UI::Xaml::Thickness margin);
-			
-			property Windows::UI::Xaml::Thickness Margin {
-				Windows::UI::Xaml::Thickness get() { return _margin; }
+			property WUX::Thickness Margin {
+				WUX::Thickness get() { return _margin; }
 			}
 			
 			property ILayoutMetrics^ Metrics {
@@ -28,25 +49,29 @@ namespace Prose {
 				void set(ILayoutMetrics^ value) { _metrics = value; }
 			};
 
-			property Windows::Foundation::Collections::IVector<LayoutInline^>^ Inlines {
-				Windows::Foundation::Collections::IVector<LayoutInline^>^ get() { return _inlines; }
+			property WFC::IVector<ILayoutInline^>^ Inlines {
+				WFC::IVector<ILayoutInline^>^ get() { return _inlines; }
 			}
 
-			virtual void Accept(LayoutVisitor^ visitor) override;
-			virtual Prose::Structure::TextPointer^ LayoutToText(LayoutPointer^ ptr);
+			virtual void Accept(ILayoutVisitor^ visitor) override;
+			virtual PS::TextPointer^ LayoutToText(LayoutPointer^ ptr);
 
 			LayoutPointer^ HitTest(Windows::Foundation::Point point);
 
+		internal:
+			LayoutBox(PS::DocumentNode^ node);
+			LayoutBox(PS::DocumentNode^ node, WUX::Thickness margin);
+
 		public protected:
-			virtual property Prose::Structure::DocumentNode^ StructureNode {
-				virtual Prose::Structure::DocumentNode^ get() override;
+			virtual property PS::IDocumentNode^ StructureNode {
+				virtual PS::IDocumentNode^ get() override;
 			}
 
 		private:
-			Windows::UI::Xaml::Thickness _margin;
-			Prose::Structure::DocumentNode^ _node;
+			WUX::Thickness _margin;
+			PS::DocumentNode^ _node;
 			ILayoutMetrics^ _metrics;
-			Windows::Foundation::Collections::IVector<LayoutInline^>^ _inlines;
+			WFC::IVector<ILayoutInline^>^ _inlines;
 		};
 	}
 }

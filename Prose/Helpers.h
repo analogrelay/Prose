@@ -58,33 +58,4 @@ namespace Prose {
 			throw Platform::Exception::CreateException(hr);
 		}
 	}
-
-	generic<typename T>
-	public interface class INullable {
-		property bool HasValue { bool get(); }
-		property T Value { T get(); }
-	};
-
-	template<typename T>
-	private ref class Nullable sealed :
-		public INullable<T>
-	{
-	public:
-		virtual property bool HasValue { bool get() { return _hasValue; } }
-		virtual property T Value { 
-			T get() { 
-				if(!_hasValue) {
-					throw ref new Platform::NullReferenceException();
-				}
-				return _value; 
-			} 
-		}
-
-		Nullable(void) : _hasValue(false) { };
-		Nullable(T value) : _hasValue(true), _value(value) { };
-
-	private:
-		bool _hasValue;
-		T _value;
-	};
 }

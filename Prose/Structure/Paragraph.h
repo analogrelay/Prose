@@ -4,30 +4,34 @@
 
 namespace Prose {
 	namespace Structure {
+		namespace WFC = Windows::Foundation::Collections;
+		namespace WUX = Windows::UI::Xaml;
+
 		public interface class IParagraph :
 			public IDocumentNode {
 			
-			property Windows::Foundation::Collections::IVector<IInline^>^ Inlines {
-				Windows::Foundation::Collections::IVector<IInline^>^ get();
+			property WFC::IVector<IInline^>^ Inlines {
+				WFC::IVector<IInline^>^ get();
 			}
 		};
 
-		[Windows::UI::Xaml::Markup::ContentProperty(Name = "Inlines")]
-		public ref class Paragraph sealed :
+		[WUX::Markup::ContentProperty(Name = "Inlines")]
+		private ref class Paragraph :
 			public DocumentNode,
 			public IParagraph
 		{
 		public:
-			Paragraph(void);
-
-			virtual property Windows::Foundation::Collections::IVector<IInline^>^ Inlines {
-				Windows::Foundation::Collections::IVector<IInline^>^ get() { return _inlines; }
+			virtual property WFC::IVector<IInline^>^ Inlines {
+				WFC::IVector<IInline^>^ get() { return _inlines; }
 			};
 
 			TextPointer^ OffsetToPointer(UINT32 offset);
-			virtual void Accept(DocumentVisitor^ visitor) override;
+			virtual void Accept(IDocumentVisitor^ visitor) override;
+		internal:
+			Paragraph(void);
+
 		private:
-			Windows::Foundation::Collections::IVector<IInline^>^ _inlines;
+			WFC::IVector<IInline^>^ _inlines;
 		};
 	}
 }

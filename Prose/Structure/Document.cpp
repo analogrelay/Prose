@@ -8,8 +8,8 @@ using namespace Platform::Collections;
 using namespace Prose;
 using namespace Prose::Structure;
 
-Document::Document(void) : _paragraphs(ref new ChildNodeCollection<Paragraph^, DocumentNode^>(this)) {}
+Document::Document(void) : _paragraphs(ref new ChildNodeCollection<IParagraph^, IDocumentNode^>(this)) {}
 
-void Document::Accept(DocumentVisitor^ visitor) {
-	visitor->Visit(this);
+void Document::Accept(IDocumentVisitor^ visitor) {
+	visitor->Visit(static_cast<IDocument^>(this));
 }
