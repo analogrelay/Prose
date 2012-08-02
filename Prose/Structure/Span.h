@@ -7,30 +7,22 @@ namespace Prose {
 		namespace WFC = Windows::Foundation::Collections;
 		namespace WUX = Windows::UI::Xaml;
 
-		ref class DocumentVisitor;
+		ref class StructureVisitor;
 
-		public interface class ISpan {
-			property WFC::IVector<IInline^>^ Inlines {
-				WFC::IVector<IInline^>^ get();
-			}
-		}
-
-		[WUX::Markup::ContentProperty(Name = "Inlines")]
 		private ref class SpanBase abstract :
-			public Inline,
-			public ISpan
+			public Inline
 		{
 		public:
 			virtual property UINT32 Length { UINT32 get() override; }
-			virtual IInlinePair^ Split(UINT32 localOffset) override;
+			virtual InlinePair^ Split(UINT32 localOffset) override;
 
-			virtual property WFC::IVector<IInline^>^ Inlines {
-				WFC::IVector<IInline^>^ get() { 
+			virtual property WFC::IVector<Inline^>^ Inlines {
+				WFC::IVector<Inline^>^ get() { 
 					return _inlines;
 				}
 			};
 
-			virtual void Accept(DocumentVisitor^ visitor) override;
+			virtual void Accept(StructureVisitor^ visitor) override;
 
 		public protected:
 			virtual SpanBase^ Clone() abstract;
@@ -39,14 +31,14 @@ namespace Prose {
 			SpanBase(void);
 
 		private:
-			WFC::IVector<IInline^>^ _inlines;
+			WFC::IVector<Inline^>^ _inlines;
 		};
 
 		private ref class Span sealed : public SpanBase {
 		public:
 			Span(void) : SpanBase() {}
 
-			virtual void Accept(DocumentVisitor^ visitor) override;
+			virtual void Accept(StructureVisitor^ visitor) override;
 
 		public protected:
 			virtual SpanBase^ Clone() override { return ref new Span(); }
@@ -55,10 +47,11 @@ namespace Prose {
 		private ref class Italic sealed : public SpanBase {
 		public:
 			Italic(void) : SpanBase() {
-				FontStyle = Windows::UI::Text::FontStyle::Italic;
+				Format = ref new TextFormat();
+				Format->FontStyle = Windows::UI::Text::FontStyle::Italic;
 			}
 
-			virtual void Accept(DocumentVisitor^ visitor) override;
+			virtual void Accept(StructureVisitor^ visitor) override;
 
 		public protected:
 			virtual SpanBase^ Clone() override { return ref new Italic(); }
@@ -67,10 +60,11 @@ namespace Prose {
 		private ref class Bold sealed : public SpanBase {
 		public:
 			Bold(void) : SpanBase() {
-				FontWeight = Windows::UI::Text::FontWeights::Bold;
+				Format = ref new TextFormat();
+				Format->FontWeight = Windows::UI::Text::FontWeights::Bold;
 			}
 
-			virtual void Accept(DocumentVisitor^ visitor) override;
+			virtual void Accept(StructureVisitor^ visitor) override;
 
 		public protected:
 			virtual SpanBase^ Clone() override { return ref new Bold(); }
@@ -79,10 +73,11 @@ namespace Prose {
 		private ref class Underline sealed : public SpanBase {
 		public:
 			Underline(void) : SpanBase() {
-				this->HasUnderline = true;
+				Format = ref new TextFormat();
+				Format->HasUnderline = true;
 			}
 
-			virtual void Accept(DocumentVisitor^ visitor) override;
+			virtual void Accept(StructureVisitor^ visitor) override;
 
 		public protected:
 			virtual SpanBase^ Clone() override { return ref new Underline(); }
@@ -91,10 +86,11 @@ namespace Prose {
 		private ref class Strikethrough sealed : public SpanBase {
 		public:
 			Strikethrough(void) : SpanBase() {
-				this->HasStrikethrough = true;
+				Format = ref new TextFormat();
+				Format->HasStrikethrough = true;
 			}
 
-			virtual void Accept(DocumentVisitor^ visitor) override;
+			virtual void Accept(StructureVisitor^ visitor) override;
 
 		public protected:
 			virtual SpanBase^ Clone() override { return ref new Strikethrough(); }

@@ -1,11 +1,11 @@
 #pragma once
-#include "..\Structure\Document.h"
+#include "..\Structure\StructureTree.h"
 #include "LayoutResult.h"
 
 namespace Prose {
 	namespace Layout {
-		public interface class ILayoutEngine {
-			LayoutResult^ CreateLayout(Prose::Structure::IDocument^ document, Windows::Foundation::Size layoutSize);
+		private interface class ILayoutEngine {
+			LayoutResult^ CreateLayout(Prose::Structure::StructureTree^ tree, Windows::Foundation::Size layoutSize);
 		};
 	}
 }

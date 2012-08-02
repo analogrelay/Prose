@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Paragraph.h"
-#include "DocumentVisitor.h"
+#include "StructureVisitor.h"
 #include "Run.h"
 #include "..\ChildNodeCollection.h"
 
@@ -8,9 +8,9 @@ using namespace Prose;
 using namespace Prose::Structure;
 using namespace Platform::Collections;
 
-Paragraph::Paragraph(void) : _inlines(ref new ChildNodeCollection<Inline^, DocumentNode^>(this)) { }
+Paragraph::Paragraph(void) : _inlines(ref new Vector<Inline^>()) { }
 
-void Paragraph::Accept(DocumentVisitor^ visitor) {
+void Paragraph::Accept(StructureVisitor^ visitor) {
 	visitor->Visit(this);
 }
 

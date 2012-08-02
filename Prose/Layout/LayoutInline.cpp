@@ -6,10 +6,10 @@ using namespace Prose;
 using namespace Prose::Layout;
 using namespace Prose::Structure;
 
-LayoutInline::LayoutInline(Prose::Structure::DocumentNode^ node, Platform::String^ text) : _node(node), _text(text) { }
+LayoutInline::LayoutInline(Prose::Structure::StructureNode^ node, Platform::String^ text) : LayoutNode(node), _text(text) { }
 
 void LayoutInline::Accept(LayoutVisitor^ visitor) { visitor->Visit(this); }
 
-DocumentNode^ LayoutInline::StructureNode::get() {
+StructureNode^ LayoutInline::StructureNode::get() {
 	return _node;
 }

@@ -11,15 +11,6 @@ using namespace Windows::UI::Text;
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Media;
 
-DependencyProperty^ TextFormat::_FontFamilyProperty = RegisterDP("FontFamily", FontFamily::typeid, TextFormat::typeid);
-DependencyProperty^ TextFormat::_FontSizeProperty = RegisterDP("FontSize", double::typeid, TextFormat::typeid, std::numeric_limits<double>::quiet_NaN());
-DependencyProperty^ TextFormat::_ForegroundProperty = RegisterDP("Foreground", Brush::typeid, TextFormat::typeid);
-DependencyProperty^ TextFormat::_FontStretchProperty = RegisterDP("FontStretch", Box<Windows::UI::Text::FontStretch>::typeid, TextFormat::typeid, Windows::UI::Text::FontStretch::Undefined);
-DependencyProperty^ TextFormat::_FontStyleProperty = RegisterDP("FontStyle", Box<Windows::UI::Text::FontStyle>::typeid, TextFormat::typeid, Windows::UI::Text::FontStyle::Normal);
-DependencyProperty^ TextFormat::_FontWeightProperty = RegisterDP("FontWeight", FontWeight::typeid, TextFormat::typeid, FontWeights::Normal);
-DependencyProperty^ TextFormat::_HasStrikethroughProperty = RegisterDP("HasStrikethrough", bool::typeid, TextFormat::typeid, false);
-DependencyProperty^ TextFormat::_HasUnderlineProperty = RegisterDP("HasUnderlineProperty", bool::typeid, TextFormat::typeid, false);
-
 DWRITE_FONT_STRETCH stretchTable[] = {
 	DWRITE_FONT_STRETCH_UNDEFINED,
 	DWRITE_FONT_STRETCH_ULTRA_CONDENSED,
@@ -47,12 +38,25 @@ TextFormat^ TextFormat::MergeWith(TextFormat^ overridingCopy) {
 	MERGE(overridingCopy->FontFamily, FontFamily);
 	MERGE(overridingCopy->FontStretch != Text::FontStretch::Undefined, FontStretch);
 	MERGE(overridingCopy->Foreground, Foreground);
-	MERGE(DPHasLocalValue(overridingCopy, FontStyleProperty), FontStyle);
-	MERGE(DPHasLocalValue(overridingCopy, FontWeightProperty), FontWeight);
-	MERGE(DPHasLocalValue(overridingCopy, HasStrikethroughProperty), HasStrikethrough);
-	MERGE(DPHasLocalValue(overridingCopy, HasUnderlineProperty), HasUnderline);
+	MERGE(overridingCopy->FontStyle.HasValue(), FontStyle);
+	MERGE(overridingCopy->FontWeight.HasValue(), FontWeight);
+	MERGE(overridingCopy->HasStrikethrough.HasValue(), HasStrikethrough);
+	MERGE(overridingCopy->HasUnderline.HasValue(), HasUnderline);
 
 	return newFormat;
+}
+
+TextFormat^ TextFormat::Clone(void) {
+	auto clone = ref new TextFormat();
+	clone->FontFamily = FontFamily;
+	clone->FontSize = FontSize;
+	clone->Foreground = Foreground;
+	clone->FontStretch = FontStretch;
+	clone->FontStyle = FontStyle;
+	clone->FontWeight = FontWeight;
+	clone->HasStrikethrough = HasStrikethrough;
+	clone->HasUnderline = HasUnderline;	
+	return clone;
 }
 
 TextFormat^ TextFormat::MergeSequence(std::list<TextFormat^>& list) {
@@ -85,12 +89,12 @@ void TextFormat::ApplyDeviceIndependent(ComPtr<IDWriteTextLayout> layout, UINT32
 		}
 	}
 
-	INT32 styleIndex = (INT32)FontStyle;
+	INT32 styleIndex = (INT32)FontStyle.GetValue();
 	if(styleIndex >= 0 && styleIndex < ARRAYSIZE(styleTable)) {
 		ThrowIfFailed(layout->SetFontStyle(styleTable[styleIndex], range));
 	}
 
-	UINT16 weight = (UINT16)FontWeight.Weight;
+	UINT16 weight = (UINT16)FontWeight.GetValue().Weight;
 	if(weight >= 1 && weight <= 999) {
 		ThrowIfFailed(layout->SetFontWeight((DWRITE_FONT_WEIGHT)weight, range));
 	}

@@ -1,13 +1,16 @@
 #include "pch.h"
 #include "Span.h"
-#include "DocumentVisitor.h"
+#include "StructureVisitor.h"
 #include "..\ChildNodeCollection.h"
+#include "InlinePair.h"
 
 using namespace Prose::Structure;
 
-SpanBase::SpanBase(void) : _inlines(ref new ChildNodeCollection<Inline^, DocumentNode^>(this)) {}
+using namespace Platform::Collections;
 
-void SpanBase::Accept(DocumentVisitor^ visitor) {
+SpanBase::SpanBase(void) : _inlines(ref new Vector<Inline^>()) {}
+
+void SpanBase::Accept(StructureVisitor^ visitor) {
 	visitor->Visit(this);
 };
 
@@ -23,9 +26,9 @@ InlinePair^ SpanBase::Split(UINT32 localOffset) {
 	SpanBase^ left = Clone();
 	SpanBase^ right = Clone();
 	
-	CopyStyleTo(left);
-	CopyStyleTo(right);
-
+	left->Format = Format->Clone();
+	right->Format = Format->Clone();
+	
 	UINT32 offset = 0;
 	for(UINT32 i = 0; i < Inlines->Size; i++) {
 		auto inl = Inlines->GetAt(i);
@@ -46,22 +49,22 @@ InlinePair^ SpanBase::Split(UINT32 localOffset) {
 	return ref new InlinePair(left, right);
 }
 
-void Span::Accept(DocumentVisitor^ visitor) {
+void Span::Accept(StructureVisitor^ visitor) {
 	visitor->Visit(this);
 }
 
-void Bold::Accept(DocumentVisitor^ visitor) {
+void Bold::Accept(StructureVisitor^ visitor) {
 	visitor->Visit(this);
 }
 
-void Italic::Accept(DocumentVisitor^ visitor) {
+void Italic::Accept(StructureVisitor^ visitor) {
 	visitor->Visit(this);
 }
 
-void Underline::Accept(DocumentVisitor^ visitor) {
+void Underline::Accept(StructureVisitor^ visitor) {
 	visitor->Visit(this);
 }
 
-void Strikethrough::Accept(DocumentVisitor^ visitor) {
+void Strikethrough::Accept(StructureVisitor^ visitor) {
 	visitor->Visit(this);
 }

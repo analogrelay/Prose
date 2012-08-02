@@ -216,9 +216,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ChildNodeCollection.h" />
+    <ClInclude Include="Controls\Nodes\Document.h" />
     <ClInclude Include="Controls\DocumentHost.h" />
     <ClInclude Include="Controls\DocumentHostBase.h" />
     <ClInclude Include="Controls\IDocumentSource.h" />
+    <ClInclude Include="Controls\Nodes\DocumentNode.h" />
     <ClInclude Include="Controls\OverflowDocumentHost.h" />
     <ClInclude Include=".\DX.h" />
     <ClInclude Include=".\Controls\DocumentViewer.h" />
@@ -242,7 +244,6 @@
     <ClInclude Include=".\Layout\LayoutTree.h" />
     <ClInclude Include="Layout\LayoutResult.h" />
     <ClInclude Include=".\Layout\LayoutInline.h" />
-    <ClInclude Include=".\Layout\LayoutPointer.h" />
     <ClInclude Include="Macros.h" />
     <ClInclude Include="ObjectTracking.h" />
     <ClInclude Include="pch.h" />
@@ -254,9 +255,9 @@
     <ClInclude Include="Rendering\DirectWriteRenderingPlan.h" />
     <ClInclude Include="Rendering\DirectWriteSurface.h" />
     <ClInclude Include="Rendering\RenderingLayoutVisitor.h" />
-    <ClInclude Include="Structure\Document.h" />
-    <ClInclude Include="Structure\DocumentNode.h" />
-    <ClInclude Include="Structure\DocumentVisitor.h" />
+    <ClInclude Include="Structure\StructureTree.h" />
+    <ClInclude Include="Structure\StructureNode.h" />
+    <ClInclude Include="Structure\StructureVisitor.h" />
     <ClInclude Include="Structure\Inline.h" />
     <ClInclude Include="Structure\InlinePair.h" />
     <ClInclude Include="Structure\Run.h" />
@@ -264,10 +265,10 @@
     <ClInclude Include="Structure\TextPointer.h" />
     <ClInclude Include="TextFormat.h" />
     <ClInclude Include="TextRange.h" />
-    <ClInclude Include="Xaml\IDocumentXamlNode.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include=".\Controls\OverflowDocumentHost.cpp" />
+    <ClCompile Include="Controls\Nodes\Document.cpp" />
     <ClCompile Include="Controls\DocumentHost.cpp" />
     <ClCompile Include=".\Controls\DocumentHostBase.cpp" />
     <ClCompile Include=".\DX.cpp" />
@@ -275,6 +276,7 @@
     <ClCompile Include=".\Layout\DirectWriteLayoutEngine.cpp" />
     <ClCompile Include=".\Layout\LayoutVisitor.cpp" />
     <ClCompile Include=".\Controls\DocumentViewer.cpp" />
+    <ClCompile Include="Controls\Nodes\DocumentNode.cpp" />
     <ClCompile Include="Events\EventManager.cpp" />
     <ClCompile Include="Events\RoutedEventManager.cpp" />
     <ClCompile Include="FormattedRange.cpp" />
@@ -298,9 +300,9 @@
     <ClCompile Include="Rendering\DirectWriteRenderingPlan.cpp" />
     <ClCompile Include="Rendering\DirectWriteSurface.cpp" />
     <ClCompile Include="Rendering\RenderingLayoutVisitor.cpp" />
-    <ClCompile Include="Structure\Document.cpp" />
-    <ClCompile Include="Structure\DocumentNode.cpp" />
-    <ClCompile Include="Structure\DocumentVisitor.cpp" />
+    <ClCompile Include="Structure\StructureTree.cpp" />
+    <ClCompile Include="Structure\StructureNode.cpp" />
+    <ClCompile Include="Structure\StructureVisitor.cpp" />
     <ClCompile Include="Structure\Inline.cpp" />
     <ClCompile Include="Structure\Run.cpp" />
     <ClCompile Include="Structure\Span.cpp" />

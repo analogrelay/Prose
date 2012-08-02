@@ -8,7 +8,7 @@ namespace Prose {
 			property bool Handled;
 		};
 
-		private ref class CustomRoutedEventArgs abstract :
+		private ref class CustomRoutedEventArgs :
 			public ICustomRoutedEventArgs {
 		public:
 			virtual property Platform::Object^ OriginalSource {

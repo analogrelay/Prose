@@ -15,22 +15,8 @@ namespace Prose {
 		namespace PS = Prose::Structure;
 		namespace WUX = Windows::UI::Xaml;
 
-		public interface class IPointerTextEventArgs :
-			public ICustomRoutedEventArgs {
-			property PS::TextPointer^ TextPointer {
-				PS::TextPointer^ get();
-			}
-
-			property WUX::Input::PointerRoutedEventArgs^ PointerInfo {
-				WUX::Input::PointerRoutedEventArgs^ get();
-			}
-		};
-
-		public delegate void PointerTextEventHandler(Platform::Object^ sender, IPointerTextEventArgs^ args);
-
 		private ref class PointerTextEventArgs sealed :
-			public CustomRoutedEventArgs,
-			public IPointerTextEventArgs
+			public CustomRoutedEventArgs
 		{
 		public:
 			virtual property Platform::Object^ OriginalSource { Platform::Object^ get() override { return CustomRoutedEventArgs::OriginalSource; } };

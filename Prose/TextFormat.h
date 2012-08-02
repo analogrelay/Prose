@@ -4,23 +4,27 @@
 #include <list>
 
 namespace Prose {
-	public ref class TextFormat sealed :
+	namespace WUX = Windows::UI::Xaml;
+	namespace WUT = Windows::UI::Text; // WUT? :)
+
+	private ref class TextFormat sealed :
 		public Windows::UI::Xaml::DependencyObject
 	{
 	public:
-		DEPENDENCY_PROPERTY(Windows::UI::Xaml::Media::FontFamily^, FontFamily);
-		DEPENDENCY_PROPERTY(double, FontSize);
-		DEPENDENCY_PROPERTY(Windows::UI::Xaml::Media::Brush^, Foreground);
-		DEPENDENCY_PROPERTY(Windows::UI::Text::FontStretch, FontStretch);
-		DEPENDENCY_PROPERTY(Windows::UI::Text::FontStyle, FontStyle);
-		DEPENDENCY_PROPERTY(Windows::UI::Text::FontWeight, FontWeight);
-		DEPENDENCY_PROPERTY(bool, HasStrikethrough);
-		DEPENDENCY_PROPERTY(bool, HasUnderline);
-
 		TextFormat(void) { }
 
 		TextFormat^ MergeWith(TextFormat^ overridingCopy);
+		TextFormat^ Clone(void);
 	internal:
+		virtual property WUX::Media::FontFamily^ FontFamily;
+		virtual property Nullable<double> FontSize;
+		virtual property WUX::Media::Brush^ Foreground;
+		virtual property WUT::FontStretch FontStretch;
+		virtual property Nullable<WUT::FontStyle>FontStyle;
+		virtual property Nullable<WUT::FontWeight> FontWeight;
+		virtual property Nullable<bool> HasStrikethrough;
+		virtual property Nullable<bool> HasUnderline;	
+
 		void ApplyDeviceIndependent(Microsoft::WRL::ComPtr<IDWriteTextLayout> layout, UINT32 start, UINT32 length);
 		void ApplyDeviceDependent(Microsoft::WRL::ComPtr<ID2D1RenderTarget> target, Microsoft::WRL::ComPtr<IDWriteTextLayout> layout, UINT32 offset, UINT32 length);
 

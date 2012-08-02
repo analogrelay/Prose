@@ -4,20 +4,16 @@
 
 namespace Prose {
 	namespace Layout {
-		public interface class ILayoutVisitor {
-			void Visit(LayoutTree^ tree);
-			void Visit(ILayoutBox^ box);
-			void Visit(ILayoutInline^ span);
-		};
+		namespace WFC = Windows::Foundation::Collections;
 
 		private ref class LayoutVisitor abstract
 		{
 		public:
 			virtual void Visit(LayoutTree^ tree);
-			virtual void Visit(ILayoutBox^ box);
-			virtual void Visit(ILayoutInline^ span);
+			virtual void Visit(LayoutBox^ box);
+			virtual void Visit(LayoutInline^ span);
 		private:
-			template<typename T> void VisitChildren(Windows::Foundation::Collections::IIterable<T^>^ nodes);
+			template<typename T> void VisitChildren(WFC::IIterable<T^>^ nodes);
 		};
 	}
 }

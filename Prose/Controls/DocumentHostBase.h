@@ -2,18 +2,27 @@
 
 #include "..\Rendering\IRenderingPlan.h"
 #include "..\Layout\LayoutTree.h"
-#include "..\Structure\Document.h"
+#include "..\Structure\Paragraph.h"
+#include "Nodes\Document.h"
 
 namespace Prose {
 	namespace Controls {
+		namespace WF = Windows::Foundation;
+		namespace WFM = Windows::Foundation::Metadata;
+		namespace WUX = Windows::UI::Xaml;
+		
+		namespace PL = Prose::Layout;
+		namespace PS = Prose::Structure;
+
 		ref class DocumentHost;
 		ref class OverflowDocumentHost;
 		
+		[WFM::WebHostHidden]
 		public ref class DocumentHostBase :
-			public Windows::UI::Xaml::Controls::Panel
+			public WUX::Controls::Panel
 		{
 		public:
-			virtual property OverflowDocumentHost^ OverflowTarget {
+			property OverflowDocumentHost^ OverflowTarget {
 				OverflowDocumentHost^ get();
 				void set(OverflowDocumentHost^ value);
 			};
@@ -23,11 +32,11 @@ namespace Prose {
 				void set(bool value) { _hasOverflowContent = value; };
 			};
 		protected:
-			virtual Windows::Foundation::Size MeasureOverride(Windows::Foundation::Size) override;
-			virtual Windows::Foundation::Size ArrangeOverride(Windows::Foundation::Size) override;
-			virtual void OnPointerEntered(Platform::Object^ sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs^ args);
-			virtual void OnPointerExited(Platform::Object^ sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs^ args);
-			virtual void OnPointerMoved(Platform::Object^ sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs^ args);
+			virtual WF::Size MeasureOverride(WF::Size) override;
+			virtual WF::Size ArrangeOverride(WF::Size) override;
+			virtual void OnPointerEntered(Platform::Object^ sender, WUX::Input::PointerRoutedEventArgs^ args);
+			virtual void OnPointerExited(Platform::Object^ sender, WUX::Input::PointerRoutedEventArgs^ args);
+			/*virtual void OnPointerMoved(Platform::Object^ sender, WUX::Input::PointerRoutedEventArgs^ args);*/
 
 		private protected:
 			DocumentHostBase(void);
@@ -36,7 +45,7 @@ namespace Prose {
 				virtual DocumentHost^ get() { throw ref new Platform::NotImplementedException("RootHost must be implemented"); }
 			};
 
-			virtual Prose::Structure::Document^ GetDocument(void);
+			virtual PS::StructureTree^ GetStructureTree(void);
 
 			void InvalidateDocument(void);
 			void InvalidateRender(void);
@@ -44,21 +53,20 @@ namespace Prose {
 			virtual void SendOverflow(void);
 
 		private:
-			
 			bool _hasOverflowContent;
 			Microsoft::WRL::WeakRef _targetRef;
-			Prose::Layout::LayoutTree^ _layout;
-			Prose::Layout::LayoutNode^ _currentlySelected;
+			PL::LayoutTree^ _layout;
+			PL::LayoutNode^ _currentlySelected;
 			Prose::Rendering::IRenderingPlan^ _renderingPlan;
 			
-			Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource^ _renderSurface;
-			Windows::UI::Xaml::Controls::Image^ _renderHost;
-			Windows::Foundation::Size _layoutSize;
-			Windows::Foundation::Collections::IVectorView<Prose::Structure::Paragraph^>^ _overflow;
+			WUX::Media::Imaging::VirtualSurfaceImageSource^ _renderSurface;
+			WUX::Controls::Image^ _renderHost;
+			WF::Size _layoutSize;
+			WF::Collections::IVectorView<PS::Paragraph^>^ _overflow;
 			Windows::UI::Core::CoreCursor^ _oldCursor;
 
 #ifdef _DEBUG
-			Windows::UI::Xaml::Controls::Border^ _debugBorder;
+			WUX::Controls::Border^ _debugBorder;
 #endif
 			void TargetChanged(void);
 		};

@@ -5,8 +5,8 @@
 using namespace Prose::Structure;
 using namespace Prose::Layout;
 
-LayoutResult^ DirectWriteLayoutEngine::CreateLayout(Document^ document, Windows::Foundation::Size layoutSize) {
+LayoutResult^ DirectWriteLayoutEngine::CreateLayout(StructureTree^ tree, Windows::Foundation::Size layoutSize) {
 	auto visitor = ref new LayoutEngineVisitor(layoutSize);
-	document->Accept(visitor);
+	tree->Accept(visitor);
 	return visitor->CreateResult();
 }

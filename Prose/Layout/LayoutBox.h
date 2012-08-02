@@ -5,7 +5,7 @@
 namespace Prose {
 	namespace Structure {
 		ref class TextPointer;
-		ref class DocumentNode;
+		ref class StructureNode;
 	}
 	namespace Layout {
 		namespace WUX = Windows::UI::Xaml;
@@ -13,31 +13,11 @@ namespace Prose {
 		namespace PS = Prose::Structure;
 
 		ref class LayoutPointer;
-		
-		interface class ILayoutVisitor;
-		interface class ILayoutInline;
-
-		public interface class ILayoutBox :
-			public ILayoutNode {
-
-			property WUX::Thickness Margin {
-				WUX::Thickness get();
-			}
-
-			property ILayoutMetrics^ Metrics {
-				ILayoutMetrics^ get();
-			}
-
-			property WFC::IVector<ILayoutInline^>^ Inlines {
-				WFC::IVector<ILayoutInline^>^ get();
-			}
-
-			PS::TextPointer^ LayoutToText(LayoutPointer^ ptr);
-		};
+		ref class LayoutVisitor;
+		ref class LayoutInline;
 
 		private ref class LayoutBox :
-			public LayoutNode,
-			public ILayoutBox
+			public LayoutNode
 		{
 		public:
 			property WUX::Thickness Margin {
@@ -49,29 +29,28 @@ namespace Prose {
 				void set(ILayoutMetrics^ value) { _metrics = value; }
 			};
 
-			property WFC::IVector<ILayoutInline^>^ Inlines {
-				WFC::IVector<ILayoutInline^>^ get() { return _inlines; }
+			property WFC::IVector<LayoutInline^>^ Inlines {
+				WFC::IVector<LayoutInline^>^ get() { return _inlines; }
 			}
 
-			virtual void Accept(ILayoutVisitor^ visitor) override;
-			virtual PS::TextPointer^ LayoutToText(LayoutPointer^ ptr);
-
+			virtual void Accept(LayoutVisitor^ visitor) override;
+			
 			LayoutPointer^ HitTest(Windows::Foundation::Point point);
 
 		internal:
-			LayoutBox(PS::DocumentNode^ node);
-			LayoutBox(PS::DocumentNode^ node, WUX::Thickness margin);
+			LayoutBox(PS::StructureNode^ node);
+			LayoutBox(PS::StructureNode^ node, WUX::Thickness margin);
 
 		public protected:
-			virtual property PS::IDocumentNode^ StructureNode {
-				virtual PS::IDocumentNode^ get() override;
+			virtual property PS::StructureNode^ StructureNode {
+				virtual PS::StructureNode^ get() override;
 			}
 
 		private:
 			WUX::Thickness _margin;
-			PS::DocumentNode^ _node;
+			PS::StructureNode^ _node;
 			ILayoutMetrics^ _metrics;
-			WFC::IVector<ILayoutInline^>^ _inlines;
+			WFC::IVector<LayoutInline^>^ _inlines;
 		};
 	}
 }

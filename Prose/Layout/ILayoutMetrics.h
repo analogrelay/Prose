@@ -4,7 +4,7 @@
 
 namespace Prose {
 	namespace Layout {
-		public interface class ILayoutMetrics {
+		private interface class ILayoutMetrics {
 			virtual property UINT32 LineCount {
 				UINT32 get();
 			}

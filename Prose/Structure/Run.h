@@ -6,21 +6,10 @@ namespace Prose {
 	namespace Structure {
 		namespace WUX = Windows::UI::Xaml;
 
-		public interface class IRun :
-			public IInline {
-
-			property Platform::String^ Text;
-		};
-
-		[WUX::Markup::ContentProperty(Name = "Text")]
 		private ref class Run :
-			public Inline,
-			public IRun
+			public Inline
 		{
 		public:
-			Run(void);
-			Run(Platform::String^);
-
 			virtual property Platform::String^ Text {
 				Platform::String^ get() { return _text; }
 				void set(Platform::String^ value) { _text = value; }
@@ -30,8 +19,12 @@ namespace Prose {
 				UINT32 get() override { return _text->Length(); }
 			}
 
-			virtual void Accept(DocumentVisitor^ visitor) override;
-			virtual IInlinePair^ Split(UINT32 localOffset) override;
+			virtual void Accept(StructureVisitor^ visitor) override;
+			virtual InlinePair^ Split(UINT32 localOffset) override;
+
+		internal:
+			Run(void);
+			Run(Platform::String^);
 
 		private:
 			Platform::String^ _text;

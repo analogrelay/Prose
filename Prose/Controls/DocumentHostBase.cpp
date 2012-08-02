@@ -7,7 +7,6 @@
 #include "DocumentHost.h"
 #include "OverflowDocumentHost.h"
 #include "..\Layout\LayoutResult.h"
-#include "..\Events\PointerEvents.h"
 
 using namespace Platform;
 using namespace Platform::Collections;
@@ -32,7 +31,7 @@ using namespace Prose::Events;
 DocumentHostBase::DocumentHostBase() {
 	PointerEntered += ref new PointerEventHandler(this, &DocumentHostBase::OnPointerEntered);
 	PointerExited += ref new PointerEventHandler(this, &DocumentHostBase::OnPointerExited);
-	PointerMoved += ref new PointerEventHandler(this, &DocumentHostBase::OnPointerMoved);
+	/*PointerMoved += ref new PointerEventHandler(this, &DocumentHostBase::OnPointerMoved);*/
 }
 
 OverflowDocumentHost^ DocumentHostBase::OverflowTarget::get() {
@@ -60,8 +59,8 @@ void DocumentHostBase::TargetChanged() {
 	SendOverflow();
 }
 
-Document^ DocumentHostBase::GetDocument() {
-	return RootHost ? RootHost->Document : nullptr;
+Prose::Structure::StructureTree^ DocumentHostBase::GetStructureTree() {
+	return RootHost ? RootHost->GetStructureTree() : nullptr;
 }
 
 Size DocumentHostBase::MeasureOverride(Size availableSize) {
@@ -85,11 +84,11 @@ Size DocumentHostBase::MeasureOverride(Size availableSize) {
 	}
 
 	// Layout the document
-	Document^ doc = GetDocument();
-	if(!doc) {
+	Prose::Structure::StructureTree^ tree = GetStructureTree();
+	if(!tree) {
 		return SizeHelper::FromDimensions(0, 0);
 	}
-	LayoutResult^ result = RootHost->LayoutEngine->CreateLayout(GetDocument(), availableSize);
+	LayoutResult^ result = RootHost->LayoutEngine->CreateLayout(tree, availableSize);
 
 	_layoutSize = result->LayoutSize;
 
@@ -205,31 +204,31 @@ void DocumentHostBase::OnPointerEntered(Object^ sender, PointerRoutedEventArgs^ 
 		CoreCursorType::IBeam, 1);
 }
 
-void DocumentHostBase::OnPointerMoved(Object^ sender, PointerRoutedEventArgs^ args) {
-	// Hit test on the layout
-	if(_layout) {
-		auto point = args->GetCurrentPoint(this);
-		LayoutPointer^ hit = _layout->HitTest(point->Position);
-		if(hit != nullptr) {
-			PointerLayoutEventArgs^ layoutargs = ref new PointerLayoutEventArgs(
-				hit->Node,
-				hit,
-				args);
-			auto text = hit->Node->Text->Data();
-			dbgf(L"Hit: (x=%f, y=%f) [%s]", point->Position.X, point->Position.Y, text);
-			if(!_currentlySelected || !Platform::Object::ReferenceEquals(_currentlySelected, static_cast<LayoutNode^>(hit->Node))) {
-				if(_currentlySelected) {
-					_currentlySelected->FirePointerExited(layoutargs);
-				}
-				hit->Node->FirePointerEntered(layoutargs);
-				_currentlySelected = hit->Node;
-			}
-			hit->Node->FirePointerMoved(layoutargs);
-		} else {
-			_currentlySelected = nullptr;
-		}
-	}
-}
+//void DocumentHostBase::OnPointerMoved(Object^ sender, PointerRoutedEventArgs^ args) {
+//	// Hit test on the layout
+//	if(_layout) {
+//		auto point = args->GetCurrentPoint(this);
+//		LayoutPointer^ hit = _layout->HitTest(point->Position);
+//		if(hit != nullptr) {
+//			PointerLayoutEventArgs^ layoutargs = ref new PointerLayoutEventArgs(
+//				hit->Node,
+//				hit,
+//				args);
+//			auto text = hit->Node->Text->Data();
+//			dbgf(L"Hit: (x=%f, y=%f) [%s]", point->Position.X, point->Position.Y, text);
+//			if(!_currentlySelected || !Platform::Object::ReferenceEquals(_currentlySelected, static_cast<LayoutNode^>(hit->Node))) {
+//				if(_currentlySelected) {
+//					_currentlySelected->FirePointerExited(layoutargs);
+//				}
+//				hit->Node->FirePointerEntered(layoutargs);
+//				_currentlySelected = hit->Node;
+//			}
+//			hit->Node->FirePointerMoved(layoutargs);
+//		} else {
+//			_currentlySelected = nullptr;
+//		}
+//	}
+//}
 
 void DocumentHostBase::OnPointerExited(Object^ sender, PointerRoutedEventArgs^ args) {
 	Window::Current->CoreWindow->PointerCursor = _oldCursor;

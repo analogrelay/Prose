@@ -10,7 +10,7 @@ inline void dbgf(const wchar_t* format, ...) {
 	va_start(list, format);
 	UINT32 len = _vscwprintf(format, list) + 1; // add space for "\r\n\0"
 	va_end(list);
-	
+
 	va_start(list, format);
 	wchar_t* buf = new wchar_t[len];
 	vswprintf_s(buf, len, format, list);
@@ -57,5 +57,62 @@ namespace Prose {
 		{
 			throw Platform::Exception::CreateException(hr);
 		}
+	}
+
+	template<typename T>
+	private class Nullable sealed {
+	public:
+		bool HasValue() const { return _hasValue; }
+		T const& GetValue() const {
+			if(!_hasValue) {
+				throw ref new Platform::NullReferenceException();
+			}
+			return _value;
+		}
+
+		Nullable(void) : _hasValue(false) { }
+		Nullable(const T& value) : _hasValue(true), _value(value) { }
+		Nullable(nullptr_t value) : _hasValue(false) { }
+
+		operator T const&(void) const {
+			if(!_hasValue) {
+				throw ref new Platform::NullReferenceException();
+			}
+			return _value;
+		}
+	private:
+		bool _hasValue;
+		T _value;
+	};
+
+	template<typename T>
+	bool operator==(Nullable<T> const& left, Nullable<T> const& right) {
+		return (!left.HasValue() && !right.HasValue()) ||
+			(left.GetValue() == right.GetValue());
+	}
+
+	template<typename T>
+	bool operator==(nullptr_t const& left, Nullable<T> const& right) {
+		return !right.HasValue();
+	}
+
+	template<typename T>
+	bool operator==(Nullable<T> const& left, nullptr_t const& right) {
+		return !left.HasValue();
+	}
+
+	template<typename T>
+	bool operator!=(Nullable<T> const& left, Nullable<T> const& right) {
+		return !(left == right);
+	}
+
+	template<typename T>
+	bool operator!=(nullptr_t const& left, Nullable<T> const& right) {
+		return !(left == right);
+	}
+
+	template<typename T>
+	bool operator!=(Nullable<T> const& left, nullptr_t const& right) {
+		return !(left == right);
 	}
 }

@@ -21,21 +21,3 @@ Windows::Foundation::Size LayoutTree::Measure() {
 	}
 	return SizeHelper::FromDimensions(width, height);
 }
-
-LayoutPointer^ LayoutTree::HitTest(Point point) {
-	// Find a box that contains the point
-	for each(auto box in Boxes) {
-		if(box->Metrics->LayoutBounds.Contains(point)) {
-			// Clamp the point into the range owned by this box
-			auto x = point.X - box->Metrics->RenderArea.Left;
-			auto y = point.Y - box->Metrics->RenderArea.Top;
-			if(x >= 0 && y >= 0) {
-				auto clamped = PointHelper::FromCoordinates(x, y);
-				return box->HitTest(clamped);
-			}
-		}
-	}
-
-	// No match
-	return nullptr;
-}

@@ -17,23 +17,9 @@ using namespace Prose::Layout;
 DependencyProperty^ DocumentHost::_DocumentProperty = DependencyProperty::Register(
 	L"Document", Document::typeid, DocumentHost::typeid, ref new PropertyMetadata(
 		nullptr, ref new PropertyChangedCallback(DocumentHost::LayoutChanged)));
-DependencyProperty^ DocumentHost::_RendererProperty = DependencyProperty::Register(
-	L"Renderer", IDocumentRenderer::typeid, DocumentHost::typeid, ref new PropertyMetadata(
-		nullptr, ref new PropertyChangedCallback(DocumentHost::RendererChanged)));
-DependencyProperty^ DocumentHost::_LayoutEngineProperty = DependencyProperty::Register(
-	L"LayoutEngine", IDocumentRenderer::typeid, DocumentHost::typeid, ref new PropertyMetadata(
-		nullptr, ref new PropertyChangedCallback(DocumentHost::LayoutChanged)));
 
-DocumentHost::DocumentHost(void) {
+DocumentHost::DocumentHost(void) : _renderer(ref new DirectWriteRenderer()), _layoutEngine(ref new DirectWriteLayoutEngine()) {
 	TrackCreation(L"DocumentHost");
-
-	Renderer = ref new DirectWriteRenderer();
-	LayoutEngine = ref new DirectWriteLayoutEngine();
-}
-
-void DocumentHost::RendererChanged(DependencyObject^ sender, DependencyPropertyChangedEventArgs^ args) {
-	DocumentHost^ host = (DocumentHost^)sender;
-	host->InvalidateArrange();
 }
 
 void DocumentHost::LayoutChanged(DependencyObject^ sender, DependencyPropertyChangedEventArgs^ args) {

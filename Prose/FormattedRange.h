@@ -4,7 +4,7 @@
 #include "TextFormat.h"
 
 namespace Prose {
-	public ref class FormattedRange sealed
+	private ref class FormattedRange sealed
 	{
 	public:
 		property TextRange^ Range {

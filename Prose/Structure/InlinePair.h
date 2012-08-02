@@ -3,24 +3,18 @@
 
 namespace Prose {
 	namespace Structure {
-		interface class IInline;
+		ref class Inline;
 
-		public interface class IInlinePair {
-			property IInline^ Left { IInline^ get(); }
-			property IInline^ Right { IInline^ get(); }
-		};
-
-		private ref class InlinePair sealed :
-			public IInlinePair
+		private ref class InlinePair sealed
 		{
 		public:
-			property virtual IInline^ Left { IInline^ get() { return _left; } }
-			property virtual IInline^ Right { IInline^ get() { return _right; } }
+			property Inline^ Left { Inline^ get() { return _left; } }
+			property Inline^ Right { Inline^ get() { return _right; } }
 
-			InlinePair(IInline^ left, IInline^ right) : _left(left), _right(right) {}
+			InlinePair(Inline^ left, Inline^ right) : _left(left), _right(right) {}
 		private:
-			IInline^ _left;
-			IInline^ _right;
+			Inline^ _left;
+			Inline^ _right;
 		};
 	}
 }

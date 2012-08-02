@@ -6,6 +6,8 @@
 
 namespace Prose {
 	namespace Rendering {
+		namespace MW = Microsoft::WRL;
+
 		class VirtualSurfaceCallbackThunk;
 
 		private ref class DirectWriteRenderingPlan sealed :
@@ -21,7 +23,7 @@ namespace Prose {
 			}
 
 			DirectWriteRenderingPlan(DirectWriteRenderer^ renderer);
-			~DirectWriteRenderingPlan(void);
+			virtual ~DirectWriteRenderingPlan(void);
 
 			virtual void Attach(Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource^ targetSurface, Windows::Foundation::Rect region);
 
@@ -31,8 +33,8 @@ namespace Prose {
 		private:
 			TrackingId;
 
-			Microsoft::WRL::ComPtr<VirtualSurfaceCallbackThunk> _thunk;
-			Microsoft::WRL::ComPtr<IVirtualSurfaceImageSourceNative> _surface;
+			MW::ComPtr<VirtualSurfaceCallbackThunk> _thunk;
+			MW::ComPtr<IVirtualSurfaceImageSourceNative> _surface;
 
 			bool _attached;
 			bool _renderSizeCalculated;
@@ -41,7 +43,7 @@ namespace Prose {
 			Windows::Foundation::Size _renderSize;
 			Windows::Foundation::Collections::IVector<DirectWriteSurface^>^ _surfaces;
 
-			void RenderSurface(DirectWriteSurface^ surface, Microsoft::WRL::ComPtr<ID2D1RenderTarget> renderTarget, Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush);
+			void RenderSurface(DirectWriteSurface^ surface, MW::ComPtr<ID2D1RenderTarget> renderTarget, MW::ComPtr<ID2D1SolidColorBrush> brush);
 		};
 
 		private class VirtualSurfaceCallbackThunk :
@@ -53,12 +55,12 @@ namespace Prose {
 
 			void STDMETHODCALLTYPE Initialize(DirectWriteRenderingPlan^ plan)
 			{
-				Microsoft::WRL::AsWeak(reinterpret_cast<IInspectable*>(plan), &_planRef);
+				MW::AsWeak(reinterpret_cast<IInspectable*>(plan), &_planRef);
 			}
 
 			virtual HRESULT STDMETHODCALLTYPE UpdatesNeeded(void) {
 				try {
-					Microsoft::WRL::ComPtr<IInspectable> raw(nullptr);
+					MW::ComPtr<IInspectable> raw(nullptr);
 					_planRef.As(&raw);
 					(reinterpret_cast<DirectWriteRenderingPlan^>(raw.Get()))->UpdatesNeeded();
 				} catch(Platform::Exception^ ex) {
@@ -93,7 +95,7 @@ namespace Prose {
 		private:
 			TrackingId;
 
-			Microsoft::WRL::WeakRef _planRef;
+			MW::WeakRef _planRef;
 			
 			volatile UINT32 _refCount;
 		};

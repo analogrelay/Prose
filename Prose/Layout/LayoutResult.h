@@ -9,18 +9,18 @@ namespace Prose {
 		namespace PS = Prose::Structure;
 		namespace WFC = Windows::Foundation::Collections;
 
-		public ref class LayoutResult sealed
+		private ref class LayoutResult sealed
 		{
 		public:
 			property LayoutTree^ Layout {
 				LayoutTree^ get() { return _layout; }
 			};
 
-			property WFC::IVectorView<PS::IParagraph^>^ Overflow {
-				WFC::IVectorView<PS::IParagraph^>^ get() { return _overflow; }
+			property WFC::IVectorView<PS::Paragraph^>^ Overflow {
+				WFC::IVectorView<PS::Paragraph^>^ get() { return _overflow; }
 			}
 
-			LayoutResult(LayoutTree^ layout, WFC::IVectorView<PS::IParagraph^>^ overflow) :
+			LayoutResult(LayoutTree^ layout, WFC::IVectorView<PS::Paragraph^>^ overflow) :
 				_layout(layout),
 				_overflow(overflow) {}
 
@@ -42,7 +42,7 @@ namespace Prose {
 
 		private:
 			LayoutTree^ _layout;
-			WFC::IVectorView<PS::IParagraph^>^ _overflow;
+			WFC::IVectorView<PS::Paragraph^>^ _overflow;
 			Windows::Foundation::Size _layoutSize;
 			bool _layoutSizeCalulated;
 		};

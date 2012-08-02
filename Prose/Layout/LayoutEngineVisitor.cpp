@@ -1,7 +1,10 @@
 #include "pch.h"
+#include "..\Structure\InlinePair.h"
+#include "LayoutInline.h"
 #include "LayoutResult.h"
 #include "LayoutEngineVisitor.h"
 #include "DWLayoutMetrics.h"
+#include "..\Structure\Run.h"
 
 #include <sstream>
 
@@ -33,15 +36,15 @@ void LayoutBuilder::Process(Run^ run) {
 
 void LayoutBuilder::ProcessInline(Inline^ inl, UINT32 length) {
 	TextFormat^ base = TextFormat::MergeSequence(_formatStack);
-	TextFormat^ format = inl->CreateFormat();
+	TextFormat^ format = inl->Format;
 	if(base) {
-		format = base->MergeWith(format);
+		format = base->MergeWith(inl->Format);
 	}
 	if(format) {
 		_formatters->Append(
 			ref new FormattedRange(
-			ref new TextRange(_offset, length),
-			format));
+				ref new TextRange(_offset, length),
+				inl->Format));
 	}
 }
 
@@ -224,7 +227,7 @@ void LayoutEngineVisitor::Visit(Paragraph^ paragraph) {
 	_builder = new LayoutBuilder(this, box, paragraph);
 
 	// Visit children
-	DocumentVisitor::Visit(paragraph);
+	StructureVisitor::Visit(paragraph);
 
 	// Now perform layout for this box
 	if(_builder->Layout()) {
@@ -244,8 +247,8 @@ void LayoutEngineVisitor::Visit(Run^ run) {
 }
 
 void LayoutEngineVisitor::Visit(SpanBase^ span) {
-	_builder->PushFormat(span->CreateFormat());
-	DocumentVisitor::Visit(span);
+	_builder->PushFormat(span->Format);
+	StructureVisitor::Visit(span);
 	_builder->PopFormat();
 }
 

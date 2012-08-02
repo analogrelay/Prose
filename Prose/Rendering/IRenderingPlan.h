@@ -2,13 +2,16 @@
 
 namespace Prose {
 	namespace Rendering {
-		public interface class IRenderingPlan
+		namespace WUX = Windows::UI::Xaml;
+		namespace WF = Windows::Foundation;
+
+		private interface class IRenderingPlan
 		{
 		public:
-			void Attach(Windows::UI::Xaml::Media::Imaging::VirtualSurfaceImageSource^ targetSurface, Windows::Foundation::Rect region);
+			void Attach(WUX::Media::Imaging::VirtualSurfaceImageSource^ targetSurface, WF::Rect region);
 
-			virtual property Windows::Foundation::Size RenderSize {
-				Windows::Foundation::Size get() = 0;
+			virtual property WF::Size RenderSize {
+				WF::Size get() = 0;
 			}
 		};
 	}

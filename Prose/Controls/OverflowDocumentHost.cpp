@@ -26,10 +26,10 @@ void OverflowDocumentHost::RecieveOverflow(IVectorView<Paragraph^>^ overflow) {
 	if(!RootHost) {
 		throw ref new Platform::FailureException("Invalid Operation: Cannot send overflow to an overflow document host until it has been attached");
 	}
-	_overflowDocument = ref new Document();
+	_overflowTree = ref new StructureTree();
 	
 	for each(auto para in overflow) {
-		_overflowDocument->Paragraphs->Append(para);
+		_overflowTree->Paragraphs->Append(para);
 	}
 
 	InvalidateMeasure();

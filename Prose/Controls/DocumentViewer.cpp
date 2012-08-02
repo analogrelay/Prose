@@ -6,7 +6,7 @@
 #include "pch.h"
 #include "DocumentViewer.h"
 #include "DocumentHost.h"
-#include "..\Structure\Document.h"
+#include "..\Structure\StructureTree.h"
 
 using namespace Prose::Controls;
 using namespace Prose::Structure;
@@ -23,7 +23,7 @@ using namespace Windows::UI::Xaml::Interop;
 using namespace Windows::UI::Xaml::Media;
 
 DependencyProperty^ DocumentViewer::_DocumentProperty = DependencyProperty::Register(
-	L"Document", Document::typeid, DocumentViewer::typeid, ref new PropertyMetadata(
+	L"Document", Prose::Controls::Document::typeid, DocumentViewer::typeid, ref new PropertyMetadata(
 	nullptr, ref new PropertyChangedCallback(DocumentViewer::DocumentChanged)));
 
 DependencyProperty^ DocumentViewer::_OverflowTemplateProperty = DependencyProperty::Register(

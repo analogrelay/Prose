@@ -11,7 +11,7 @@
 
 namespace Prose {
 	namespace Rendering {
-		public ref class DirectWriteRenderer sealed :
+		private ref class DirectWriteRenderer sealed :
 			public IDocumentRenderer
 		{
 		public:

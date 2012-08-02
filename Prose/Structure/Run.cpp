@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Run.h"
-#include "DocumentVisitor.h"
+#include "StructureVisitor.h"
+#include "InlinePair.h"
 
 using namespace Prose::Structure;
 
@@ -8,7 +9,7 @@ Run::Run(void) : Inline() {}
 Run::Run(Platform::String^ text) : Inline(), _text(text) {
 }
 
-void Run::Accept(DocumentVisitor^ visitor) {
+void Run::Accept(StructureVisitor^ visitor) {
 	visitor->Visit(this);
 }
 
@@ -26,8 +27,8 @@ InlinePair^ Run::Split(UINT32 localOffset) {
 	Run^ left = ref new Run(ref new Platform::String(leftStr.c_str()));
 	Run^ right = ref new Run(ref new Platform::String(rightStr.c_str()));
 
-	CopyStyleTo(left);
-	CopyStyleTo(right);
+	left->Format = Format->Clone();
+	right->Format = Format->Clone();
 
 	return ref new InlinePair(left, right);
 }

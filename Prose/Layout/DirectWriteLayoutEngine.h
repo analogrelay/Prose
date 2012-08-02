@@ -3,11 +3,11 @@
 
 namespace Prose {
 	namespace Layout {
-		public ref class DirectWriteLayoutEngine sealed :
+		private ref class DirectWriteLayoutEngine sealed :
 			public ILayoutEngine
 		{
 		public:
-			virtual LayoutResult^ CreateLayout(Prose::Structure::IDocument^ document, Windows::Foundation::Size layoutSize);
+			virtual LayoutResult^ CreateLayout(Prose::Structure::StructureTree^ tree, Windows::Foundation::Size layoutSize);
 		};
 	}
 }
