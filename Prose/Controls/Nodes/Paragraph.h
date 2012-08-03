@@ -1,6 +1,5 @@
 #pragma once
 
-#include "..\Structure\StructureTree.h"
 #include "DocumentNode.h"
 
 namespace Prose {
@@ -11,21 +10,21 @@ namespace Prose {
 
 		[WFM::WebHostHidden]
 		[WUX::Markup::ContentProperty(Name = "Children")]
-		public ref class Document sealed :
-			public StylableNode
+		public ref class Paragraph sealed :
+			public BlockNode
 		{
 		public:
-			Document(void);
+			Paragraph(void);
 
-			property WFC::IVector<BlockNode^>^ Children {
-				WFC::IVector<BlockNode^>^ get() { return _children; }
+			property WFC::IVector<InlineNode^>^ Children {
+				WFC::IVector<InlineNode^>^ get() { return _children; }
 			}
 
 		internal:
 			Prose::Structure::StructureTree^ CreateStructureTree();
 
 		private:
-			WFC::IVector<BlockNode^>^ _children;
+			WFC::IVector<InlineNode^>^ _children;
 		};
 	}
 }

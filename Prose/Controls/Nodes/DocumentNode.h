@@ -1,15 +1,18 @@
 #pragma once
 
 #include "TextFormat.h"
+#include "Structure\Block.h"
+#include "Structure\Inline.h"
 
 namespace Prose {
 	namespace Controls {
 		namespace WFM = Windows::Foundation::Metadata;
 		namespace WUX = Windows::UI::Xaml;
 		namespace WUT = Windows::UI::Text;
+		namespace PS = Prose::Structure;
 
 		[WFM::WebHostHidden]
-		public ref class DocumentNode :
+		public ref class StylableNode :
 			public WUX::DependencyObject {
 		public:
 			DEPENDENCY_PROPERTY(WUX::Media::FontFamily^, FontFamily);
@@ -22,7 +25,21 @@ namespace Prose {
 			DEPENDENCY_PROPERTY(bool, HasUnderline);
 
 		internal:
-			TextFormat^ CreateFormat();
+			Prose::TextFormat^ CreateFormat();
+		};
+
+		[WFM::WebHostHidden]
+		public ref class BlockNode :
+			public StylableNode {
+		internal:
+			virtual PS::Block^ ConstructStructureNode() { return nullptr; }
+		};
+
+		[WFM::WebHostHidden]
+		public ref class InlineNode :
+			public StylableNode {
+		internal:
+			virtual PS::Inline^ ConstructStructureNode() { return nullptr; }
 		};
 	}
 }

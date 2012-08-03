@@ -6,6 +6,7 @@
     xmlns:local="using:Prose.Test.App"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:p="using:Prose.Controls" 
     mc:Ignorable="d">
 
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
@@ -19,8 +20,8 @@
             <TextBlock Name="CursorLoc"></TextBlock>
         </StackPanel>
         <ScrollViewer Grid.Row="1" VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Disabled" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto">
-            <DocumentViewer xmlns="using:Prose.Controls" Grid.Row="2" x:Name="Viewer" ColumnWidth="400" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <Document>
+            <p:DocumentViewer Grid.Row="2" x:Name="Viewer" ColumnWidth="400" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Document xmlns="using:Prose.Controls">
                     <Paragraph>
                         <Run FontStyle="Italic">Italic</Run>
                     </Paragraph>
@@ -58,7 +59,7 @@
                         <Run>THE END.</Run>
                     </Paragraph>
                 </Document>            
-            </DocumentViewer>
+            </p:DocumentViewer>
         </ScrollViewer>
     </Grid>
 </Page>

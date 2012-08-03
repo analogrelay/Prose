@@ -62,7 +62,7 @@ namespace Prose {
 			WUX::Media::Imaging::VirtualSurfaceImageSource^ _renderSurface;
 			WUX::Controls::Image^ _renderHost;
 			WF::Size _layoutSize;
-			WF::Collections::IVectorView<PS::Paragraph^>^ _overflow;
+			WF::Collections::IVectorView<PS::Block^>^ _overflow;
 			Windows::UI::Core::CoreCursor^ _oldCursor;
 
 #ifdef _DEBUG

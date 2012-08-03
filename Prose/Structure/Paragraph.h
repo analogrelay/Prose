@@ -1,31 +1,18 @@
 #pragma once
 
-#include "Inline.h"
-#include "TextPointer.h"
+#include "Block.h"
 
 namespace Prose {
 	namespace Structure {
-		namespace WFC = Windows::Foundation::Collections;
-		namespace WUX = Windows::UI::Xaml;
-
 		private ref class Paragraph :
-			public StructureNode
+			public Block
 		{
 		public:
-			virtual property WFC::IVector<Inline^>^ Inlines {
-				WFC::IVector<Inline^>^ get() { return _inlines; }
-			};
-
 			virtual void Accept(StructureVisitor^ visitor) override;
-			Paragraph^ Clone(void);
+			virtual Block^ Clone(void) override;
 
 		internal:
 			Paragraph(void);
-
-			TextPointer^ OffsetToPointer(UINT32 offset);
-
-		private:
-			WFC::IVector<Inline^>^ _inlines;
 		};
 	}
 }

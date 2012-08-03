@@ -22,14 +22,14 @@ void OverflowDocumentHost::Attach(DocumentHost^ rootHost) {
 	AsWeak(reinterpret_cast<IInspectable*>(rootHost), &_hostRef);
 }
 
-void OverflowDocumentHost::RecieveOverflow(IVectorView<Paragraph^>^ overflow) {
+void OverflowDocumentHost::RecieveOverflow(IVectorView<Block^>^ overflow) {
 	if(!RootHost) {
 		throw ref new Platform::FailureException("Invalid Operation: Cannot send overflow to an overflow document host until it has been attached");
 	}
 	_overflowTree = ref new StructureTree();
 	
-	for each(auto para in overflow) {
-		_overflowTree->Paragraphs->Append(para);
+	for(auto block : overflow) {
+		_overflowTree->Blocks->Append(block);
 	}
 
 	InvalidateMeasure();

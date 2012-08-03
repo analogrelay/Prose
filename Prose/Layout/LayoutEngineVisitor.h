@@ -21,7 +21,7 @@ namespace Prose {
 
 		private class LayoutBuilder {
 		public:
-			LayoutBuilder(LayoutEngineVisitor^ visitor, LayoutBox^ box, PS::Paragraph^ paragraph);
+			LayoutBuilder(LayoutEngineVisitor^ visitor, LayoutBox^ box, PS::Block^ block);
 
 			bool Layout(void);
 			void Process(PS::Run^ run);
@@ -37,7 +37,7 @@ namespace Prose {
 			std::wstringstream _buffer;
 			std::list<Prose::TextFormat^> _formatStack;
 			LayoutEngineVisitor^ _visitor;
-			PS::Paragraph^ _paragraph;
+			PS::Block^ _block;
 			PlC::Vector<FormattedRange^>^ _formatters;
 		};
 
@@ -48,8 +48,8 @@ namespace Prose {
 			LayoutResult^ CreateResult(void);
 
 			virtual void Visit(PS::Run^ run) override;
-			virtual void Visit(PS::Paragraph^ paragraph) override;
-			virtual void Visit(PS::SpanBase^ span) override;
+			virtual void Visit(PS::Block^ block) override;
+			virtual void Visit(PS::Span^ span) override;
 		internal:
 			LayoutEngineVisitor(WF::Size layoutSize);
 
@@ -63,7 +63,7 @@ namespace Prose {
 
 			WF::Size GetAvailableSize();
 
-			void AddOverflow(PS::Paragraph^ paragraph);
+			void AddOverflow(PS::Block^ block);
 			void ReserveSpace(float width, float height);
 		private:
 			float _height;
@@ -76,7 +76,7 @@ namespace Prose {
 			bool _canOverflowAll;
 			LayoutTree^ _layout;
 
-			WFC::IVector<PS::Paragraph^>^ _overflow;
+			WFC::IVector<PS::Block^>^ _overflow;
 			WF::Size _layoutSize;
 		};
 	}

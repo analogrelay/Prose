@@ -221,7 +221,7 @@
     <ClInclude Include="Controls\DocumentHostBase.h" />
     <ClInclude Include="Controls\IDocumentSource.h" />
     <ClInclude Include="Controls\Nodes\DocumentNode.h" />
-    <ClInclude Include="Controls\Nodes\IDocumentControl.h" />
+    <ClInclude Include="Controls\Nodes\Paragraph.h" />
     <ClInclude Include="Controls\OverflowDocumentHost.h" />
     <ClInclude Include=".\DX.h" />
     <ClInclude Include=".\Controls\DocumentViewer.h" />
@@ -256,6 +256,7 @@
     <ClInclude Include="Rendering\DirectWriteRenderingPlan.h" />
     <ClInclude Include="Rendering\DirectWriteSurface.h" />
     <ClInclude Include="Rendering\RenderingLayoutVisitor.h" />
+    <ClInclude Include="Structure\Block.h" />
     <ClInclude Include="Structure\StructureTree.h" />
     <ClInclude Include="Structure\StructureNode.h" />
     <ClInclude Include="Structure\StructureVisitor.h" />
@@ -278,6 +279,7 @@
     <ClCompile Include=".\Layout\LayoutVisitor.cpp" />
     <ClCompile Include=".\Controls\DocumentViewer.cpp" />
     <ClCompile Include="Controls\Nodes\DocumentNode.cpp" />
+    <ClCompile Include="Controls\Nodes\Paragraph.cpp" />
     <ClCompile Include="Events\EventManager.cpp" />
     <ClCompile Include="Events\RoutedEventManager.cpp" />
     <ClCompile Include="FormattedRange.cpp" />
@@ -301,6 +303,7 @@
     <ClCompile Include="Rendering\DirectWriteRenderingPlan.cpp" />
     <ClCompile Include="Rendering\DirectWriteSurface.cpp" />
     <ClCompile Include="Rendering\RenderingLayoutVisitor.cpp" />
+    <ClCompile Include="Structure\Block.cpp" />
     <ClCompile Include="Structure\StructureTree.cpp" />
     <ClCompile Include="Structure\StructureNode.cpp" />
     <ClCompile Include="Structure\StructureVisitor.cpp" />

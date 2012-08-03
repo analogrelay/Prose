@@ -41,6 +41,8 @@
     <ClCompile Include="Structure\StructureNode.cpp" />
     <ClCompile Include="Structure\StructureVisitor.cpp" />
     <ClCompile Include="Controls\Nodes\DocumentNode.cpp" />
+    <ClCompile Include="Structure\Block.cpp" />
+    <ClCompile Include="Controls\Nodes\Paragraph.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -93,6 +95,7 @@
     <ClInclude Include="Structure\StructureNode.h" />
     <ClInclude Include="Structure\StructureVisitor.h" />
     <ClInclude Include="Controls\Nodes\DocumentNode.h" />
-    <ClInclude Include="Controls\Nodes\IDocumentControl.h" />
+    <ClInclude Include="Structure\Block.h" />
+    <ClInclude Include="Controls\Nodes\Paragraph.h" />
   </ItemGroup>
 </Project>

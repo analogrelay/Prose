@@ -8,13 +8,13 @@ using namespace Prose::Structure;
 
 using namespace Platform::Collections;
 
-SpanBase::SpanBase(void) : _inlines(ref new Vector<Inline^>()) {}
+Span::Span(void) : _inlines(ref new Vector<Inline^>()) {}
 
-void SpanBase::Accept(StructureVisitor^ visitor) {
+void Span::Accept(StructureVisitor^ visitor) {
 	visitor->Visit(this);
 };
 
-UINT32 SpanBase::Length::get() {
+UINT32 Span::Length::get() {
 	UINT32 sum = 0;
 	for each(auto inl in Inlines) {
 		sum += inl->Length;
@@ -22,9 +22,9 @@ UINT32 SpanBase::Length::get() {
 	return sum;
 };
 
-InlinePair^ SpanBase::Split(UINT32 localOffset) {
-	SpanBase^ left = Clone();
-	SpanBase^ right = Clone();
+InlinePair^ Span::Split(UINT32 localOffset) {
+	Span^ left = Clone();
+	Span^ right = Clone();
 	
 	left->Format = Format->Clone();
 	right->Format = Format->Clone();
@@ -47,24 +47,4 @@ InlinePair^ SpanBase::Split(UINT32 localOffset) {
 	}
 
 	return ref new InlinePair(left, right);
-}
-
-void Span::Accept(StructureVisitor^ visitor) {
-	visitor->Visit(this);
-}
-
-void Bold::Accept(StructureVisitor^ visitor) {
-	visitor->Visit(this);
-}
-
-void Italic::Accept(StructureVisitor^ visitor) {
-	visitor->Visit(this);
-}
-
-void Underline::Accept(StructureVisitor^ visitor) {
-	visitor->Visit(this);
-}
-
-void Strikethrough::Accept(StructureVisitor^ visitor) {
-	visitor->Visit(this);
 }

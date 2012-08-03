@@ -14,23 +14,27 @@ void StructureVisitor::Visit(StructureNode^ node) {
 
 void StructureVisitor::Visit(StructureTree^ tree) {
 	Visit(static_cast<StructureNode^>(tree));
-	for each(Paragraph^ node in tree->Paragraphs) {
+	for(auto node : tree->Blocks) {
+		node->Accept(this);
+	}
+}
+
+void StructureVisitor::Visit(Block^ block) {
+	Visit(static_cast<StructureNode^>(block));
+	for(auto node : block->Inlines) {
+		node->Accept(this);
+	}
+}
+
+void StructureVisitor::Visit(Span^ span) {
+	Visit(static_cast<Inline^>(span));
+	for each(Inline^ node in span->Inlines) {
 		node->Accept(this);
 	}
 }
 
 void StructureVisitor::Visit(Paragraph^ paragraph) {
-	Visit(static_cast<StructureNode^>(paragraph));
-	for each(Inline^ node in paragraph->Inlines) {
-		node->Accept(this);
-	}
-}
-
-void StructureVisitor::Visit(SpanBase^ span) {
-	Visit(static_cast<Inline^>(span));
-	for each(Inline^ node in span->Inlines) {
-		node->Accept(this);
-	}
+	Visit(static_cast<Block^>(paragraph));
 }
 
 void StructureVisitor::Visit(Run^ run) {

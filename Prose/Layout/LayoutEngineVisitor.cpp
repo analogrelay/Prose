@@ -21,8 +21,8 @@ using namespace Windows::UI::Xaml::Media;
 using namespace Microsoft::WRL;
 
 // LayoutBuilder
-LayoutBuilder::LayoutBuilder(LayoutEngineVisitor^ visitor, LayoutBox^ box, Prose::Structure::Paragraph^ paragraph) : 
-	_offset(0), _formatters(ref new Vector<FormattedRange^>()), _buffer(), _box(box), _visitor(visitor), _paragraph(paragraph) { }
+LayoutBuilder::LayoutBuilder(LayoutEngineVisitor^ visitor, LayoutBox^ box, Prose::Structure::Block^ block) : 
+	_offset(0), _formatters(ref new Vector<FormattedRange^>()), _buffer(), _box(box), _visitor(visitor), _block(block) { }
 
 void LayoutBuilder::Process(Run^ run) {
 	UINT32 length = run->Text->Length();
@@ -90,7 +90,7 @@ bool LayoutBuilder::Layout() {
 
 	if(width < 0 || height < 0) {
 		if(!_visitor->CanOverflowAll) {
-			_visitor->AddOverflow(_paragraph);
+			_visitor->AddOverflow(_block);
 			_box = nullptr;
 			return false;
 		} else {
@@ -126,7 +126,7 @@ bool LayoutBuilder::Layout() {
 		delete [] lineMetrics;
 
 		// Get a pointer to the split location
-		TextPointer^ ptr = _paragraph->OffsetToPointer(textOffset);
+		TextPointer^ ptr = _block->OffsetToPointer(textOffset);
 
 		// Split that node
 		InlinePair^ pair = ptr->Node->Split(ptr->LocalOffset);
@@ -134,8 +134,8 @@ bool LayoutBuilder::Layout() {
 		// Collect the split node and all nodes after into a new paragraph
 		Paragraph^ overflowParagraph = ref new Paragraph();
 		overflowParagraph->Inlines->Append(pair->Right);
-		for(UINT32 i = (ptr->NodeIndex + 1); i < _paragraph->Inlines->Size; i++) {
-			overflowParagraph->Inlines->Append(_paragraph->Inlines->GetAt(i));
+		for(UINT32 i = (ptr->NodeIndex + 1); i < _block->Inlines->Size; i++) {
+			overflowParagraph->Inlines->Append(_block->Inlines->GetAt(i));
 		}
 
 		// Put the new paragraph in the overflow set and start overflowing
@@ -203,7 +203,7 @@ ComPtr<IDWriteTextLayout> LayoutBuilder::ConstructLayout(ComPtr<IDWriteTextForma
 
 LayoutEngineVisitor::LayoutEngineVisitor(Windows::Foundation::Size layoutSize) : 
 	_layout(ref new LayoutTree()), 
-	_overflow(ref new Vector<Paragraph^>()),
+	_overflow(ref new Vector<Block^>()),
 	_layoutSize(layoutSize),
 	_width(0),
 	_height(0),
@@ -214,7 +214,7 @@ LayoutResult^ LayoutEngineVisitor::CreateResult() {
 	return ref new LayoutResult(_layout, _overflow->GetView());
 }
 
-void LayoutEngineVisitor::Visit(Paragraph^ paragraph) {
+void LayoutEngineVisitor::Visit(Block^ paragraph) {
 	// If we're overflowing, just add this to overflow and stop
 	if(_overflowing) {
 		AddOverflow(paragraph);
@@ -246,7 +246,7 @@ void LayoutEngineVisitor::Visit(Run^ run) {
 	_builder->Process(run);
 }
 
-void LayoutEngineVisitor::Visit(SpanBase^ span) {
+void LayoutEngineVisitor::Visit(Span^ span) {
 	_builder->PushFormat(span->Format);
 	StructureVisitor::Visit(span);
 	_builder->PopFormat();
@@ -256,9 +256,9 @@ Size LayoutEngineVisitor::GetAvailableSize() {
 	return SizeHelper::FromDimensions(_layoutSize.Width, _layoutSize.Height - _height);
 }
 
-void LayoutEngineVisitor::AddOverflow(Paragraph^ paragraph) {
+void LayoutEngineVisitor::AddOverflow(Block^ block) {
 	_overflowing = true;
-	_overflow->Append(paragraph);
+	_overflow->Append(block);
 }
 
 void LayoutEngineVisitor::ReserveSpace(float width, float height) {

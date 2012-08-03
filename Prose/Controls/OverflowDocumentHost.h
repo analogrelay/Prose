@@ -24,7 +24,7 @@ namespace Prose {
 		internal:
 			void Detach(void);
 			void Attach(DocumentHost^ rootHost);
-			void RecieveOverflow(Windows::Foundation::Collections::IVectorView<Prose::Structure::Paragraph^>^ overflow);
+			void RecieveOverflow(Windows::Foundation::Collections::IVectorView<PS::Block^>^ overflow);
 
 			virtual PS::StructureTree^ GetStructureTree() override { return _overflowTree; }
 

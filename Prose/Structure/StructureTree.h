@@ -1,7 +1,7 @@
 #pragma once
 
 #include "StructureNode.h"
-#include "Paragraph.h"
+#include "Block.h"
 
 namespace Prose {
 	namespace Structure {
@@ -12,8 +12,8 @@ namespace Prose {
 			public StructureNode
 		{
 		public:
-			virtual property WFC::IVector<Paragraph^>^ Paragraphs {
-				WFC::IVector<Paragraph^>^ get() { return _paragraphs; }
+			virtual property WFC::IVector<Block^>^ Blocks {
+				WFC::IVector<Block^>^ get() { return _blocks; }
 			}
 
 			virtual void Accept(StructureVisitor^ visitor) override;
@@ -22,7 +22,7 @@ namespace Prose {
 			StructureTree(void);
 
 		private:
-			WFC::IVector<Paragraph^>^ _paragraphs;
+			WFC::IVector<Block^>^ _blocks;
 		};
 	}
 }
