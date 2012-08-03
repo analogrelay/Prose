@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\FormattedRange.h"
+#include "FormattedRange.h"
 
 namespace Prose {
 	namespace Layout {

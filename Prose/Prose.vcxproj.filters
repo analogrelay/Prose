@@ -8,8 +8,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include=".\Structure\Paragraph.cpp" />
-    <ClCompile Include="Structure\Run.cpp" />
     <ClCompile Include="Layout\LayoutNode.cpp" />
     <ClCompile Include="Controls\DocumentHost.cpp" />
     <ClCompile Include=".\Controls\OverflowDocumentHost.cpp" />
@@ -25,13 +23,11 @@
     <ClCompile Include=".\Controls\DocumentHostBase.cpp" />
     <ClCompile Include=".\Controls\DocumentViewer.cpp" />
     <ClCompile Include="ObjectTracking.cpp" />
-    <ClCompile Include="Structure\Inline.cpp" />
     <ClCompile Include="Layout\LayoutEngineVisitor.cpp" />
     <ClCompile Include="FormattedRange.cpp" />
     <ClCompile Include="TextRange.cpp" />
     <ClCompile Include="TextFormat.cpp" />
     <ClCompile Include="Helpers.cpp" />
-    <ClCompile Include="Structure\Span.cpp" />
     <ClCompile Include="Layout\DWLayoutMetrics.cpp" />
     <ClCompile Include=".\Layout\LayoutInline.cpp" />
     <ClCompile Include="Events\EventManager.cpp" />
@@ -41,14 +37,20 @@
     <ClCompile Include="Structure\StructureNode.cpp" />
     <ClCompile Include="Structure\StructureVisitor.cpp" />
     <ClCompile Include="Controls\Nodes\DocumentNode.cpp" />
-    <ClCompile Include="Structure\Block.cpp" />
     <ClCompile Include="Controls\Nodes\Paragraph.cpp" />
+    <ClCompile Include="Structure\BlockNode.cpp" />
+    <ClCompile Include="Structure\InlineNode.cpp" />
+    <ClCompile Include="Structure\ParagraphNode.cpp" />
+    <ClCompile Include="Structure\RunNode.cpp" />
+    <ClCompile Include="Controls\Nodes\Run.cpp" />
+    <ClCompile Include="Controls\Nodes\Span.cpp" />
+    <ClCompile Include="Structure\SpanNode.cpp" />
+    <ClCompile Include="Layout\FormatStack.cpp" />
+    <ClCompile Include="Layout\LayoutBuilder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="Helpers.h" />
-    <ClInclude Include=".\Structure\Paragraph.h" />
-    <ClInclude Include="Structure\Run.h" />
     <ClInclude Include="Layout\LayoutNode.h" />
     <ClInclude Include="Controls\DocumentHost.h" />
     <ClInclude Include="Controls\DocumentHostBase.h" />
@@ -70,13 +72,11 @@
     <ClInclude Include=".\Controls\DocumentViewer.h" />
     <ClInclude Include=".\Rendering\IRenderingPlan.h" />
     <ClInclude Include="ObjectTracking.h" />
-    <ClInclude Include="Structure\Inline.h" />
     <ClInclude Include="Layout\LayoutEngineVisitor.h" />
     <ClInclude Include="Structure\InlinePair.h" />
     <ClInclude Include="FormattedRange.h" />
     <ClInclude Include="TextRange.h" />
     <ClInclude Include="TextFormat.h" />
-    <ClInclude Include="Structure\Span.h" />
     <ClInclude Include=".\Layout\LayoutInline.h" />
     <ClInclude Include="Events\EventManager.h" />
     <ClInclude Include="Events\RoutedEvent.h" />
@@ -95,7 +95,15 @@
     <ClInclude Include="Structure\StructureNode.h" />
     <ClInclude Include="Structure\StructureVisitor.h" />
     <ClInclude Include="Controls\Nodes\DocumentNode.h" />
-    <ClInclude Include="Structure\Block.h" />
     <ClInclude Include="Controls\Nodes\Paragraph.h" />
+    <ClInclude Include="Structure\BlockNode.h" />
+    <ClInclude Include="Structure\InlineNode.h" />
+    <ClInclude Include="Structure\ParagraphNode.h" />
+    <ClInclude Include="Structure\RunNode.h" />
+    <ClInclude Include="Structure\SpanNode.h" />
+    <ClInclude Include="Controls\Nodes\Run.h" />
+    <ClInclude Include="Controls\Nodes\Span.h" />
+    <ClInclude Include="Layout\FormatStack.h" />
+    <ClInclude Include="Layout\LayoutBuilder.h" />
   </ItemGroup>
 </Project>

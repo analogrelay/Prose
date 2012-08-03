@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "RenderingLayoutVisitor.h"
 #include "DirectWriteSurface.h"
-#include "..\Layout\DWLayoutMetrics.h"
+#include "Layout\DWLayoutMetrics.h"
 
 using namespace Prose::Layout;
 using namespace Prose::Rendering;

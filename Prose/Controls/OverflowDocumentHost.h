@@ -1,5 +1,5 @@
 #pragma once
-#include "..\ObjectTracking.h"
+#include "ObjectTracking.h"
 #include "DocumentHostBase.h"
 #include "Nodes\Document.h"
 
@@ -24,7 +24,7 @@ namespace Prose {
 		internal:
 			void Detach(void);
 			void Attach(DocumentHost^ rootHost);
-			void RecieveOverflow(Windows::Foundation::Collections::IVectorView<PS::Block^>^ overflow);
+			void RecieveOverflow(Windows::Foundation::Collections::IVectorView<PS::BlockNode^>^ overflow);
 
 			virtual PS::StructureTree^ GetStructureTree() override { return _overflowTree; }
 

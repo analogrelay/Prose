@@ -6,7 +6,7 @@
 #include "pch.h"
 #include "DocumentViewer.h"
 #include "DocumentHost.h"
-#include "..\Structure\StructureTree.h"
+#include "Structure\StructureTree.h"
 
 using namespace Prose::Controls;
 using namespace Prose::Structure;

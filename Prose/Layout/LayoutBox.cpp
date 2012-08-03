@@ -2,7 +2,7 @@
 #include "LayoutBox.h"
 #include "LayoutVisitor.h"
 #include "LayoutInline.h"
-#include "..\ChildNodeCollection.h"
+#include "ChildNodeCollection.h"
 
 #include <assert.h>
 

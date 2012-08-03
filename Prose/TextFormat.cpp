@@ -33,15 +33,15 @@ DWRITE_FONT_STYLE styleTable[] = {
 TextFormat^ TextFormat::MergeWith(TextFormat^ overridingCopy) {
 	TextFormat^ newFormat = ref new TextFormat();
 
-	#define MERGE(Condition, Property) if(Condition) { newFormat-> ## Property = overridingCopy-> ## Property; } else { newFormat-> ## Property = this-> ## Property; }
-	MERGE(!_isnan(overridingCopy->FontSize), FontSize);
-	MERGE(overridingCopy->FontFamily, FontFamily);
-	MERGE(overridingCopy->FontStretch != Text::FontStretch::Undefined, FontStretch);
-	MERGE(overridingCopy->Foreground, Foreground);
-	MERGE(overridingCopy->FontStyle.HasValue(), FontStyle);
-	MERGE(overridingCopy->FontWeight.HasValue(), FontWeight);
-	MERGE(overridingCopy->HasStrikethrough.HasValue(), HasStrikethrough);
-	MERGE(overridingCopy->HasUnderline.HasValue(), HasUnderline);
+#define MERGE(Property) if(!isnull(overridingCopy-> ## Property)) { newFormat-> ## Property = overridingCopy-> ## Property; } else { newFormat-> ## Property = this-> ## Property; }
+	MERGE(FontSize);
+	MERGE(FontFamily);
+	MERGE(FontStretch);
+	MERGE(Foreground);
+	MERGE(FontStyle);
+	MERGE(FontWeight);
+	MERGE(HasStrikethrough);
+	MERGE(HasUnderline);
 
 	return newFormat;
 }
@@ -59,7 +59,7 @@ TextFormat^ TextFormat::Clone(void) {
 	return clone;
 }
 
-TextFormat^ TextFormat::MergeSequence(std::list<TextFormat^>& list) {
+TextFormat^ TextFormat::MergeSequence(std::deque<TextFormat^> const& list) {
 	TextFormat^ current = nullptr;
 	for(auto format : list) {
 		if(!current) {
@@ -71,12 +71,24 @@ TextFormat^ TextFormat::MergeSequence(std::list<TextFormat^>& list) {
 	return current;
 }
 
+bool TextFormat::AnythingSet::get() {
+	return 
+		!isnull(FontFamily) ||
+		!isnull(FontSize) ||
+		!isnull(Foreground) ||
+		!isnull(FontStretch) ||
+		!isnull(FontStyle) ||
+		!isnull(FontWeight) ||
+		!isnull(HasStrikethrough) ||
+		!isnull(HasUnderline);
+}
+
 void TextFormat::ApplyDeviceIndependent(ComPtr<IDWriteTextLayout> layout, UINT32 offset, UINT32 length) {
 	DWRITE_TEXT_RANGE range;
 	range.startPosition = offset;
 	range.length = length;
 
-	if(!_isnan(FontSize)) {
+	if(FontSize != nullptr) {
 		ThrowIfFailed(layout->SetFontSize((float)FontSize, range));
 	}
 	if(FontFamily) {
@@ -89,18 +101,26 @@ void TextFormat::ApplyDeviceIndependent(ComPtr<IDWriteTextLayout> layout, UINT32
 		}
 	}
 
-	INT32 styleIndex = (INT32)FontStyle.GetValue();
-	if(styleIndex >= 0 && styleIndex < ARRAYSIZE(styleTable)) {
-		ThrowIfFailed(layout->SetFontStyle(styleTable[styleIndex], range));
+	if(FontStyle != nullptr) {
+		INT32 styleIndex = (INT32)FontStyle.GetValue();
+		if(styleIndex >= 0 && styleIndex < ARRAYSIZE(styleTable)) {
+			ThrowIfFailed(layout->SetFontStyle(styleTable[styleIndex], range));
+		}
 	}
 
-	UINT16 weight = (UINT16)FontWeight.GetValue().Weight;
-	if(weight >= 1 && weight <= 999) {
-		ThrowIfFailed(layout->SetFontWeight((DWRITE_FONT_WEIGHT)weight, range));
+	if(FontWeight != nullptr) {
+		UINT16 weight = (UINT16)FontWeight.GetValue().Weight;
+		if(weight >= 1 && weight <= 999) {
+			ThrowIfFailed(layout->SetFontWeight((DWRITE_FONT_WEIGHT)weight, range));
+		}
 	}
 
-	ThrowIfFailed(layout->SetStrikethrough(HasStrikethrough, range));
-	ThrowIfFailed(layout->SetUnderline(HasUnderline, range));
+	if(HasStrikethrough != nullptr) {
+		ThrowIfFailed(layout->SetStrikethrough(HasStrikethrough, range));
+	}
+	if(HasUnderline != nullptr) {
+		ThrowIfFailed(layout->SetUnderline(HasUnderline, range));
+	}
 }
 
 void TextFormat::ApplyDeviceDependent(ComPtr<ID2D1RenderTarget> target, ComPtr<IDWriteTextLayout> layout, UINT32 offset, UINT32 length) {

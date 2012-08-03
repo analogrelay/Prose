@@ -2,12 +2,12 @@
 
 namespace Prose {
 	namespace Structure {
-		ref class Run;
-		ref class Span;
-		ref class Inline;
-		ref class Block;
+		ref class RunNode;
+		ref class SpanNode;
+		ref class InlineNode;
+		ref class BlockNode;
 		ref class StructureTree;
-		ref class Paragraph;
+		ref class ParagraphNode;
 		ref class StructureNode;
 		
 		private ref class StructureVisitor abstract
@@ -15,11 +15,11 @@ namespace Prose {
 		public:
 			virtual void Visit(StructureTree^ tree);
 			virtual void Visit(StructureNode^ node);
-			virtual void Visit(Block^ block);
-			virtual void Visit(Paragraph^ paragraph);
-			virtual void Visit(Inline^ inl);
-			virtual void Visit(Run^ run);
-			virtual void Visit(Span^ span);
+			virtual void Visit(BlockNode^ BlockNode);
+			virtual void Visit(ParagraphNode^ paragraph);
+			virtual void Visit(InlineNode^ inl);
+			virtual void Visit(RunNode^ run);
+			virtual void Visit(SpanNode^ span);
 		};
 	}
 }

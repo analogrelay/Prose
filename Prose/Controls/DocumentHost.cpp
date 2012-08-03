@@ -1,11 +1,11 @@
 #include <limits>
 
 #include "pch.h"
-#include "..\ObjectTracking.h"
+#include "ObjectTracking.h"
 #include "DocumentHost.h"
 
-#include "..\Rendering\DirectWriteRenderer.h"
-#include "..\Layout\DirectWriteLayoutEngine.h"
+#include "Rendering\DirectWriteRenderer.h"
+#include "Layout\DirectWriteLayoutEngine.h"
 
 using namespace Windows::UI::Xaml;
 

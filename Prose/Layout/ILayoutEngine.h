@@ -1,5 +1,5 @@
 #pragma once
-#include "..\Structure\StructureTree.h"
+#include "Structure\StructureTree.h"
 #include "LayoutResult.h"
 
 namespace Prose {

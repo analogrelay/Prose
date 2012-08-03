@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\Structure\StructureTree.h"
+#include "Structure\StructureTree.h"
 #include "DocumentNode.h"
 
 namespace Prose {
@@ -17,15 +17,15 @@ namespace Prose {
 		public:
 			Document(void);
 
-			property WFC::IVector<BlockNode^>^ Children {
-				WFC::IVector<BlockNode^>^ get() { return _children; }
+			property WFC::IVector<Block^>^ Children {
+				WFC::IVector<Block^>^ get() { return _children; }
 			}
 
 		internal:
 			Prose::Structure::StructureTree^ CreateStructureTree();
 
 		private:
-			WFC::IVector<BlockNode^>^ _children;
+			WFC::IVector<Block^>^ _children;
 		};
 	}
 }

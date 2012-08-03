@@ -1,8 +1,8 @@
 #pragma once
 
 #include "TextFormat.h"
-#include "Structure\Block.h"
-#include "Structure\Inline.h"
+#include "Structure\BlockNode.h"
+#include "Structure\InlineNode.h"
 
 namespace Prose {
 	namespace Controls {
@@ -29,17 +29,17 @@ namespace Prose {
 		};
 
 		[WFM::WebHostHidden]
-		public ref class BlockNode :
+		public ref class Block :
 			public StylableNode {
 		internal:
-			virtual PS::Block^ ConstructStructureNode() { return nullptr; }
+			virtual PS::BlockNode^ ConstructStructureNode() { return nullptr; }
 		};
 
 		[WFM::WebHostHidden]
-		public ref class InlineNode :
+		public ref class Inline :
 			public StylableNode {
 		internal:
-			virtual PS::Inline^ ConstructStructureNode() { return nullptr; }
+			virtual PS::InlineNode^ ConstructStructureNode() { return nullptr; }
 		};
 	}
 }

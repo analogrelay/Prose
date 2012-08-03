@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "StructureNode.h"
-#include "..\Events\RoutedEventManager.h"
+#include "Events\RoutedEventManager.h"
 
 using namespace Prose::Structure;
 using namespace Prose::Events;

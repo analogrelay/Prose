@@ -1,5 +1,5 @@
 #pragma once
-#include "..\Structure\Document.h"
+#include "Structure\Document.h"
 #include "OverflowDocumentHost.h"
 
 namespace Prose {

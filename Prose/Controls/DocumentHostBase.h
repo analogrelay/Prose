@@ -1,8 +1,8 @@
 #pragma once
 
-#include "..\Rendering\IRenderingPlan.h"
-#include "..\Layout\LayoutTree.h"
-#include "..\Structure\Paragraph.h"
+#include "Rendering\IRenderingPlan.h"
+#include "Layout\LayoutTree.h"
+#include "Structure\ParagraphNode.h"
 #include "Nodes\Document.h"
 
 namespace Prose {
@@ -62,7 +62,7 @@ namespace Prose {
 			WUX::Media::Imaging::VirtualSurfaceImageSource^ _renderSurface;
 			WUX::Controls::Image^ _renderHost;
 			WF::Size _layoutSize;
-			WF::Collections::IVectorView<PS::Block^>^ _overflow;
+			WF::Collections::IVectorView<PS::BlockNode^>^ _overflow;
 			Windows::UI::Core::CoreCursor^ _oldCursor;
 
 #ifdef _DEBUG

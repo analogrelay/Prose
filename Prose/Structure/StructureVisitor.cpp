@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "StructureVisitor.h"
 #include "StructureTree.h"
-#include "Paragraph.h"
-#include "Run.h"
-#include "Span.h"
+#include "ParagraphNode.h"
+#include "RunNode.h"
+#include "SpanNode.h"
 
 using namespace Prose::Structure;
 
@@ -19,28 +19,28 @@ void StructureVisitor::Visit(StructureTree^ tree) {
 	}
 }
 
-void StructureVisitor::Visit(Block^ block) {
-	Visit(static_cast<StructureNode^>(block));
-	for(auto node : block->Inlines) {
+void StructureVisitor::Visit(BlockNode^ BlockNode) {
+	Visit(static_cast<StructureNode^>(BlockNode));
+	for(auto node : BlockNode->Inlines) {
 		node->Accept(this);
 	}
 }
 
-void StructureVisitor::Visit(Span^ span) {
-	Visit(static_cast<Inline^>(span));
-	for each(Inline^ node in span->Inlines) {
+void StructureVisitor::Visit(SpanNode^ span) {
+	Visit(static_cast<InlineNode^>(span));
+	for each(InlineNode^ node in span->Inlines) {
 		node->Accept(this);
 	}
 }
 
-void StructureVisitor::Visit(Paragraph^ paragraph) {
-	Visit(static_cast<Block^>(paragraph));
+void StructureVisitor::Visit(ParagraphNode^ paragraph) {
+	Visit(static_cast<BlockNode^>(paragraph));
 }
 
-void StructureVisitor::Visit(Run^ run) {
-	Visit(static_cast<Inline^>(run));
+void StructureVisitor::Visit(RunNode^ run) {
+	Visit(static_cast<InlineNode^>(run));
 }
 
-void StructureVisitor::Visit(Inline^ inl) {
+void StructureVisitor::Visit(InlineNode^ inl) {
 	Visit(static_cast<StructureNode^>(inl));
 }

@@ -1,5 +1,5 @@
 #pragma once
-#include "..\Layout\LayoutVisitor.h"
+#include "Layout\LayoutVisitor.h"
 #include "DirectWriteRenderingPlan.h"
 
 namespace Prose {

@@ -1,10 +1,13 @@
 #pragma once
 
-#include "..\Structure\Paragraph.h"
-#include "..\Structure\StructureVisitor.h"
+#include "Structure\ParagraphNode.h"
+#include "Structure\StructureVisitor.h"
+#include "Structure\SpanNode.h"
 #include "LayoutBox.h"
 #include "DWLayoutMetrics.h"
-#include "..\Structure\Span.h"
+#include "LayoutBuilder.h"
+#include "LayoutResult.h"
+#include "FormatStack.h"
 
 #include <sstream>
 #include <list>
@@ -17,39 +20,16 @@ namespace Prose {
 		namespace WF = Windows::Foundation;
 		namespace WFC = Windows::Foundation::Collections;
 
-		ref class LayoutEngineVisitor;
-
-		private class LayoutBuilder {
-		public:
-			LayoutBuilder(LayoutEngineVisitor^ visitor, LayoutBox^ box, PS::Block^ block);
-
-			bool Layout(void);
-			void Process(PS::Run^ run);
-			void PushFormat(Prose::TextFormat^ format);
-			void PopFormat(void);
-		private:
-			void ProcessInline(PS::Inline^ inl, UINT32 length);
-			void ApplyFormatters(MW::ComPtr<IDWriteTextLayout> layout, UINT32 length);
-			MW::ComPtr<IDWriteTextLayout> ConstructLayout(MW::ComPtr<IDWriteTextFormat> baseFormat, std::wstring text, float boxWidth, float boxHeight);
-
-			UINT32 _offset;
-			LayoutBox^ _box;
-			std::wstringstream _buffer;
-			std::list<Prose::TextFormat^> _formatStack;
-			LayoutEngineVisitor^ _visitor;
-			PS::Block^ _block;
-			PlC::Vector<FormattedRange^>^ _formatters;
-		};
-
 		private ref class LayoutEngineVisitor :
 			public PS::StructureVisitor
 		{
 		public:
 			LayoutResult^ CreateResult(void);
 
-			virtual void Visit(PS::Run^ run) override;
-			virtual void Visit(PS::Block^ block) override;
-			virtual void Visit(PS::Span^ span) override;
+			virtual void Visit(PS::StructureTree^ tree) override;
+			virtual void Visit(PS::RunNode^ run) override;
+			virtual void Visit(PS::BlockNode^ BlockNode) override;
+			virtual void Visit(PS::SpanNode^ span) override;
 		internal:
 			LayoutEngineVisitor(WF::Size layoutSize);
 
@@ -63,7 +43,7 @@ namespace Prose {
 
 			WF::Size GetAvailableSize();
 
-			void AddOverflow(PS::Block^ block);
+			void AddOverflow(PS::BlockNode^ BlockNode);
 			void ReserveSpace(float width, float height);
 		private:
 			float _height;
@@ -75,8 +55,9 @@ namespace Prose {
 			bool _overflowing;
 			bool _canOverflowAll;
 			LayoutTree^ _layout;
+			FormatStack^ _formatStack;
 
-			WFC::IVector<PS::Block^>^ _overflow;
+			WFC::IVector<PS::BlockNode^>^ _overflow;
 			WF::Size _layoutSize;
 		};
 	}

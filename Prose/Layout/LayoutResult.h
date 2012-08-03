@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\Structure\Paragraph.h"
+#include "Structure\ParagraphNode.h"
 #include "LayoutTree.h"
 #include "LayoutBox.h"
 
@@ -16,11 +16,11 @@ namespace Prose {
 				LayoutTree^ get() { return _layout; }
 			};
 
-			property WFC::IVectorView<PS::Block^>^ Overflow {
-				WFC::IVectorView<PS::Block^>^ get() { return _overflow; }
+			property WFC::IVectorView<PS::BlockNode^>^ Overflow {
+				WFC::IVectorView<PS::BlockNode^>^ get() { return _overflow; }
 			}
 
-			LayoutResult(LayoutTree^ layout, WFC::IVectorView<PS::Block^>^ overflow) :
+			LayoutResult(LayoutTree^ layout, WFC::IVectorView<PS::BlockNode^>^ overflow) :
 				_layout(layout),
 				_overflow(overflow) {}
 
@@ -42,7 +42,7 @@ namespace Prose {
 
 		private:
 			LayoutTree^ _layout;
-			WFC::IVectorView<PS::Block^>^ _overflow;
+			WFC::IVectorView<PS::BlockNode^>^ _overflow;
 			Windows::Foundation::Size _layoutSize;
 			bool _layoutSizeCalulated;
 		};

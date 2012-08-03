@@ -55,3 +55,8 @@ Windows::UI::Xaml::DependencyProperty^ Prose::RegisterDP(
 	PropertyChangedCallback^ changedCallback) {
 	return RegisterDPCore(name, type, owner, ref new PropertyMetadata(defaultValue, changedCallback));
 }
+
+template<>
+bool Prose::isnull<Windows::UI::Text::FontStretch>(Windows::UI::Text::FontStretch const& item) {
+	return item == Windows::UI::Text::FontStretch::Undefined;
+}

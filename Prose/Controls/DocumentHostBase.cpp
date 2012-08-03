@@ -1,12 +1,12 @@
 #include "pch.h"
 
 #ifdef TRACE_RENDER
-#include "..\Rendering\DirectWriteRenderingPlan.h"
+#include "Rendering\DirectWriteRenderingPlan.h"
 #endif
 
 #include "DocumentHost.h"
 #include "OverflowDocumentHost.h"
-#include "..\Layout\LayoutResult.h"
+#include "Layout\LayoutResult.h"
 
 using namespace Platform;
 using namespace Platform::Collections;
@@ -60,7 +60,7 @@ void DocumentHostBase::TargetChanged() {
 }
 
 Prose::Structure::StructureTree^ DocumentHostBase::GetStructureTree() {
-	return RootHost ? RootHost->GetStructureTree() : nullptr;
+	return RootHost ? RootHost->Document->CreateStructureTree() : nullptr;
 }
 
 Size DocumentHostBase::MeasureOverride(Size availableSize) {

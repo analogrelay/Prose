@@ -4,10 +4,10 @@
 
 #include "IRenderingPlan.h"
 #include "IDocumentRenderer.h"
-#include "..\ObjectTracking.h"
+#include "ObjectTracking.h"
 
-#include "..\Layout\LayoutTree.h"
-#include "..\Layout\LayoutVisitor.h"
+#include "Layout\LayoutTree.h"
+#include "Layout\LayoutVisitor.h"
 
 namespace Prose {
 	namespace Rendering {

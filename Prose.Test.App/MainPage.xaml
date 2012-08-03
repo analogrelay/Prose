@@ -31,23 +31,15 @@
                     <Paragraph>
                         <Run>
                             <Run.FontWeight>
-                                <FontWeight>Bold</FontWeight>
+                                <FontWeight xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">Bold</FontWeight>
                             </Run.FontWeight>    
                             Prose!
                         </Run>
                     </Paragraph>
-                    <Paragraph>
+                    <Paragraph Foreground="Yellow">
                         <Bold xml:space="preserve"><Run>Nostrud accusamus brooklyn, </Run></Bold>
                         <Italic xml:space="preserve"><Run>eiusmod ea sed gluten-free ethnic </Run></Italic>
                         <Underline xml:space="preserve"><Run>quinoa post-ironic lomo. </Run></Underline>
-                        <Strikethrough>
-                            <Run>
-                                Accusamus artisan nihil, laborum wolf 8-bit squid assumenda godard viral vinyl consectetur odd future gluten-free. 
-                                Labore fixie do photo booth lomo. Pitchfork cupidatat qui, duis viral odio assumenda. Forage non nihil typewriter 
-                                id delectus. Ea esse portland eu ethical four loko voluptate, adipisicing in odd future mcsweeney's. +1 narwhal forage, 
-                                vero in wes anderson selvage four loko letterpress jean shorts farm-to-table banh mi voluptate occaecat.
-                            </Run>
-                        </Strikethrough>
                     </Paragraph>
                     <Paragraph>
                         <Run>Nostrud accusamus brooklyn, eiusmod ea sed gluten-free ethnic quinoa post-ironic lomo. Accusamus artisan nihil, laborum wolf 8-bit squid assumenda godard viral vinyl consectetur odd future gluten-free. Labore fixie do photo booth lomo. Pitchfork cupidatat qui, duis viral odio assumenda. Forage non nihil typewriter id delectus. Ea esse portland eu ethical four loko voluptate, adipisicing in odd future mcsweeney's. +1 narwhal forage, vero in wes anderson selvage four loko letterpress jean shorts farm-to-table banh mi voluptate occaecat.</Run>

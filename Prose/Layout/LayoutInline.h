@@ -1,5 +1,5 @@
 #pragma once
-#include "..\Structure\StructureNode.h"
+#include "Structure\StructureNode.h"
 #include "LayoutNode.h"
 
 namespace Prose {

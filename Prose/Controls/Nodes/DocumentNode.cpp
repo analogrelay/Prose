@@ -12,12 +12,12 @@ using namespace Windows::UI::Text;
 
 DependencyProperty^ StylableNode::_FontFamilyProperty = RegisterDP(L"FontFamily", FontFamily::typeid, StylableNode::typeid);
 DependencyProperty^ StylableNode::_ForegroundProperty = RegisterDP(L"Foreground", Brush::typeid, StylableNode::typeid);
-DependencyProperty^ StylableNode::_FontStretchProperty = RegisterDP(L"FontStretch", Box<::FontStretch>::typeid, StylableNode::typeid);
-DependencyProperty^ StylableNode::_FontSizeProperty = RegisterDP(L"FontSize", double::typeid, StylableNode::typeid);
-DependencyProperty^ StylableNode::_FontStyleProperty = RegisterDP(L"FontStyle", Box<::FontStyle>::typeid, StylableNode::typeid);
-DependencyProperty^ StylableNode::_FontWeightProperty = RegisterDP(L"FontWeight", FontWeight::typeid, StylableNode::typeid);
-DependencyProperty^ StylableNode::_HasStrikethroughProperty = RegisterDP(L"HasStrikethrough", bool::typeid, StylableNode::typeid);
-DependencyProperty^ StylableNode::_HasUnderlineProperty = RegisterDP(L"HasUnderline", bool::typeid, StylableNode::typeid);
+DependencyProperty^ StylableNode::_FontStretchProperty = RegisterDP(L"FontStretch", Box<::FontStretch>::typeid, StylableNode::typeid, ::FontStretch::Undefined);
+DependencyProperty^ StylableNode::_FontSizeProperty = RegisterDP(L"FontSize", double::typeid, StylableNode::typeid, std::numeric_limits<double>::quiet_NaN());
+DependencyProperty^ StylableNode::_FontStyleProperty = RegisterDP(L"FontStyle", Box<::FontStyle>::typeid, StylableNode::typeid, ::FontStyle::Normal);
+DependencyProperty^ StylableNode::_FontWeightProperty = RegisterDP(L"FontWeight", FontWeight::typeid, StylableNode::typeid, ::FontWeights::Normal);
+DependencyProperty^ StylableNode::_HasStrikethroughProperty = RegisterDP(L"HasStrikethrough", bool::typeid, StylableNode::typeid, false);
+DependencyProperty^ StylableNode::_HasUnderlineProperty = RegisterDP(L"HasUnderline", bool::typeid, StylableNode::typeid, false);
 
 TextFormat^ StylableNode::CreateFormat() {
 	auto format = ref new TextFormat();

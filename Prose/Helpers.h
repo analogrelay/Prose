@@ -115,4 +115,12 @@ namespace Prose {
 	bool operator!=(Nullable<T> const& left, nullptr_t const& right) {
 		return !(left == right);
 	}
+
+	template<typename T>
+	bool isnull(T const& item) {
+		return item == nullptr;
+	}
+
+	template<>
+	bool isnull<Windows::UI::Text::FontStretch>(Windows::UI::Text::FontStretch const& item);
 }

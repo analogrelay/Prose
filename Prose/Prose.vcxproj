@@ -222,6 +222,8 @@
     <ClInclude Include="Controls\IDocumentSource.h" />
     <ClInclude Include="Controls\Nodes\DocumentNode.h" />
     <ClInclude Include="Controls\Nodes\Paragraph.h" />
+    <ClInclude Include="Controls\Nodes\Run.h" />
+    <ClInclude Include="Controls\Nodes\Span.h" />
     <ClInclude Include="Controls\OverflowDocumentHost.h" />
     <ClInclude Include=".\DX.h" />
     <ClInclude Include=".\Controls\DocumentViewer.h" />
@@ -238,8 +240,10 @@
     <ClInclude Include=".\Layout\DirectWriteLayoutEngine.h" />
     <ClInclude Include=".\Layout\LayoutVisitor.h" />
     <ClInclude Include="Layout\DWLayoutMetrics.h" />
+    <ClInclude Include="Layout\FormatStack.h" />
     <ClInclude Include="Layout\ILayoutEngine.h" />
     <ClInclude Include="Layout\ILayoutMetrics.h" />
+    <ClInclude Include="Layout\LayoutBuilder.h" />
     <ClInclude Include="Layout\LayoutEngineVisitor.h" />
     <ClInclude Include="Layout\LayoutNode.h" />
     <ClInclude Include=".\Layout\LayoutTree.h" />
@@ -248,7 +252,7 @@
     <ClInclude Include="Macros.h" />
     <ClInclude Include="ObjectTracking.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include=".\Structure\Paragraph.h" />
+    <ClInclude Include="Structure\ParagraphNode.h" />
     <ClInclude Include=".\Rendering\IDocumentRenderer.h" />
     <ClInclude Include=".\Rendering\IRenderingPlan.h" />
     <ClInclude Include="Events\PointerTextEvent.h" />
@@ -256,14 +260,14 @@
     <ClInclude Include="Rendering\DirectWriteRenderingPlan.h" />
     <ClInclude Include="Rendering\DirectWriteSurface.h" />
     <ClInclude Include="Rendering\RenderingLayoutVisitor.h" />
-    <ClInclude Include="Structure\Block.h" />
+    <ClInclude Include="Structure\BlockNode.h" />
     <ClInclude Include="Structure\StructureTree.h" />
     <ClInclude Include="Structure\StructureNode.h" />
     <ClInclude Include="Structure\StructureVisitor.h" />
-    <ClInclude Include="Structure\Inline.h" />
+    <ClInclude Include="Structure\InlineNode.h" />
     <ClInclude Include="Structure\InlinePair.h" />
-    <ClInclude Include="Structure\Run.h" />
-    <ClInclude Include="Structure\Span.h" />
+    <ClInclude Include="Structure\RunNode.h" />
+    <ClInclude Include="Structure\SpanNode.h" />
     <ClInclude Include="Structure\TextPointer.h" />
     <ClInclude Include="TextFormat.h" />
     <ClInclude Include="TextRange.h" />
@@ -280,10 +284,14 @@
     <ClCompile Include=".\Controls\DocumentViewer.cpp" />
     <ClCompile Include="Controls\Nodes\DocumentNode.cpp" />
     <ClCompile Include="Controls\Nodes\Paragraph.cpp" />
+    <ClCompile Include="Controls\Nodes\Run.cpp" />
+    <ClCompile Include="Controls\Nodes\Span.cpp" />
     <ClCompile Include="Events\EventManager.cpp" />
     <ClCompile Include="Events\RoutedEventManager.cpp" />
     <ClCompile Include="FormattedRange.cpp" />
     <ClCompile Include="Helpers.cpp" />
+    <ClCompile Include="Layout\FormatStack.cpp" />
+    <ClCompile Include="Layout\LayoutBuilder.cpp" />
     <ClCompile Include="Layout\LayoutEngineVisitor.cpp" />
     <ClCompile Include="Layout\DWLayoutMetrics.cpp" />
     <ClCompile Include="Layout\LayoutNode.cpp" />
@@ -298,18 +306,18 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include=".\Structure\Paragraph.cpp" />
+    <ClCompile Include="Structure\ParagraphNode.cpp" />
     <ClCompile Include="Rendering\DirectWriteRenderer.cpp" />
     <ClCompile Include="Rendering\DirectWriteRenderingPlan.cpp" />
     <ClCompile Include="Rendering\DirectWriteSurface.cpp" />
     <ClCompile Include="Rendering\RenderingLayoutVisitor.cpp" />
-    <ClCompile Include="Structure\Block.cpp" />
+    <ClCompile Include="Structure\BlockNode.cpp" />
     <ClCompile Include="Structure\StructureTree.cpp" />
     <ClCompile Include="Structure\StructureNode.cpp" />
     <ClCompile Include="Structure\StructureVisitor.cpp" />
-    <ClCompile Include="Structure\Inline.cpp" />
-    <ClCompile Include="Structure\Run.cpp" />
-    <ClCompile Include="Structure\Span.cpp" />
+    <ClCompile Include="Structure\InlineNode.cpp" />
+    <ClCompile Include="Structure\RunNode.cpp" />
+    <ClCompile Include="Structure\SpanNode.cpp" />
     <ClCompile Include="TextFormat.cpp" />
     <ClCompile Include="TextRange.cpp" />
   </ItemGroup>

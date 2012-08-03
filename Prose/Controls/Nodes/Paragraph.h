@@ -11,20 +11,20 @@ namespace Prose {
 		[WFM::WebHostHidden]
 		[WUX::Markup::ContentProperty(Name = "Children")]
 		public ref class Paragraph sealed :
-			public BlockNode
+			public Block
 		{
 		public:
 			Paragraph(void);
 
-			property WFC::IVector<InlineNode^>^ Children {
-				WFC::IVector<InlineNode^>^ get() { return _children; }
+			property WFC::IVector<Inline^>^ Children {
+				WFC::IVector<Inline^>^ get() { return _children; }
 			}
 
 		internal:
-			Prose::Structure::StructureTree^ CreateStructureTree();
+			virtual Prose::Structure::BlockNode^ ConstructStructureNode(void) override;
 
 		private:
-			WFC::IVector<InlineNode^>^ _children;
+			WFC::IVector<Inline^>^ _children;
 		};
 	}
 }

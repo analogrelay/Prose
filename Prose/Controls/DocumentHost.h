@@ -1,7 +1,7 @@
 #pragma once
-#include "..\Layout\ILayoutEngine.h"
-#include "..\Layout\LayoutTree.h"
-#include "..\Rendering\IDocumentRenderer.h"
+#include "Layout\ILayoutEngine.h"
+#include "Layout\LayoutTree.h"
+#include "Rendering\IDocumentRenderer.h"
 #include "Nodes\Document.h"
 
 #include "DocumentHostBase.h"

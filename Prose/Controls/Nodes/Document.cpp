@@ -6,7 +6,7 @@ using namespace Prose::Controls;
 
 using namespace Platform::Collections;
 
-Document::Document() : _children(ref new Vector<BlockNode^>()) { }
+Document::Document() : _children(ref new Vector<Block^>()) { }
 
 StructureTree^ Document::CreateStructureTree() {
 	// Create a tree

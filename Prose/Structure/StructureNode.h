@@ -1,10 +1,10 @@
 #pragma once
 
-#include "..\TextFormat.h"
-#include "..\Events\PointerTextEvent.h"
-#include "..\Events\IRoutedEventSource.h"
-#include "..\Events\RoutedEvent.h"
-#include "..\Events\CustomRoutedEvent.h"
+#include "TextFormat.h"
+#include "Events\PointerTextEvent.h"
+#include "Events\IRoutedEventSource.h"
+#include "Events\RoutedEvent.h"
+#include "Events\CustomRoutedEvent.h"
 
 namespace Prose {
 	namespace Structure {
@@ -14,12 +14,15 @@ namespace Prose {
 		ref class StructureVisitor;
 
 		private ref class StructureNode abstract : 
-			public WUX::DependencyObject,
 			public PE::IRoutedEventSource
 		{
 		public:
 			virtual property StructureNode^ Parent { StructureNode^ get() { return _parent; } }
-			virtual property TextFormat^ Format;
+			virtual property TextFormat^ Format {
+				TextFormat^ get() { return _format; }
+				void set(TextFormat^ value) { _format = value; }
+			}
+
 			virtual void Accept(StructureVisitor^ visitor) abstract;
 			
 			virtual PE::IRoutedEventManager^ GetRoutedEventManager() { return _eventManager; }
@@ -32,6 +35,7 @@ namespace Prose {
 			StructureNode(void);
 
 		private:
+			TextFormat^ _format;
 			StructureNode^ _parent;
 			PE::IRoutedEventManager^ _eventManager;
 		};

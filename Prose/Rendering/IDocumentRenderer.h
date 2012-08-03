@@ -1,6 +1,6 @@
 #pragma once
 #include "IRenderingPlan.h"
-#include "..\Layout\LayoutTree.h"
+#include "Layout\LayoutTree.h"
 
 namespace Prose {
 	namespace Rendering {
