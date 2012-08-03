@@ -4,87 +4,40 @@
 using namespace Prose;
 using namespace Prose::Controls;
 
-namespace WUX = Windows::UI::Xaml;
-namespace WUT = Windows::UI::Text;
+using namespace Platform;
+
+using namespace Windows::UI::Xaml;
+using namespace Windows::UI::Xaml::Media;
+using namespace Windows::UI::Text;
+
+DependencyProperty^ DocumentNode::_FontFamilyProperty = RegisterDP(L"FontFamily", FontFamily::typeid, DocumentNode::typeid);
+DependencyProperty^ DocumentNode::_ForegroundProperty = RegisterDP(L"Foreground", Brush::typeid, DocumentNode::typeid);
+DependencyProperty^ DocumentNode::_FontStretchProperty = RegisterDP(L"FontStretch", Box<::FontStretch>::typeid, DocumentNode::typeid);
+DependencyProperty^ DocumentNode::_FontSizeProperty = RegisterDP(L"FontSize", double::typeid, DocumentNode::typeid);
+DependencyProperty^ DocumentNode::_FontStyleProperty = RegisterDP(L"FontStyle", Box<::FontStyle>::typeid, DocumentNode::typeid);
+DependencyProperty^ DocumentNode::_FontWeightProperty = RegisterDP(L"FontWeight", FontWeight::typeid, DocumentNode::typeid);
+DependencyProperty^ DocumentNode::_HasStrikethroughProperty = RegisterDP(L"HasStrikethrough", bool::typeid, DocumentNode::typeid);
+DependencyProperty^ DocumentNode::_HasUnderlineProperty = RegisterDP(L"HasUnderline", bool::typeid, DocumentNode::typeid);
 
 TextFormat^ DocumentNode::CreateFormat() {
 	auto format = ref new TextFormat();
-	format->FontFamily = _fontFamily;
-	format->Foreground = _foreground;
-	format->FontStretch = _fontStretch;
-	format->FontSize = _fontSize;
-	format->FontStyle = _fontStyle;
-	format->FontWeight = _fontWeight;
-	format->HasStrikethrough = _hasStrikethrough;
-	format->HasUnderline = _hasUnderline;
+	format->FontFamily = FontFamily;
+	format->Foreground = Foreground;
+	format->FontStretch = FontStretch;
+	if(DPHasLocalValue(this, FontSizeProperty)) {
+		format->FontSize = FontSize;
+	}
+	if(DPHasLocalValue(this, FontStyleProperty)) {
+		format->FontStyle = FontStyle;
+	}
+	if(DPHasLocalValue(this, FontWeightProperty)) {
+		format->FontWeight = FontWeight;
+	}
+	if(DPHasLocalValue(this, HasStrikethroughProperty)) {
+		format->HasStrikethrough = HasStrikethrough;
+	}
+	if(DPHasLocalValue(this, HasUnderlineProperty)) {
+		format->HasUnderline = HasUnderline;
+	}
 	return format;
-}
-
-WUX::Media::FontFamily^ DocumentNode::FontFamily::get() {
-	return _fontFamily;
-}
-
-void DocumentNode::FontFamily::set(WUX::Media::FontFamily^ value) {
-	_fontFamily = value;
-}
-
-WUX::Media::Brush^ DocumentNode::Foreground::get() {
-	return _foreground;
-}
-
-void DocumentNode::Foreground::set(WUX::Media::Brush^ value) {
-	_foreground = value;
-}
-
-WUT::FontStretch DocumentNode::FontStretch::get() {
-	return _fontStretch;
-}
-
-void DocumentNode::FontStretch::set(WUT::FontStretch value) {
-	_fontStretch = value;
-}
-
-double DocumentNode::FontSize::get() {
-	return _fontSize == nullptr ?
-		std::numeric_limits<double>::quiet_NaN() :
-		_fontSize;
-}
-void DocumentNode::FontSize::set(double value) {
-	_fontSize = value;
-}
-
-WUT::FontStyle DocumentNode::FontStyle::get() {
-	return _fontStyle == nullptr ?
-		WUT::FontStyle::Normal :
-		_fontStyle;
-}
-
-void DocumentNode::FontStyle::set(WUT::FontStyle value) {
-	_fontStyle = value;
-}
-
-WUT::FontWeight DocumentNode::FontWeight::get() {
-	return _fontWeight == nullptr ?
-		WUT::FontWeights::Normal :
-		_fontWeight;
-}
-
-void DocumentNode::FontWeight::set(WUT::FontWeight value) {
-	_fontWeight = value;
-}
-
-bool DocumentNode::HasStrikethrough::get() {
-	return _hasStrikethrough == nullptr ? false : _hasStrikethrough;
-}
-
-void DocumentNode::HasStrikethrough::set(bool value) {
-	_hasStrikethrough = value;
-}
-
-bool DocumentNode::HasUnderline::get() {
-	return _hasUnderline == nullptr ? false : _hasUnderline;
-}
-
-void DocumentNode::HasUnderline::set(bool value) {
-	_hasUnderline = value;
 }

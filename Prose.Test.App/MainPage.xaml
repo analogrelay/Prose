@@ -6,8 +6,6 @@
     xmlns:local="using:Prose.Test.App"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:prose="using:Prose.Controls"
-    xmlns:p="using:Prose.Structure"
     mc:Ignorable="d">
 
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
@@ -21,46 +19,46 @@
             <TextBlock Name="CursorLoc"></TextBlock>
         </StackPanel>
         <ScrollViewer Grid.Row="1" VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Disabled" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Auto">
-            <prose:DocumentViewer Grid.Row="2" x:Name="Viewer" ColumnWidth="400" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <p:Document PointerMoved="ProseDoc_PointerMoved">
-                    <p:Paragraph>
-                        <p:Run FontStyle="Italic">Italic</p:Run>
-                    </p:Paragraph>
-                    <p:Paragraph>
-                        <p:Run FontStyle="Oblique">Oblique</p:Run>
-                    </p:Paragraph>
-                    <p:Paragraph>
-                        <p:Run>
-                            <p:Run.FontWeight>
+            <DocumentViewer xmlns="using:Prose.Controls" Grid.Row="2" x:Name="Viewer" ColumnWidth="400" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Document>
+                    <Paragraph>
+                        <Run FontStyle="Italic">Italic</Run>
+                    </Paragraph>
+                    <Paragraph>
+                        <Run FontStyle="Oblique">Oblique</Run>
+                    </Paragraph>
+                    <Paragraph>
+                        <Run>
+                            <Run.FontWeight>
                                 <FontWeight>Bold</FontWeight>
-                            </p:Run.FontWeight>    
+                            </Run.FontWeight>    
                             Prose!
-                        </p:Run>
-                    </p:Paragraph>
-                    <p:Paragraph>
-                        <p:Bold xml:space="preserve"><p:Run>Nostrud accusamus brooklyn, </p:Run></p:Bold>
-                        <p:Italic xml:space="preserve"><p:Run>eiusmod ea sed gluten-free ethnic </p:Run></p:Italic>
-                        <p:Underline xml:space="preserve"><p:Run>quinoa post-ironic lomo. </p:Run></p:Underline>
-                        <p:Strikethrough>
-                            <p:Run>
+                        </Run>
+                    </Paragraph>
+                    <Paragraph>
+                        <Bold xml:space="preserve"><Run>Nostrud accusamus brooklyn, </Run></Bold>
+                        <Italic xml:space="preserve"><Run>eiusmod ea sed gluten-free ethnic </Run></Italic>
+                        <Underline xml:space="preserve"><Run>quinoa post-ironic lomo. </Run></Underline>
+                        <Strikethrough>
+                            <Run>
                                 Accusamus artisan nihil, laborum wolf 8-bit squid assumenda godard viral vinyl consectetur odd future gluten-free. 
                                 Labore fixie do photo booth lomo. Pitchfork cupidatat qui, duis viral odio assumenda. Forage non nihil typewriter 
                                 id delectus. Ea esse portland eu ethical four loko voluptate, adipisicing in odd future mcsweeney's. +1 narwhal forage, 
                                 vero in wes anderson selvage four loko letterpress jean shorts farm-to-table banh mi voluptate occaecat.
-                            </p:Run>
-                        </p:Strikethrough>
-                    </p:Paragraph>
-                    <p:Paragraph>
-                        <p:Run>Nostrud accusamus brooklyn, eiusmod ea sed gluten-free ethnic quinoa post-ironic lomo. Accusamus artisan nihil, laborum wolf 8-bit squid assumenda godard viral vinyl consectetur odd future gluten-free. Labore fixie do photo booth lomo. Pitchfork cupidatat qui, duis viral odio assumenda. Forage non nihil typewriter id delectus. Ea esse portland eu ethical four loko voluptate, adipisicing in odd future mcsweeney's. +1 narwhal forage, vero in wes anderson selvage four loko letterpress jean shorts farm-to-table banh mi voluptate occaecat.</p:Run>
-                    </p:Paragraph>
-                    <p:Paragraph>
-                        <p:Run>Nostrud accusamus brooklyn, eiusmod ea sed gluten-free ethnic quinoa post-ironic lomo. Accusamus artisan nihil, laborum wolf 8-bit squid assumenda godard viral vinyl consectetur odd future gluten-free. Labore fixie do photo booth lomo. Pitchfork cupidatat qui, duis viral odio assumenda. Forage non nihil typewriter id delectus. Ea esse portland eu ethical four loko voluptate, adipisicing in odd future mcsweeney's. +1 narwhal forage, vero in wes anderson selvage four loko letterpress jean shorts farm-to-table banh mi voluptate occaecat.</p:Run>
-                    </p:Paragraph>
-                    <p:Paragraph>
-                        <p:Run>THE END.</p:Run>
-                    </p:Paragraph>
-                </p:Document>            
-            </prose:DocumentViewer>
+                            </Run>
+                        </Strikethrough>
+                    </Paragraph>
+                    <Paragraph>
+                        <Run>Nostrud accusamus brooklyn, eiusmod ea sed gluten-free ethnic quinoa post-ironic lomo. Accusamus artisan nihil, laborum wolf 8-bit squid assumenda godard viral vinyl consectetur odd future gluten-free. Labore fixie do photo booth lomo. Pitchfork cupidatat qui, duis viral odio assumenda. Forage non nihil typewriter id delectus. Ea esse portland eu ethical four loko voluptate, adipisicing in odd future mcsweeney's. +1 narwhal forage, vero in wes anderson selvage four loko letterpress jean shorts farm-to-table banh mi voluptate occaecat.</Run>
+                    </Paragraph>
+                    <Paragraph>
+                        <Run>Nostrud accusamus brooklyn, eiusmod ea sed gluten-free ethnic quinoa post-ironic lomo. Accusamus artisan nihil, laborum wolf 8-bit squid assumenda godard viral vinyl consectetur odd future gluten-free. Labore fixie do photo booth lomo. Pitchfork cupidatat qui, duis viral odio assumenda. Forage non nihil typewriter id delectus. Ea esse portland eu ethical four loko voluptate, adipisicing in odd future mcsweeney's. +1 narwhal forage, vero in wes anderson selvage four loko letterpress jean shorts farm-to-table banh mi voluptate occaecat.</Run>
+                    </Paragraph>
+                    <Paragraph>
+                        <Run>THE END.</Run>
+                    </Paragraph>
+                </Document>            
+            </DocumentViewer>
         </ScrollViewer>
     </Grid>
 </Page>

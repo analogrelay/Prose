@@ -12,59 +12,17 @@ namespace Prose {
 		public ref class DocumentNode :
 			public WUX::DependencyObject {
 		public:
-			property WUX::Media::FontFamily^ FontFamily {
-				WUX::Media::FontFamily^ get();
-				void set(WUX::Media::FontFamily^ value);
-			}
-
-			property WUX::Media::Brush^ Foreground {
-				WUX::Media::Brush^ get();
-				void set(WUX::Media::Brush^ value);
-			}
-
-			property WUT::FontStretch FontStretch {
-				WUT::FontStretch get();
-				void set(WUT::FontStretch value);
-			}
-			
-			property double FontSize {
-				double get();
-				void set(double value);
-			}
-
-			property WUT::FontStyle FontStyle {
-				WUT::FontStyle get();
-				void set(WUT::FontStyle value);
-			}
-
-			property WUT::FontWeight FontWeight {
-				WUT::FontWeight get();
-				void set(WUT::FontWeight value);
-			}
-
-			property bool HasStrikethrough {
-				bool get();
-				void set(bool value);
-			}
-
-			property bool HasUnderline {
-				bool get();
-				void set(bool value);
-			}
+			DEPENDENCY_PROPERTY(WUX::Media::FontFamily^, FontFamily);
+			DEPENDENCY_PROPERTY(WUX::Media::Brush^, Foreground);
+			DEPENDENCY_PROPERTY(WUT::FontStretch, FontStretch);
+			DEPENDENCY_PROPERTY(double, FontSize);
+			DEPENDENCY_PROPERTY(WUT::FontStyle, FontStyle);
+			DEPENDENCY_PROPERTY(WUT::FontWeight, FontWeight);
+			DEPENDENCY_PROPERTY(bool, HasStrikethrough);
+			DEPENDENCY_PROPERTY(bool, HasUnderline);
 
 		internal:
 			TextFormat^ CreateFormat();
-
-		private:
-			WUX::Media::FontFamily^ _fontFamily;
-			WUX::Media::Brush^ _foreground;
-			WUT::FontStretch _fontStretch;
-
-			Nullable<double> _fontSize;
-			Nullable<WUT::FontStyle> _fontStyle;
-			Nullable<WUT::FontWeight> _fontWeight;
-			Nullable<bool> _hasStrikethrough;
-			Nullable<bool> _hasUnderline;
 		};
 	}
 }

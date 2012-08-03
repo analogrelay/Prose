@@ -93,5 +93,6 @@
     <ClInclude Include="Structure\StructureNode.h" />
     <ClInclude Include="Structure\StructureVisitor.h" />
     <ClInclude Include="Controls\Nodes\DocumentNode.h" />
+    <ClInclude Include="Controls\Nodes\IDocumentControl.h" />
   </ItemGroup>
 </Project>
