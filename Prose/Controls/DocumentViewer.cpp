@@ -100,7 +100,7 @@ Size DocumentViewer::MeasureOverride(Size availableSize) {
 	auto usedWidth = _root->DesiredSize.Width;
 	auto usedHeight = _root->DesiredSize.Height;
 	auto hasOverflow = _root->HasOverflowContent;
-
+	
 	// Set up overflow chain
 	UINT32 counter = 0;
 	while(hasOverflow && usedWidth < availableSize.Width) {

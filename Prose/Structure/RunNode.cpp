@@ -3,6 +3,7 @@
 #include "StructureVisitor.h"
 #include "InlinePair.h"
 
+using namespace Prose;
 using namespace Prose::Structure;
 
 RunNode::RunNode(void) : InlineNode() {}
@@ -13,7 +14,7 @@ void RunNode::Accept(StructureVisitor^ visitor) {
 	visitor->Visit(this);
 }
 
-InlinePair^ RunNode::Split(UINT32 localOffset) {
+InlinePair^ RunNode::Split(UINT32 localOffset, TextFormat^ effectiveFormat) {
 	if(localOffset == 0) {
 		return ref new InlinePair(nullptr, this);
 	} else if(localOffset >= Length) {
@@ -27,8 +28,8 @@ InlinePair^ RunNode::Split(UINT32 localOffset) {
 	RunNode^ left = ref new RunNode(ref new Platform::String(leftStr.c_str()));
 	RunNode^ right = ref new RunNode(ref new Platform::String(rightStr.c_str()));
 
-	left->Format = Format->Clone();
-	right->Format = Format->Clone();
+	left->Format = effectiveFormat;
+	right->Format = effectiveFormat;
 
 	return ref new InlinePair(left, right);
 }

@@ -1,31 +1,3 @@
-// Macros for defining type members
-#define FAUX_ABSTRACT { throw ref new Platform::NotImplementedException("This method must be overridden by inheritors"); }
-
-// Macros for defining events
-#define DEFINE_ROUTED_EVENT(HandlerTypeNoHat, ArgsType, Name) private: \
-	static Prose::Events::RoutedEvent^ _ ## Name ## Event; \
-public: \
-	static property Prose::Events::RoutedEvent^ Name ## Event { Prose::Events::RoutedEvent^ get() { return _ ## Name ## Event; } }; \
-	virtual event HandlerTypeNoHat^ Name { \
-		virtual Windows::Foundation::EventRegistrationToken add(HandlerTypeNoHat^ handler); \
-		virtual void remove(Windows::Foundation::EventRegistrationToken token); \
-		virtual void raise(Platform::Object^ sender, ArgsType args); \
-	};
-
-#define IMPLEMENT_ROUTED_EVENT(Owner, RoutingStrategy_, HandlerTypeNoHat, ArgsType, Name) Prose::Events::RoutedEvent^ Owner::_ ## Name ## Event = Prose::Events::EventManager::RegisterRoutedEvent( \
-	#Name, Prose::Events::RoutingStrategy:: ## RoutingStrategy_, HandlerTypeNoHat::typeid, Owner::typeid); \
-Windows::Foundation::EventRegistrationToken Owner::Name::add(HandlerTypeNoHat^ handler) { \
-	return Prose::Events::EventManager::AddHandler(_ ## Name ## Event, this, ref new Windows::Foundation::TypedEventHandler<Platform::Object^, ICustomRoutedEventArgs^>([handler](Platform::Object^ sender, Prose::Events::ICustomRoutedEventArgs^ args) { \
-		handler(sender, safe_cast<ArgsType>(args)); \
-	}), false); \
-} \
-void Owner:: ## Name ## ::remove(Windows::Foundation::EventRegistrationToken token) { \
-	Prose::Events::EventManager::RemoveHandler(_ ## Name ## Event, this, token); \
-} \
-void Owner:: ## Name ## ::raise(Platform::Object^ sender, ArgsType args) { \
-	Prose::Events::EventManager::RaiseRoutedEvent(_ ## Name ## Event, this, args); \
-}
-
 // Macros for defining properties
 
 #define DPHasLocalValue(Obj, Prop) ((Obj)->ReadLocalValue((Prop)) != Windows::UI::Xaml::DependencyProperty::UnsetValue)

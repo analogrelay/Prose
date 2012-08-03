@@ -75,7 +75,7 @@ bool LayoutBuilder::Layout() {
 	float height = available.Height - vertical;
 
 	if(width < 0 || height < 0) {
-		if(!_visitor->CanOverflowAll) {
+		if(_visitor->CanOverflowAll) {
 			_visitor->AddOverflow(_block);
 			_box = nullptr;
 			return false;
@@ -115,7 +115,7 @@ bool LayoutBuilder::Layout() {
 		TextPointer^ ptr = _block->OffsetToPointer(textOffset);
 
 		// Split that node
-		InlinePair^ pair = ptr->Node->Split(ptr->LocalOffset);
+		InlinePair^ pair = ptr->Node->Split(ptr->LocalOffset, _formatStack->CalculateCurrentFormat(ptr->Node->Format));
 
 		// Collect the split node and all nodes after into a new paragraph
 		auto overflowParagraph = ref new ParagraphNode();

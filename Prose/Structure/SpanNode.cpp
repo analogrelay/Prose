@@ -4,6 +4,7 @@
 #include "ChildNodeCollection.h"
 #include "InlinePair.h"
 
+using namespace Prose;
 using namespace Prose::Structure;
 
 using namespace Platform::Collections;
@@ -22,12 +23,12 @@ UINT32 SpanNode::Length::get() {
 	return sum;
 };
 
-InlinePair^ SpanNode::Split(UINT32 localOffset) {
+InlinePair^ SpanNode::Split(UINT32 localOffset, TextFormat^ effectiveFormat) {
 	SpanNode^ left = ref new SpanNode();
 	SpanNode^ right = ref new SpanNode();
 	
-	left->Format = Format->Clone();
-	right->Format = Format->Clone();
+	left->Format = effectiveFormat;
+	right->Format = effectiveFormat;
 	
 	UINT32 offset = 0;
 	for(UINT32 i = 0; i < Inlines->Size; i++) {
@@ -39,7 +40,7 @@ InlinePair^ SpanNode::Split(UINT32 localOffset) {
 			left->Inlines->Append(inl);
 		} else {
 			// Recursive split
-			InlinePair^ subsplit = inl->Split(localOffset - offset);
+			InlinePair^ subsplit = inl->Split(localOffset - offset, effectiveFormat);
 			left->Inlines->Append(subsplit->Left);
 			right->Inlines->Append(subsplit->Right);
 		}

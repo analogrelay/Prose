@@ -13,8 +13,8 @@ namespace Prose {
 			public StructureNode
 		{
 		public:
-			virtual property UINT32 Length { UINT32 get() FAUX_ABSTRACT }
-			virtual InlinePair^ Split(UINT32 localOffset) FAUX_ABSTRACT;
+			virtual property UINT32 Length { UINT32 get() abstract; }
+			virtual InlinePair^ Split(UINT32 localOffset, TextFormat^ effectiveFormat) abstract;
 			
 			virtual void Accept(StructureVisitor^ visitor) override;
 		internal:

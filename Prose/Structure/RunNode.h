@@ -25,7 +25,7 @@ namespace Prose {
 			}
 
 			virtual void Accept(StructureVisitor^ visitor) override;
-			virtual InlinePair^ Split(UINT32 localOffset) override;
+			virtual InlinePair^ Split(UINT32 localOffset, TextFormat^ effectiveFormat) override;
 
 		internal:
 			RunNode(void);

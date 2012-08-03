@@ -14,7 +14,7 @@ namespace Prose {
 		{
 		public:
 			virtual property UINT32 Length { UINT32 get() override; }
-			virtual InlinePair^ Split(UINT32 localOffset) override;
+			virtual InlinePair^ Split(UINT32 localOffset, TextFormat^ effectiveFormat) override;
 
 			virtual property WFC::IVector<InlineNode^>^ Inlines {
 				WFC::IVector<InlineNode^>^ get() { 
