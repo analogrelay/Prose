@@ -1,10 +1,8 @@
 #pragma once
 #include "Structure\StructureNode.h"
-#include "Events\PointerLayoutEvent.h"
 
 namespace Prose {
 	namespace Layout {
-		namespace PE = Prose::Events;
 		namespace PS = Prose::Structure;
 
 		ref class LayoutVisitor;
@@ -24,7 +22,6 @@ namespace Prose {
 
 		private:
 			PS::StructureNode^ _structureNode;
-			PE::IRoutedEventManager^ _eventManager;
 		};
 	}
 }

@@ -30,8 +30,6 @@
     <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="Layout\DWLayoutMetrics.cpp" />
     <ClCompile Include=".\Layout\LayoutInline.cpp" />
-    <ClCompile Include="Events\EventManager.cpp" />
-    <ClCompile Include="Events\RoutedEventManager.cpp" />
     <ClCompile Include="Controls\Nodes\Document.cpp" />
     <ClCompile Include="Structure\StructureTree.cpp" />
     <ClCompile Include="Structure\StructureNode.cpp" />
@@ -78,16 +76,8 @@
     <ClInclude Include="TextRange.h" />
     <ClInclude Include="TextFormat.h" />
     <ClInclude Include=".\Layout\LayoutInline.h" />
-    <ClInclude Include="Events\EventManager.h" />
-    <ClInclude Include="Events\RoutedEvent.h" />
-    <ClInclude Include="Events\IRoutedEventSource.h" />
-    <ClInclude Include="Events\RoutedEventHandlerInfo.h" />
-    <ClInclude Include="Events\CustomRoutedEvent.h" />
-    <ClInclude Include="Events\RoutedEventManager.h" />
     <ClInclude Include="ChildNodeCollection.h" />
     <ClInclude Include="Macros.h" />
-    <ClInclude Include="Events\PointerTextEvent.h" />
-    <ClInclude Include="Events\PointerLayoutEvent.h" />
     <ClInclude Include="Layout\ILayoutMetrics.h" />
     <ClInclude Include="Structure\TextPointer.h" />
     <ClInclude Include="Controls\Nodes\Document.h" />

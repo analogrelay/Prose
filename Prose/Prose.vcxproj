@@ -227,13 +227,6 @@
     <ClInclude Include="Controls\OverflowDocumentHost.h" />
     <ClInclude Include=".\DX.h" />
     <ClInclude Include=".\Controls\DocumentViewer.h" />
-    <ClInclude Include="Events\CustomRoutedEvent.h" />
-    <ClInclude Include="Events\EventManager.h" />
-    <ClInclude Include="Events\IRoutedEventSource.h" />
-    <ClInclude Include="Events\PointerLayoutEvent.h" />
-    <ClInclude Include="Events\RoutedEvent.h" />
-    <ClInclude Include="Events\RoutedEventHandlerInfo.h" />
-    <ClInclude Include="Events\RoutedEventManager.h" />
     <ClInclude Include="FormattedRange.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include=".\Layout\LayoutBox.h" />
@@ -255,7 +248,6 @@
     <ClInclude Include="Structure\ParagraphNode.h" />
     <ClInclude Include=".\Rendering\IDocumentRenderer.h" />
     <ClInclude Include=".\Rendering\IRenderingPlan.h" />
-    <ClInclude Include="Events\PointerTextEvent.h" />
     <ClInclude Include="Rendering\DirectWriteRenderer.h" />
     <ClInclude Include="Rendering\DirectWriteRenderingPlan.h" />
     <ClInclude Include="Rendering\DirectWriteSurface.h" />
@@ -286,8 +278,6 @@
     <ClCompile Include="Controls\Nodes\Paragraph.cpp" />
     <ClCompile Include="Controls\Nodes\Run.cpp" />
     <ClCompile Include="Controls\Nodes\Span.cpp" />
-    <ClCompile Include="Events\EventManager.cpp" />
-    <ClCompile Include="Events\RoutedEventManager.cpp" />
     <ClCompile Include="FormattedRange.cpp" />
     <ClCompile Include="Helpers.cpp" />
     <ClCompile Include="Layout\FormatStack.cpp" />

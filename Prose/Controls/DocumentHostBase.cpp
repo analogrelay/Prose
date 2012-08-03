@@ -26,12 +26,10 @@ using namespace Prose::Controls;
 using namespace Prose::Structure;
 using namespace Prose::Rendering;
 using namespace Prose::Layout;
-using namespace Prose::Events;
 
 DocumentHostBase::DocumentHostBase() {
 	PointerEntered += ref new PointerEventHandler(this, &DocumentHostBase::OnPointerEntered);
 	PointerExited += ref new PointerEventHandler(this, &DocumentHostBase::OnPointerExited);
-	/*PointerMoved += ref new PointerEventHandler(this, &DocumentHostBase::OnPointerMoved);*/
 }
 
 OverflowDocumentHost^ DocumentHostBase::OverflowTarget::get() {
@@ -203,32 +201,6 @@ void DocumentHostBase::OnPointerEntered(Object^ sender, PointerRoutedEventArgs^ 
 	Window::Current->CoreWindow->PointerCursor = ref new CoreCursor(
 		CoreCursorType::IBeam, 1);
 }
-
-//void DocumentHostBase::OnPointerMoved(Object^ sender, PointerRoutedEventArgs^ args) {
-//	// Hit test on the layout
-//	if(_layout) {
-//		auto point = args->GetCurrentPoint(this);
-//		LayoutPointer^ hit = _layout->HitTest(point->Position);
-//		if(hit != nullptr) {
-//			PointerLayoutEventArgs^ layoutargs = ref new PointerLayoutEventArgs(
-//				hit->Node,
-//				hit,
-//				args);
-//			auto text = hit->Node->Text->Data();
-//			dbgf(L"Hit: (x=%f, y=%f) [%s]", point->Position.X, point->Position.Y, text);
-//			if(!_currentlySelected || !Platform::Object::ReferenceEquals(_currentlySelected, static_cast<LayoutNode^>(hit->Node))) {
-//				if(_currentlySelected) {
-//					_currentlySelected->FirePointerExited(layoutargs);
-//				}
-//				hit->Node->FirePointerEntered(layoutargs);
-//				_currentlySelected = hit->Node;
-//			}
-//			hit->Node->FirePointerMoved(layoutargs);
-//		} else {
-//			_currentlySelected = nullptr;
-//		}
-//	}
-//}
 
 void DocumentHostBase::OnPointerExited(Object^ sender, PointerRoutedEventArgs^ args) {
 	Window::Current->CoreWindow->PointerCursor = _oldCursor;

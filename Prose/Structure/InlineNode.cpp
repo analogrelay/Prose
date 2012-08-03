@@ -8,7 +8,6 @@ using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Media;
 
 using namespace Prose;
-using namespace Prose::Events;
 using namespace Prose::Structure;
 
 using namespace Platform;
