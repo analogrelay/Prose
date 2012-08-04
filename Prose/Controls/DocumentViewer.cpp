@@ -85,8 +85,8 @@ OverflowDocumentHost^ DocumentViewer::CreateOverflow() {
 Size DocumentViewer::MeasureOverride(Size availableSize) {
 	// If there's no document...
 	if(!this->Document) {
-		// Just return
-		return availableSize;
+		// Just return 0,0. We don't need no stinking space!
+		return SizeHelper::FromDimensions(0, 0);
 	}
 
 	if(!_root) {

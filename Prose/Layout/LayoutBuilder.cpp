@@ -63,7 +63,7 @@ bool LayoutBuilder::Layout() {
 		DWRITE_FONT_WEIGHT_NORMAL,
 		DWRITE_FONT_STYLE_NORMAL,
 		DWRITE_FONT_STRETCH_NORMAL,
-		58.0,
+		12.0,
 		L"en-US",
 		&format));
 

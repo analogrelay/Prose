@@ -14,7 +14,7 @@ namespace Prose {
 		[WFM::WebHostHidden]
 		public ref class StylableNode :
 			public WUX::DependencyObject {
-		public:
+		
 			DEPENDENCY_PROPERTY(WUX::Media::FontFamily^, FontFamily);
 			DEPENDENCY_PROPERTY(WUX::Media::Brush^, Foreground);
 			DEPENDENCY_PROPERTY(WUT::FontStretch, FontStretch);
