@@ -29,19 +29,20 @@ TextFormat^ Stylable::CreateFormat() {
 	format->FontFamily = source->FontFamily;
 	format->Foreground = source->Foreground;
 	format->FontStretch = source->FontStretch;
-	if(DPHasLocalValue(this, FontSizeProperty)) {
+	//auto size = source->FontSize;
+	if(DPHasLocalValue(source, FontSizeProperty)) {
 		format->FontSize = source->FontSize;
 	}
-	if(DPHasLocalValue(this, FontStyleProperty)) {
+	if(DPHasLocalValue(source, FontStyleProperty)) {
 		format->FontStyle = source->FontStyle;
 	}
-	if(DPHasLocalValue(this, FontWeightProperty)) {
+	if(DPHasLocalValue(source, FontWeightProperty)) {
 		format->FontWeight = source->FontWeight;
 	}
-	if(DPHasLocalValue(this, HasStrikethroughProperty)) {
+	if(DPHasLocalValue(source, HasStrikethroughProperty)) {
 		format->HasStrikethrough = source->HasStrikethrough;
 	}
-	if(DPHasLocalValue(this, HasUnderlineProperty)) {
+	if(DPHasLocalValue(source, HasUnderlineProperty)) {
 		format->HasUnderline = source->HasUnderline;
 	}
 	return format;

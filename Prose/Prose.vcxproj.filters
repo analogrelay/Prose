@@ -52,7 +52,6 @@
     <ClInclude Include="Layout\LayoutNode.h" />
     <ClInclude Include="Controls\DocumentHost.h" />
     <ClInclude Include="Controls\DocumentHostBase.h" />
-    <ClInclude Include="Controls\IDocumentSource.h" />
     <ClInclude Include="Controls\OverflowDocumentHost.h" />
     <ClInclude Include=".\Rendering\IDocumentRenderer.h" />
     <ClInclude Include="Layout\ILayoutEngine.h" />

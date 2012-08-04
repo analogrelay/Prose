@@ -219,7 +219,6 @@
     <ClInclude Include="Controls\Nodes\Document.h" />
     <ClInclude Include="Controls\DocumentHost.h" />
     <ClInclude Include="Controls\DocumentHostBase.h" />
-    <ClInclude Include="Controls\IDocumentSource.h" />
     <ClInclude Include="Controls\Nodes\BaseNodes.h" />
     <ClInclude Include="Controls\Nodes\Paragraph.h" />
     <ClInclude Include="Controls\Nodes\Run.h" />
