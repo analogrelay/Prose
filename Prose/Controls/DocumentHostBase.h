@@ -36,7 +36,9 @@ namespace Prose {
 			virtual WF::Size ArrangeOverride(WF::Size) override;
 			virtual void OnPointerEntered(Platform::Object^ sender, WUX::Input::PointerRoutedEventArgs^ args);
 			virtual void OnPointerExited(Platform::Object^ sender, WUX::Input::PointerRoutedEventArgs^ args);
-			/*virtual void OnPointerMoved(Platform::Object^ sender, WUX::Input::PointerRoutedEventArgs^ args);*/
+
+		internal:
+			virtual TextStyle^ GetBaseStyle() { return nullptr; }
 
 		private protected:
 			DocumentHostBase(void);

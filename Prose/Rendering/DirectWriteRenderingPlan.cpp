@@ -115,7 +115,7 @@ void DirectWriteRenderingPlan::UpdatesNeeded() {
 			dxgiSurface.Get(),
 			&properties,
 			&renderTarget));
-	
+
 		// TODO: This SOOOOOO needs to be specified by the consumer of this interface (i.e. the control!)
 		ComPtr<ID2D1SolidColorBrush> whiteBrush;
 		ThrowIfFailed(renderTarget->CreateSolidColorBrush(

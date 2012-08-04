@@ -34,7 +34,6 @@
     <ClCompile Include="Structure\StructureTree.cpp" />
     <ClCompile Include="Structure\StructureNode.cpp" />
     <ClCompile Include="Structure\StructureVisitor.cpp" />
-    <ClCompile Include="Controls\Nodes\DocumentNode.cpp" />
     <ClCompile Include="Controls\Nodes\Paragraph.cpp" />
     <ClCompile Include="Structure\BlockNode.cpp" />
     <ClCompile Include="Structure\InlineNode.cpp" />
@@ -45,6 +44,7 @@
     <ClCompile Include="Structure\SpanNode.cpp" />
     <ClCompile Include="Layout\FormatStack.cpp" />
     <ClCompile Include="Layout\LayoutBuilder.cpp" />
+    <ClCompile Include="Controls\Nodes\BaseNodes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -84,7 +84,6 @@
     <ClInclude Include="Structure\StructureTree.h" />
     <ClInclude Include="Structure\StructureNode.h" />
     <ClInclude Include="Structure\StructureVisitor.h" />
-    <ClInclude Include="Controls\Nodes\DocumentNode.h" />
     <ClInclude Include="Controls\Nodes\Paragraph.h" />
     <ClInclude Include="Structure\BlockNode.h" />
     <ClInclude Include="Structure\InlineNode.h" />
@@ -95,5 +94,6 @@
     <ClInclude Include="Controls\Nodes\Span.h" />
     <ClInclude Include="Layout\FormatStack.h" />
     <ClInclude Include="Layout\LayoutBuilder.h" />
+    <ClInclude Include="Controls\Nodes\BaseNodes.h" />
   </ItemGroup>
 </Project>

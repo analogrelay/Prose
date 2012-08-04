@@ -10,6 +10,7 @@ namespace Prose {
 		{
 		public:
 			FormatStack(void);
+			FormatStack(TextFormat^ baseFormat);
 
 			void PushFormat(TextFormat^ format);
 			TextFormat^ CalculateCurrentFormat(TextFormat^ inputFormat);
@@ -17,6 +18,7 @@ namespace Prose {
 
 		private:
 			std::deque<TextFormat^> _stack;
+			TextFormat^ _baseFormat;
 		};
 	}
 }

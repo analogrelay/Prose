@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DocumentNode.h"
+#include "BaseNodes.h"
 
 namespace Prose {
 	namespace Controls {

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "OverflowDocumentHost.h"
+#include "DocumentHost.h"
 
 using namespace Microsoft::WRL;
 
@@ -12,6 +13,10 @@ DocumentHost^ OverflowDocumentHost::RootHost::get() {
 	Microsoft::WRL::ComPtr<IInspectable> objRaw(nullptr);
 	_hostRef.As(&objRaw);
 	return reinterpret_cast<DocumentHost^>(objRaw.Get());
+}
+
+TextStyle^ OverflowDocumentHost::GetBaseStyle() {
+	return RootHost ? RootHost->GetBaseStyle() : nullptr;
 }
 
 void OverflowDocumentHost::Detach() {

@@ -18,16 +18,10 @@ namespace Prose {
 		public ref class DocumentHost sealed :
 			public DocumentHostBase
 		{
+			DEPENDENCY_PROPERTY(TextStyle^, BaseStyle);
+			DEPENDENCY_PROPERTY(Controls::Document^, Document);
+			
 		public:
-			static property WUX::DependencyProperty^ DocumentProperty {
-				WUX::DependencyProperty^ get() { return _DocumentProperty; }
-			};
-
-			property Controls::Document^ Document {
-				virtual Controls::Document^ get() { return (Controls::Document^)GetValue(DocumentProperty); }
-				void set(Controls::Document^ value) { SetValue(DocumentProperty, value); }
-			};
-
 			DocumentHost(void);
 
 		public protected:
@@ -44,11 +38,12 @@ namespace Prose {
 				PL::ILayoutEngine^ get() { return _layoutEngine; }
 			}
 
+			virtual TextStyle^ GetBaseStyle() override { return BaseStyle; }
+
 		private:
 			PR::IDocumentRenderer^ _renderer;
 			PL::ILayoutEngine^ _layoutEngine;
 
-			static WUX::DependencyProperty^ _DocumentProperty;
 			static void LayoutChanged(WUX::DependencyObject^ sender, WUX::DependencyPropertyChangedEventArgs^ args);
 		};
 	}

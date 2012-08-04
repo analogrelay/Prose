@@ -5,7 +5,7 @@
 namespace Prose {
 	namespace Layout {
 		private interface class ILayoutEngine {
-			LayoutResult^ CreateLayout(Prose::Structure::StructureTree^ tree, Windows::Foundation::Size layoutSize);
+			LayoutResult^ CreateLayout(Prose::Structure::StructureTree^ tree, Windows::Foundation::Size layoutSize, Prose::TextFormat^ baseFormat);
 		};
 	}
 }

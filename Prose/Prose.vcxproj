@@ -220,7 +220,7 @@
     <ClInclude Include="Controls\DocumentHost.h" />
     <ClInclude Include="Controls\DocumentHostBase.h" />
     <ClInclude Include="Controls\IDocumentSource.h" />
-    <ClInclude Include="Controls\Nodes\DocumentNode.h" />
+    <ClInclude Include="Controls\Nodes\BaseNodes.h" />
     <ClInclude Include="Controls\Nodes\Paragraph.h" />
     <ClInclude Include="Controls\Nodes\Run.h" />
     <ClInclude Include="Controls\Nodes\Span.h" />
@@ -274,7 +274,7 @@
     <ClCompile Include=".\Layout\DirectWriteLayoutEngine.cpp" />
     <ClCompile Include=".\Layout\LayoutVisitor.cpp" />
     <ClCompile Include=".\Controls\DocumentViewer.cpp" />
-    <ClCompile Include="Controls\Nodes\DocumentNode.cpp" />
+    <ClCompile Include="Controls\Nodes\BaseNodes.cpp" />
     <ClCompile Include="Controls\Nodes\Paragraph.cpp" />
     <ClCompile Include="Controls\Nodes\Run.cpp" />
     <ClCompile Include="Controls\Nodes\Span.cpp" />

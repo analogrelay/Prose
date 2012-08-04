@@ -86,7 +86,15 @@ Size DocumentHostBase::MeasureOverride(Size availableSize) {
 	if(!tree) {
 		return SizeHelper::FromDimensions(0, 0);
 	}
-	LayoutResult^ result = RootHost->LayoutEngine->CreateLayout(tree, availableSize);
+
+	// Generate the base TextFormat
+	TextFormat^ format = nullptr;
+	TextStyle^ style = GetBaseStyle();
+	if(style) {
+		format = style->CreateFormat();
+	}
+
+	LayoutResult^ result = RootHost->LayoutEngine->CreateLayout(tree, availableSize, format);
 
 	_layoutSize = result->LayoutSize;
 

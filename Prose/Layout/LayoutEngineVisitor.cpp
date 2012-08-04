@@ -19,14 +19,14 @@ using namespace Windows::UI::Xaml::Media;
 
 using namespace Microsoft::WRL;
 
-LayoutEngineVisitor::LayoutEngineVisitor(Windows::Foundation::Size layoutSize) : 
-	_layout(ref new LayoutTree()), 
+LayoutEngineVisitor::LayoutEngineVisitor(Windows::Foundation::Size layoutSize, TextFormat^ baseFormat) :
+	_layout(ref new LayoutTree()),
 	_overflow(ref new Vector<BlockNode^>()),
 	_layoutSize(layoutSize),
 	_width(0),
 	_height(0),
 	_canOverflowAll(false),
-	_formatStack(ref new FormatStack()) {
+	_formatStack(ref new FormatStack(baseFormat)) {
 }
 
 LayoutResult^ LayoutEngineVisitor::CreateResult() {
@@ -44,7 +44,7 @@ void LayoutEngineVisitor::Visit(BlockNode^ paragraph) {
 	
 	// Set up the layout builder
 	LayoutBuilder* oldbuilder = _builder;
-	auto box = ref new LayoutBox(paragraph, ThicknessHelper::FromUniformLength(10));
+	auto box = ref new LayoutBox(paragraph, ThicknessHelper::FromLengths(0, 10, 10, 10));
 	_builder = new LayoutBuilder(this, box, paragraph, _formatStack);
 
 	// Visit children

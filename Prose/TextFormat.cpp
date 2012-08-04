@@ -31,6 +31,10 @@ DWRITE_FONT_STYLE styleTable[] = {
 };
 
 TextFormat^ TextFormat::MergeWith(TextFormat^ overridingCopy) {
+	if(!overridingCopy) {
+		return this->Clone();
+	}
+
 	TextFormat^ newFormat = ref new TextFormat();
 
 #define MERGE(Property) if(!isnull(overridingCopy-> ## Property)) { newFormat-> ## Property = overridingCopy-> ## Property; } else { newFormat-> ## Property = this-> ## Property; }

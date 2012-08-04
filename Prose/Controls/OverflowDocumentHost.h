@@ -21,12 +21,14 @@ namespace Prose {
 				DocumentHost^ get() override;
 			};
 
+		
 		internal:
 			void Detach(void);
 			void Attach(DocumentHost^ rootHost);
 			void RecieveOverflow(Windows::Foundation::Collections::IVectorView<PS::BlockNode^>^ overflow);
 
 			virtual PS::StructureTree^ GetStructureTree() override { return _overflowTree; }
+			virtual TextStyle^ GetBaseStyle() override;
 
 		private:
 			TrackingId;

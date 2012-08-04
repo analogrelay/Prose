@@ -31,7 +31,7 @@ namespace Prose {
 			virtual void Visit(PS::BlockNode^ BlockNode) override;
 			virtual void Visit(PS::SpanNode^ span) override;
 		internal:
-			LayoutEngineVisitor(WF::Size layoutSize);
+			LayoutEngineVisitor(WF::Size layoutSize, Prose::TextFormat^ baseFormat);
 
 			property float VerticalOffset {
 				float get() { return _height; }

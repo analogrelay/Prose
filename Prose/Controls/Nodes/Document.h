@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Structure\StructureTree.h"
-#include "DocumentNode.h"
+#include "BaseNodes.h"
 
 namespace Prose {
 	namespace Controls {
@@ -12,7 +12,7 @@ namespace Prose {
 		[WFM::WebHostHidden]
 		[WUX::Markup::ContentProperty(Name = "Children")]
 		public ref class Document sealed :
-			public StylableNode
+			public Stylable
 		{
 		public:
 			Document(void);

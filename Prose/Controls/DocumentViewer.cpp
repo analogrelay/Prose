@@ -8,12 +8,15 @@
 #include "DocumentHost.h"
 #include "Structure\StructureTree.h"
 
+using namespace Prose;
 using namespace Prose::Controls;
 using namespace Prose::Structure;
 
 using namespace Platform;
+
 using namespace Windows::Foundation;
 using namespace Windows::Foundation::Collections;
+
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Data;
@@ -22,21 +25,12 @@ using namespace Windows::UI::Xaml::Input;
 using namespace Windows::UI::Xaml::Interop;
 using namespace Windows::UI::Xaml::Media;
 
-DependencyProperty^ DocumentViewer::_DocumentProperty = DependencyProperty::Register(
-	L"Document", Prose::Controls::Document::typeid, DocumentViewer::typeid, ref new PropertyMetadata(
-	nullptr, ref new PropertyChangedCallback(DocumentViewer::DocumentChanged)));
-
-DependencyProperty^ DocumentViewer::_OverflowTemplateProperty = DependencyProperty::Register(
-	L"OverflowTemplate", DataTemplate::typeid, DocumentViewer::typeid, ref new PropertyMetadata(
-	nullptr, ref new PropertyChangedCallback(DocumentViewer::DocumentChanged)));
-
-DependencyProperty^ DocumentViewer::_HostTemplateProperty = DependencyProperty::Register(
-	L"HostTemplate", DataTemplate::typeid, DocumentViewer::typeid, ref new PropertyMetadata(
-	nullptr, ref new PropertyChangedCallback(DocumentViewer::DocumentChanged)));
-
-DependencyProperty^ DocumentViewer::_ColumnWidthProperty = DependencyProperty::Register(
-	L"ColumnWidth", double::typeid, DocumentViewer::typeid, ref new PropertyMetadata(
-	nullptr, ref new PropertyChangedCallback(DocumentViewer::DocumentChanged)));
+DependencyProperty^ DocumentViewer::_DocumentProperty = RegisterDP("Document", ::Document::typeid, DocumentViewer::typeid);
+DependencyProperty^ DocumentViewer::_OverflowTemplateProperty = RegisterDP("OverflowTemplate", DataTemplate::typeid, DocumentViewer::typeid);
+DependencyProperty^ DocumentViewer::_HostTemplateProperty = RegisterDP("HostTemplate", DataTemplate::typeid, DocumentViewer::typeid);
+DependencyProperty^ DocumentViewer::_BaseStyleProperty = RegisterDP("BaseStyle", TextStyle::typeid, DocumentViewer::typeid);
+DependencyProperty^ DocumentViewer::_ColumnWidthProperty = RegisterDP(
+	"ColumnWidth", double::typeid, DocumentViewer::typeid, DP_METADATA_WITH_HANDLER(nullptr, DocumentViewer::DocumentChanged));
 
 DocumentViewer::DocumentViewer() : _overflows()
 {
@@ -56,8 +50,8 @@ void DocumentViewer::RelayoutDocument() {
 
 void ConfigureDocumentHost(DocumentHostBase^ host, double columnWidth) {
 	host->Width = columnWidth;
-	host->HorizontalAlignment = Windows::UI::Xaml::HorizontalAlignment::Left;
-	host->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Top;
+	host->HorizontalAlignment = ::HorizontalAlignment::Left;
+	host->VerticalAlignment = ::VerticalAlignment::Top;
 }
 
 void DocumentViewer::InitializeHost() {
@@ -94,6 +88,7 @@ Size DocumentViewer::MeasureOverride(Size availableSize) {
 		InitializeHost();
 	}
 	_root->Document = Document;
+	_root->BaseStyle = BaseStyle;
 
 	// Measure the main host
 	_root->Measure(availableSize);

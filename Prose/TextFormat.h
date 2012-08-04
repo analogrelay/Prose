@@ -7,6 +7,7 @@ namespace Prose {
 	namespace WUX = Windows::UI::Xaml;
 	namespace WUT = Windows::UI::Text; // WUT? :)
 
+	// Internal representation of a TextStyle
 	private ref class TextFormat sealed
 	{
 	public:
